@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Commercial Opportunity Network</title>
+<meta name="description" content="Describe the commercial outcome you need. Commercial Opportunity Network matches it with activations, sampling, partnerships and media from independent UAE suppliers, then runs the RFQ, comparison and booking in one workflow.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="top">
+  <div class="container nav-row">
+    <a class="logo" href="index.html" aria-label="Commercial Opportunity Network home">
+      <span class="logo-mark" data-logo-mark></span>
+      <span class="logo-text"><span data-i18n="brand1">Opportunity Network</span><small data-i18n="brand2">Commercial · UAE</small></span>
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#how" data-i18n="nav.how">How it works</a>
+      <a href="#opportunities" data-i18n="nav.opps">Opportunities</a>
+      <a href="#engine" data-i18n="nav.engine">Matching</a>
+      <a href="#suppliers" data-i18n="nav.suppliers">Suppliers</a>
+      <a href="#pricing" data-i18n="nav.pricing">Pricing</a>
+      <a href="#faq" data-i18n="nav.faq">FAQ</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="lang-toggle" type="button" data-lang-toggle><i data-icon="globe"></i><span data-i18n="lang">العربية</span></button>
+      <a class="nav-signin" href="platform.html" data-i18n="nav.signin">Open platform</a>
+      <a class="btn btn-dark btn-sm nav-cta" href="#brief"><span data-i18n="nav.cta">Create a brief</span><i data-icon="arrow"></i></a>
+      <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" data-i18n-aria="nav.menu" aria-label="Open menu"><i data-icon="menu"></i></button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <a href="#how" data-i18n="nav.how">How it works</a>
+    <a href="#opportunities" data-i18n="nav.opps">Opportunities</a>
+    <a href="#engine" data-i18n="nav.engine">Matching</a>
+    <a href="#suppliers" data-i18n="nav.suppliers">Suppliers</a>
+    <a href="#pricing" data-i18n="nav.pricing">Pricing</a>
+    <a href="#faq" data-i18n="nav.faq">FAQ</a>
+    <a href="platform.html" data-i18n="nav.signin">Open platform</a>
+    <a class="btn btn-dark" href="#brief"><span data-i18n="nav.cta">Create a brief</span><i data-icon="arrow"></i></a>
+  </div>
+</header>
+
+<main id="main">
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true"><div class="hero-dots dots"></div><div class="hero-glow"></div></div>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <a class="pill reveal" href="#suppliers" style="--delay:60ms"><span class="dot live"></span><span data-i18n="hero.pill">Dubai pilot · Brands and suppliers onboarding</span><i data-icon="chevron-right" data-class="flip"></i></a>
+      <h1 class="display reveal" style="--delay:160ms">
+        <span data-i18n="hero.h1">Commercial opportunities for</span>
+        <span class="rotator accent" aria-live="polite"><span class="rotator-word" data-rotate>product trials</span></span>
+      </h1>
+      <p class="hero-lead reveal" style="--delay:300ms" data-i18n="hero.lead">Describe the result you need. We match it with activations, sampling, partnerships, sponsorships and media from <strong>independent UAE suppliers</strong>, then run the <strong>RFQ</strong>, the <strong>offer comparison</strong> and the <strong>booking</strong> in one place.</p>
+      <div class="hero-ctas reveal" style="--delay:420ms">
+        <a class="btn btn-dark" href="#brief"><span data-i18n="hero.cta1">Create a free brief</span><i data-icon="arrow"></i></a>
+        <a class="btn btn-light" href="#how" data-i18n="hero.cta2">See how it works</a>
+      </div>
+      <ul class="hero-stats reveal" style="--delay:540ms">
+        <li><span class="stat-ico"><i data-icon="target"></i></span><span><strong>7</strong><small data-i18n="hero.s1">questions, no media jargon</small></span></li>
+        <li><span class="stat-ico"><i data-icon="layers"></i></span><span><strong>8</strong><small data-i18n="hero.s2">match factors, all visible</small></span></li>
+        <li><span class="stat-ico"><i data-icon="send"></i></span><span><strong>1</strong><small data-i18n="hero.s3">RFQ to many suppliers</small></span></li>
+      </ul>
+    </div>
+
+    <!-- Brief wizard -->
+    <div class="wizard reveal" id="brief" style="--delay:350ms">
+      <form class="wizard-card" id="brief-form" novalidate>
+        <ol class="wizard-steps" aria-label="Brief progress">
+          <li class="is-active" data-step-ind="1"><span>1</span><em data-i18n="wz.t1">Objective</em></li>
+          <li data-step-ind="2"><span>2</span><em data-i18n="wz.t2">Audience</em></li>
+          <li data-step-ind="3"><span>3</span><em data-i18n="wz.t3">Budget</em></li>
+        </ol>
+
+        <fieldset class="wizard-step" data-step="1">
+          <legend><span class="wz-title" data-i18n="wz.q1">What do you want to achieve?</span><span class="wz-sub" data-i18n="wz.q1s">Pick the closest outcome. You can refine it in the platform.</span></legend>
+          <div class="objective-grid">
+            <label class="obj"><input type="radio" name="objective" value="trial" checked><span><i data-icon="gift"></i><b data-i18n="obj.trial">Product trial</b></span></label>
+            <label class="obj"><input type="radio" name="objective" value="acquisition"><span><i data-icon="users"></i><b data-i18n="obj.acquisition">New customers</b></span></label>
+            <label class="obj"><input type="radio" name="objective" value="launch"><span><i data-icon="bolt"></i><b data-i18n="obj.launch">Product launch</b></span></label>
+            <label class="obj"><input type="radio" name="objective" value="footfall"><span><i data-icon="store"></i><b data-i18n="obj.footfall">Store footfall</b></span></label>
+            <label class="obj"><input type="radio" name="objective" value="leads"><span><i data-icon="inbox"></i><b data-i18n="obj.leads">Qualified leads</b></span></label>
+            <label class="obj"><input type="radio" name="objective" value="awareness"><span><i data-icon="megaphone"></i><b data-i18n="obj.awareness">Brand awareness</b></span></label>
+          </div>
+          <div class="field">
+            <label for="wz-product" data-i18n="wz.product">Product or service</label>
+            <input class="input" id="wz-product" name="product" maxlength="80" placeholder="e.g. Plant-based protein drink" data-i18n-ph="wz.productPh">
+          </div>
+        </fieldset>
+
+        <fieldset class="wizard-step" data-step="2" hidden>
+          <legend><span class="wz-title" data-i18n="wz.q2">Who and where?</span><span class="wz-sub" data-i18n="wz.q2s">Describe people, not media channels.</span></legend>
+          <div class="field">
+            <span class="label" id="lbl-gender" data-i18n="wz.gender">Audience</span>
+            <div class="chip-group" role="radiogroup" aria-labelledby="lbl-gender">
+              <label class="chip"><input type="radio" name="gender" value="all" checked><span data-i18n="g.all">Everyone</span></label>
+              <label class="chip"><input type="radio" name="gender" value="female"><span data-i18n="g.female">Women</span></label>
+              <label class="chip"><input type="radio" name="gender" value="male"><span data-i18n="g.male">Men</span></label>
+            </div>
+          </div>
+          <div class="row-2">
+            <div class="field"><label for="wz-agemin" data-i18n="wz.agemin">Age from</label><input class="input" id="wz-agemin" name="ageMin" type="number" min="16" max="80" value="25" inputmode="numeric"></div>
+            <div class="field"><label for="wz-agemax" data-i18n="wz.agemax">Age to</label><input class="input" id="wz-agemax" name="ageMax" type="number" min="16" max="80" value="45" inputmode="numeric"></div>
+          </div>
+          <div class="field">
+            <span class="label" id="lbl-area" data-i18n="wz.where">Where in Dubai?</span>
+            <div class="chip-group" role="group" aria-labelledby="lbl-area">
+              <label class="chip"><input type="checkbox" name="areas" value="all" checked><span data-i18n="area.all">All Dubai</span></label>
+              <label class="chip"><input type="checkbox" name="areas" value="marina"><span data-i18n="area.marina">Dubai Marina &amp; JBR</span></label>
+              <label class="chip"><input type="checkbox" name="areas" value="downtown"><span data-i18n="area.downtown">Downtown</span></label>
+              <label class="chip"><input type="checkbox" name="areas" value="bizbay"><span data-i18n="area.bizbay">Business Bay</span></label>
+              <label class="chip"><input type="checkbox" name="areas" value="jvc"><span data-i18n="area.jvc">JVC</span></label>
+              <label class="chip"><input type="checkbox" name="areas" value="barsha"><span data-i18n="area.barsha">Al Barsha</span></label>
+              <label class="chip"><input type="checkbox" name="areas" value="deira"><span data-i18n="area.deira">Deira</span></label>
+              <label class="chip"><input type="checkbox" name="areas" value="mirdif"><span data-i18n="area.mirdif">Mirdif</span></label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="wizard-step" data-step="3" hidden>
+          <legend><span class="wz-title" data-i18n="wz.q3">Budget and timing</span><span class="wz-sub" data-i18n="wz.q3s">Totals are shown excluding 5% VAT.</span></legend>
+          <div class="row-2">
+            <div class="field"><label for="wz-budget" data-i18n="wz.budget">Budget (AED)</label><div class="input-wrap"><i data-icon="wallet"></i><input class="input" id="wz-budget" name="budget" type="number" min="5000" step="1000" value="100000" inputmode="numeric" required></div></div>
+            <div class="field"><label for="wz-days" data-i18n="wz.days">Duration (days)</label><div class="input-wrap"><i data-icon="clock"></i><input class="input" id="wz-days" name="duration" type="number" min="1" max="180" value="30" inputmode="numeric" required></div></div>
+          </div>
+          <div class="field"><label for="wz-start" data-i18n="wz.start">Start date</label><div class="input-wrap"><i data-icon="calendar"></i><input class="input" id="wz-start" name="start" type="date" required></div></div>
+          <div class="field"><label for="wz-success" data-i18n="wz.success">What does success look like?</label><input class="input" id="wz-success" name="success" maxlength="120" placeholder="e.g. 5,000 product trials and 500 sign-ups" data-i18n-ph="wz.successPh"></div>
+          <p class="error-text" id="wz-error" role="alert" hidden></p>
+        </fieldset>
+
+        <div class="wizard-foot">
+          <span class="wz-time"><i data-icon="clock"></i><span data-i18n="wz.time">About 2 minutes</span></span>
+          <div class="wz-buttons">
+            <button class="btn btn-ghost btn-sm" type="button" data-wz-back hidden><i data-icon="arrow-left" data-class="flip"></i><span data-i18n="wz.back">Back</span></button>
+            <button class="btn btn-dark btn-sm" type="submit" data-wz-next><span data-i18n="wz.next">Continue</span><i data-icon="arrow"></i></button>
+          </div>
+        </div>
+        <p class="wz-privacy"><i data-icon="lock"></i><span data-i18n="wz.privacy">Your brief stays private until you choose to send an RFQ.</span></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="marquee reveal" style="--delay:700ms" aria-label="Opportunity types">
+    <div class="marquee-track" data-marquee>
+      <span><i data-icon="store"></i><b data-i18n="type.mall_activation">Mall activation</b></span>
+      <span><i data-icon="home"></i><b data-i18n="type.residential_sampling">Residential sampling</b></span>
+      <span><i data-icon="dumbbell"></i><b data-i18n="type.gym_partnership">Gym partnership</b></span>
+      <span><i data-icon="coffee"></i><b data-i18n="type.cafe_partnership">Café partnership</b></span>
+      <span><i data-icon="office"></i><b data-i18n="type.office_activation">Office activation</b></span>
+      <span><i data-icon="bed"></i><b data-i18n="type.hotel_activation">Hotel activation</b></span>
+      <span><i data-icon="ticket"></i><b data-i18n="type.event_sponsorship">Event sponsorship</b></span>
+      <span><i data-icon="tent"></i><b data-i18n="type.popup_space">Pop-up space</b></span>
+      <span><i data-icon="monitor"></i><b data-i18n="type.indoor_media">Indoor media</b></span>
+      <span><i data-icon="cap"></i><b data-i18n="type.university_activation">Campus activation</b></span>
+      <span><i data-icon="handshake"></i><b data-i18n="type.retail_partnership">Retail partnership</b></span>
+      <span><i data-icon="phone"></i><b data-i18n="type.digital_retargeting">Digital + physical</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEM ============ -->
+<section class="section" id="problem">
+  <div class="container">
+    <div class="section-head split">
+      <div>
+        <span class="pill reveal"><span class="dot"></span><span data-i18n="pb.pill">Why this exists</span></span>
+        <h2 class="h1 reveal" style="--delay:80ms"><span data-i18n="pb.h1">Ten emails, four spreadsheets.</span><br><span class="accent" data-i18n="pb.h2">One brief instead.</span></h2>
+        <p class="lead reveal" style="--delay:160ms" data-i18n="pb.lead">Businesses know the outcome they want. Finding the right mix of spaces, activations, partnerships and media means chasing suppliers one by one, then comparing quotes that never line up.</p>
+      </div>
+    </div>
+    <div class="flow-compare">
+      <article class="flow-card old reveal">
+        <header><span class="badge bad plain" data-i18n="pb.today">Today</span><h3 data-i18n="pb.oldT">The usual route</h3></header>
+        <ol class="flow-list">
+          <li data-i18n="pb.o1">Agency or web search</li>
+          <li data-i18n="pb.o2">Call several suppliers</li>
+          <li data-i18n="pb.o3">Emails and WhatsApp threads</li>
+          <li data-i18n="pb.o4">Separate RFQs, different formats</li>
+          <li data-i18n="pb.o5">Spreadsheet price comparison</li>
+          <li data-i18n="pb.o6">Negotiation and manual planning</li>
+          <li data-i18n="pb.o7">Execution with separate reporting</li>
+        </ol>
+      </article>
+      <div class="flow-arrow" aria-hidden="true"><i data-icon="arrow" data-class="flip"></i></div>
+      <article class="flow-card new reveal" style="--delay:120ms">
+        <header><span class="badge info plain" data-i18n="pb.with">With the network</span><h3 data-i18n="pb.newT">One connected workflow</h3></header>
+        <ol class="flow-list">
+          <li data-i18n="pb.n1">Describe the business objective</li>
+          <li data-i18n="pb.n2">Requirements extracted and structured</li>
+          <li data-i18n="pb.n3">Opportunities matched and explained</li>
+          <li data-i18n="pb.n4">Packages built within budget</li>
+          <li data-i18n="pb.n5">One standard RFQ, normalised offers</li>
+          <li data-i18n="pb.n6">Approve, pay and track in one place</li>
+          <li data-i18n="pb.n7">Outcome data with its source</li>
+        </ol>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="section section-tint" id="how">
+  <div class="container">
+    <div class="section-head split">
+      <div>
+        <span class="eyebrow reveal" data-i18n="how.eye">How it works</span>
+        <h2 class="h1 reveal" style="--delay:80ms"><span data-i18n="how.h1">From objective</span> <span class="accent" data-i18n="how.h2">to booked.</span></h2>
+        <p class="lead reveal" style="--delay:160ms" data-i18n="how.lead">Four stages. Each one is a screen in the platform, and each one works today in the prototype.</p>
+      </div>
+      <a class="btn btn-dark reveal" href="platform.html#c-new"><span data-i18n="how.cta">Try it in the platform</span><i data-icon="arrow-up-right"></i></a>
+    </div>
+    <div class="steps-grid">
+      <article class="step-card reveal">
+        <span class="step-no">01</span>
+        <div class="step-art art-objective" aria-hidden="true">
+          <div class="mini-input"><span data-i18n="how.a1">“5,000 new customers in Dubai, 45 days, AED 100k”</span></div>
+          <div class="mini-chips"><span>Acquisition</span><span>Dubai</span><span>45 d</span><span>AED 100k</span></div>
+        </div>
+        <h3 data-i18n="how.t1">Describe the outcome</h3>
+        <p data-i18n="how.p1">Objective, audience, area, budget, dates, product and what success means. Plain language works.</p>
+      </article>
+      <article class="step-card reveal" style="--delay:90ms">
+        <span class="step-no">02</span>
+        <div class="step-art art-plan" aria-hidden="true">
+          <div class="mini-row"><span class="mini-score">86</span><span class="mini-bar"><i style="width:86%"></i></span></div>
+          <div class="mini-row"><span class="mini-score">78</span><span class="mini-bar"><i style="width:78%"></i></span></div>
+          <div class="mini-row"><span class="mini-score">71</span><span class="mini-bar"><i style="width:71%"></i></span></div>
+        </div>
+        <h3 data-i18n="how.t2">Review the plan</h3>
+        <p data-i18n="how.p2">Ranked opportunities with the reasons, the cost, the supplier, the risks and two alternatives each.</p>
+      </article>
+      <article class="step-card reveal" style="--delay:180ms">
+        <span class="step-no">03</span>
+        <div class="step-art art-rfq" aria-hidden="true">
+          <div class="mini-doc"><b>RFQ-0042</b><i></i><i></i><i class="short"></i></div>
+          <div class="mini-fan"><span></span><span></span><span></span></div>
+        </div>
+        <h3 data-i18n="how.t3">Request and compare offers</h3>
+        <p data-i18n="how.p3">One standard RFQ goes to each supplier. Replies are normalised with VAT and fees so totals line up.</p>
+      </article>
+      <article class="step-card reveal" style="--delay:270ms">
+        <span class="step-no">04</span>
+        <div class="step-art art-track" aria-hidden="true">
+          <div class="mini-timeline"><span class="done"></span><span class="done"></span><span class="now"></span><span></span></div>
+          <div class="mini-kpi"><b>3,410</b><small>samples · counted</small></div>
+        </div>
+        <h3 data-i18n="how.t4">Approve, track, measure</h3>
+        <p data-i18n="how.p4">Pay through one checkout, follow each booking, and see reported results with their source.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OPPORTUNITIES ============ -->
+<section class="section" id="opportunities">
+  <div class="container">
+    <div class="section-head split">
+      <div>
+        <span class="pill reveal"><span class="dot"></span><span data-i18n="op.pill">One unit of value</span></span>
+        <h2 class="h1 reveal" style="--delay:80ms"><span data-i18n="op.h1">Not screens. Not spaces.</span><br><span class="accent" data-i18n="op.h2">Commercial opportunities.</span></h2>
+        <p class="lead reveal" style="--delay:160ms" data-i18n="op.lead">One mall atrium can be an activation, a sampling point and a sponsorship. Every listing is described by outcome, audience, place, timing, terms and evidence, so different channels can be compared.</p>
+      </div>
+      <div class="carousel-nav reveal">
+        <button class="icon-btn" type="button" data-carousel="prev" data-i18n-aria="op.prev" aria-label="Previous"><i data-icon="chevron-left" data-class="flip"></i></button>
+        <button class="icon-btn" type="button" data-carousel="next" data-i18n-aria="op.next" aria-label="Next"><i data-icon="chevron-right" data-class="flip"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="opp-rail" data-rail tabindex="0" aria-label="Opportunity types">
+    <article class="opp-card"><div class="opp-media" data-illus="mall_activation"></div><div class="opp-body"><span class="opp-cat" data-i18n="oc.c1">Retail · Activation</span><h3 data-i18n="type.mall_activation">Mall activation</h3><p data-i18n="oc.d1">Atrium or concourse stands with staff, demos and sampling on peak days.</p><div class="opp-tags"><span class="tag" data-i18n="obj.trial">Product trial</span><span class="tag" data-i18n="obj.launch">Product launch</span></div></div></article>
+    <article class="opp-card"><div class="opp-media" data-illus="residential_sampling"></div><div class="opp-body"><span class="opp-cat" data-i18n="oc.c2">Community · Sampling</span><h3 data-i18n="type.residential_sampling">Residential sampling</h3><p data-i18n="oc.d2">Lobby and community-event sampling in managed residential towers and villas.</p><div class="opp-tags"><span class="tag" data-i18n="obj.trial">Product trial</span><span class="tag" data-i18n="obj.acquisition">New customers</span></div></div></article>
+    <article class="opp-card"><div class="opp-media" data-illus="gym_partnership"></div><div class="opp-body"><span class="opp-cat" data-i18n="oc.c3">Fitness · Partnership</span><h3 data-i18n="type.gym_partnership">Gym partnership</h3><p data-i18n="oc.d3">Member perks, front-desk sampling and class sponsorship across studios.</p><div class="opp-tags"><span class="tag" data-i18n="obj.trial">Product trial</span><span class="tag" data-i18n="obj.leads">Qualified leads</span></div></div></article>
+    <article class="opp-card"><div class="opp-media" data-illus="cafe_partnership"></div><div class="opp-body"><span class="opp-cat" data-i18n="oc.c4">Hospitality · Partnership</span><h3 data-i18n="type.cafe_partnership">Café partnership</h3><p data-i18n="oc.d4">Menu pairings, table cards and counter displays in independent cafés.</p><div class="opp-tags"><span class="tag" data-i18n="obj.trial">Product trial</span><span class="tag" data-i18n="obj.awareness">Brand awareness</span></div></div></article>
+    <article class="opp-card"><div class="opp-media" data-illus="office_activation"></div><div class="opp-body"><span class="opp-cat" data-i18n="oc.c5">Workplace · Activation</span><h3 data-i18n="type.office_activation">Office activation</h3><p data-i18n="oc.d5">Lobby pop-ups and lunch-hour sessions in managed office towers.</p><div class="opp-tags"><span class="tag" data-i18n="obj.leads">Qualified leads</span><span class="tag" data-i18n="obj.acquisition">New customers</span></div></div></article>
+    <article class="opp-card"><div class="opp-media" data-illus="event_sponsorship"></div><div class="opp-body"><span class="opp-cat" data-i18n="oc.c6">Events · Sponsorship</span><h3 data-i18n="type.event_sponsorship">Event sponsorship</h3><p data-i18n="oc.d6">Category sponsorships and booths at community runs, markets and expos.</p><div class="opp-tags"><span class="tag" data-i18n="obj.awareness">Brand awareness</span><span class="tag" data-i18n="obj.launch">Product launch</span></div></div></article>
+    <article class="opp-card"><div class="opp-media" data-illus="popup_space"></div><div class="opp-body"><span class="opp-cat" data-i18n="oc.c7">Space · Short term</span><h3 data-i18n="type.popup_space">Pop-up space</h3><p data-i18n="oc.d7">Short-term retail units and kiosks, rented by the week.</p><div class="opp-tags"><span class="tag" data-i18n="obj.footfall">Store footfall</span><span class="tag" data-i18n="obj.launch">Product launch</span></div></div></article>
+    <article class="opp-card"><div class="opp-media" data-illus="indoor_media"></div><div class="opp-body"><span class="opp-cat" data-i18n="oc.c8">Media · Indoor</span><h3 data-i18n="type.indoor_media">Indoor media</h3><p data-i18n="oc.d8">Screens and posters in lifts, lobbies and venues, bought as part of a mix.</p><div class="opp-tags"><span class="tag" data-i18n="obj.awareness">Brand awareness</span><span class="tag" data-i18n="obj.footfall">Store footfall</span></div></div></article>
+    <article class="opp-card"><div class="opp-media" data-illus="university_activation"></div><div class="opp-body"><span class="opp-cat" data-i18n="oc.c9">Education · Activation</span><h3 data-i18n="type.university_activation">Campus activation</h3><p data-i18n="oc.d9">Student-week stands and society partnerships on university campuses.</p><div class="opp-tags"><span class="tag" data-i18n="obj.trial">Product trial</span><span class="tag" data-i18n="obj.acquisition">New customers</span></div></div></article>
+    <article class="opp-card"><div class="opp-media" data-illus="digital_retargeting"></div><div class="opp-body"><span class="opp-cat" data-i18n="oc.c10">Digital · Physical follow-up</span><h3 data-i18n="type.digital_retargeting">Digital + physical</h3><p data-i18n="oc.d10">Follow-up campaigns aimed at people near the venues you booked.</p><div class="opp-tags"><span class="tag" data-i18n="obj.acquisition">New customers</span><span class="tag" data-i18n="obj.leads">Qualified leads</span></div></div></article>
+  </div>
+  <div class="container rail-foot">
+    <p class="muted small" data-i18n="op.note">Examples of opportunity types. Listings in the platform prototype are illustrative demo data.</p>
+    <a class="btn btn-light btn-sm" href="platform.html#c-catalog"><span data-i18n="op.cta">Browse the catalogue</span><i data-icon="arrow-up-right"></i></a>
+  </div>
+</section>
+
+<!-- ============ ENGINE ============ -->
+<section class="section section-tint" id="engine">
+  <div class="container engine-grid">
+    <div class="engine-copy">
+      <span class="eyebrow reveal" data-i18n="en.eye">Opportunity matching</span>
+      <h2 class="h1 reveal" style="--delay:80ms"><span data-i18n="en.h1">A match score</span><br><span class="accent" data-i18n="en.h2">you can question.</span></h2>
+      <p class="lead reveal" style="--delay:160ms" data-i18n="en.lead">The score is a weighted sum of eight factors. Each one is shown with its weight and reason, so you see why an opportunity is on the list, not just that it is.</p>
+      <ul class="ai-list reveal" style="--delay:220ms">
+        <li><i data-icon="file"></i><div><b data-i18n="en.f1">Requirement extraction</b><span data-i18n="en.f1d">Turns a sentence like “5,000 customers, 45 days, AED 100k” into structured fields you confirm.</span></div></li>
+        <li><i data-icon="layers"></i><div><b data-i18n="en.f2">Matching and ranking</b><span data-i18n="en.f2d">Scores every listing against audience, area, budget, timing, objective, availability and evidence.</span></div></li>
+        <li><i data-icon="grid"></i><div><b data-i18n="en.f3">Package builder</b><span data-i18n="en.f3d">Combines listings into mixes that fit the budget, with the platform fee shown on its own line.</span></div></li>
+        <li><i data-icon="compare"></i><div><b data-i18n="en.f4">RFQ and offer normalisation</b><span data-i18n="en.f4d">Writes one standard RFQ, then brings each reply to the same basis: price, setup, VAT, fee, dates, reporting.</span></div></li>
+      </ul>
+      <p class="never reveal"><i data-icon="shield"></i><span data-i18n="en.never">It never invents reach, performance or ROI. Missing data lowers the confidence score instead.</span></p>
+    </div>
+
+    <div class="engine-demo reveal" style="--delay:200ms">
+      <div class="demo-card">
+        <div class="demo-head">
+          <div>
+            <span class="opp-cat" data-i18n="en.dcat">Live example · Residential sampling</span>
+            <h3 data-i18n="en.dtitle">Weekend lobby sampling, 6 towers</h3>
+            <p class="muted small"><i data-icon="pin" data-class="inline"></i> <span data-i18n="area.marina">Dubai Marina &amp; JBR</span> · <span data-i18n="en.dsupplier">Demo supplier</span></p>
+          </div>
+          <div class="score-ring" data-demo-ring><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" class="ring-bg"/><circle cx="32" cy="32" r="27" class="ring-fg" data-demo-arc/></svg><b data-demo-score>0</b></div>
+        </div>
+        <div class="demo-controls">
+          <div class="field">
+            <label for="demo-budget"><span data-i18n="en.budget">Your budget</span> <output class="tabular" data-demo-budget-out>AED 100,000</output></label>
+            <input type="range" id="demo-budget" min="10000" max="200000" step="5000" value="100000">
+          </div>
+          <div class="field">
+            <span class="label" data-i18n="en.objective">Your objective</span>
+            <div class="chip-group">
+              <label class="chip"><input type="radio" name="demo-obj" value="trial" checked><span data-i18n="obj.trial">Product trial</span></label>
+              <label class="chip"><input type="radio" name="demo-obj" value="awareness"><span data-i18n="obj.awareness">Brand awareness</span></label>
+              <label class="chip"><input type="radio" name="demo-obj" value="leads"><span data-i18n="obj.leads">Qualified leads</span></label>
+            </div>
+          </div>
+        </div>
+        <ul class="factor-list" data-demo-factors></ul>
+        <p class="demo-foot muted small" data-i18n="en.dfoot">Cost for 30 days: AED 18,600 excl. VAT. Reach not shown: the supplier has not provided counted data yet.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLATFORM MODULES (services style) ============ -->
+<section class="section" id="platform">
+  <div class="container">
+    <div class="section-head split">
+      <div>
+        <span class="eyebrow reveal" data-i18n="pl.eye">The platform</span>
+        <h2 class="h1 reveal" style="--delay:80ms"><span data-i18n="pl.h1">What you can do</span> <span class="accent" data-i18n="pl.h2">today.</span></h2>
+        <p class="lead reveal" style="--delay:160ms" data-i18n="pl.lead">Every row opens the matching screen in the working prototype.</p>
+      </div>
+      <a class="btn btn-dark reveal" href="platform.html"><span data-i18n="pl.cta">Open the platform</span><i data-icon="arrow-up-right"></i></a>
+    </div>
+    <div class="modules">
+      <div class="module reveal">
+        <div class="module-head"><span class="module-no">01</span><div><h3 data-i18n="pl.m1">For brands and agencies</h3><p data-i18n="pl.m1d">Start with an outcome, finish with a booking.</p></div></div>
+        <div class="module-links">
+          <a href="platform.html#c-new"><span><b data-i18n="pl.l1">Create an objective</b><small data-i18n="pl.l1d">Seven questions or one sentence</small></span><i data-icon="arrow-up-right"></i></a>
+          <a href="platform.html#c-plans"><span><b data-i18n="pl.l2">Opportunity plans</b><small data-i18n="pl.l2d">Ranked, explained, packaged</small></span><i data-icon="arrow-up-right"></i></a>
+          <a href="platform.html#c-compare"><span><b data-i18n="pl.l3">Compare side by side</b><small data-i18n="pl.l3d">Up to four opportunities</small></span><i data-icon="arrow-up-right"></i></a>
+          <a href="platform.html#c-rfqs"><span><b data-i18n="pl.l4">RFQs and offers</b><small data-i18n="pl.l4d">Normalised replies, one approval</small></span><i data-icon="arrow-up-right"></i></a>
+        </div>
+      </div>
+      <div class="module reveal">
+        <div class="module-head"><span class="module-no">02</span><div><h3 data-i18n="pl.m2">For suppliers</h3><p data-i18n="pl.m2d">Publish opportunities, not just inventory.</p></div></div>
+        <div class="module-links">
+          <a href="platform.html#s-listings"><span><b data-i18n="pl.l5">List opportunities</b><small data-i18n="pl.l5d">Form or spreadsheet import</small></span><i data-icon="arrow-up-right"></i></a>
+          <a href="platform.html#s-rfqs"><span><b data-i18n="pl.l6">Answer RFQs</b><small data-i18n="pl.l6d">One structured reply form</small></span><i data-icon="arrow-up-right"></i></a>
+          <a href="platform.html#s-bookings"><span><b data-i18n="pl.l7">Manage bookings</b><small data-i18n="pl.l7d">Status updates and results</small></span><i data-icon="arrow-up-right"></i></a>
+          <a href="platform.html#s-profile"><span><b data-i18n="pl.l8">Get verified</b><small data-i18n="pl.l8d">Trade licence check</small></span><i data-icon="arrow-up-right"></i></a>
+        </div>
+      </div>
+      <div class="module reveal">
+        <div class="module-head"><span class="module-no">03</span><div><h3 data-i18n="pl.m3">Operations</h3><p data-i18n="pl.m3d">The human-assisted layer behind the pilot.</p></div></div>
+        <div class="module-links">
+          <a href="platform.html#o-verify"><span><b data-i18n="pl.l9">Supplier verification</b><small data-i18n="pl.l9d">Approve or reject applications</small></span><i data-icon="arrow-up-right"></i></a>
+          <a href="platform.html#o-metrics"><span><b data-i18n="pl.l10">Pilot metrics</b><small data-i18n="pl.l10d">Conversion, take rate, response rate</small></span><i data-icon="arrow-up-right"></i></a>
+          <a href="platform.html#o-payments"><span><b data-i18n="pl.l11">Payments and payouts</b><small data-i18n="pl.l11d">Transfers received, releases</small></span><i data-icon="arrow-up-right"></i></a>
+          <a href="platform.html#o-kill"><span><b data-i18n="pl.l12">Kill criteria</b><small data-i18n="pl.l12d">Go / no-go signals, tracked</small></span><i data-icon="arrow-up-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SUPPLIERS ============ -->
+<section class="section section-tint" id="suppliers">
+  <div class="container supplier-grid">
+    <div>
+      <span class="pill reveal"><span class="dot"></span><span data-i18n="sp.pill">For opportunity owners</span></span>
+      <h2 class="h1 reveal" style="--delay:80ms"><span data-i18n="sp.h1">Your space, audience or event.</span><br><span class="accent" data-i18n="sp.h2">Found by the right buyer.</span></h2>
+      <p class="lead reveal" style="--delay:160ms" data-i18n="sp.lead">Malls, residential communities, gyms, cafés, hotels, offices, campuses, event organisers and media networks list what they can offer. Buyers arrive with an objective, a budget and dates.</p>
+      <div class="hero-ctas reveal" style="--delay:220ms">
+        <a class="btn btn-dark" href="platform.html#s-listings"><span data-i18n="sp.cta1">List an opportunity</span><i data-icon="arrow"></i></a>
+        <a class="btn btn-light" href="platform.html#s-rfqs" data-i18n="sp.cta2">See the RFQ inbox</a>
+      </div>
+    </div>
+    <div class="supplier-panel reveal" style="--delay:160ms">
+      <ul class="check-list">
+        <li><i data-icon="check"></i><span data-i18n="sp.b1">Free listing during the Dubai pilot</span></li>
+        <li><i data-icon="check"></i><span data-i18n="sp.b2">Structured RFQs with dates, budget and requirements</span></li>
+        <li><i data-icon="check"></i><span data-i18n="sp.b3">Accept, decline or counter in one form</span></li>
+        <li><i data-icon="check"></i><span data-i18n="sp.b4">Spreadsheet import for many listings at once</span></li>
+        <li><i data-icon="check"></i><span data-i18n="sp.b5">Booking status and results in one place</span></li>
+        <li><i data-icon="check"></i><span data-i18n="sp.b6">You keep ownership of your inventory and pricing</span></li>
+      </ul>
+      <div class="supplier-cats">
+        <span class="label" data-i18n="sp.cats">First supply categories in Dubai</span>
+        <div class="chip-row">
+          <span class="tag" data-i18n="sc.1">Residential communities</span><span class="tag" data-i18n="sc.2">Gyms and studios</span><span class="tag" data-i18n="sc.3">Independent cafés</span><span class="tag" data-i18n="sc.4">Community malls</span><span class="tag" data-i18n="sc.5">Office towers</span><span class="tag" data-i18n="sc.6">Hotels</span><span class="tag" data-i18n="sc.7">University campuses</span><span class="tag" data-i18n="sc.8">Event organisers</span><span class="tag" data-i18n="sc.9">Activation crews</span><span class="tag" data-i18n="sc.10">Indoor media owners</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRINCIPLES ============ -->
+<section class="section" id="principles">
+  <div class="container">
+    <div class="section-head">
+      <span class="pill reveal"><span class="dot"></span><span data-i18n="pr.pill">Ground rules</span></span>
+      <h2 class="h1 reveal" style="--delay:80ms"><span data-i18n="pr.h1">What we will not do.</span><br><span class="accent" data-i18n="pr.h2">So you can trust the numbers.</span></h2>
+    </div>
+    <div class="principles">
+      <article class="principle reveal"><i data-icon="building"></i><h3 data-i18n="pr.t1">Own inventory</h3><p data-i18n="pr.d1">We do not own screens, spaces or venues and do not resell them. Suppliers set their own prices.</p></article>
+      <article class="principle reveal" style="--delay:80ms"><i data-icon="chart"></i><h3 data-i18n="pr.t2">Invent performance</h3><p data-i18n="pr.d2">Reach, footfall and results appear only with a source and date. If there is no data, we say so.</p></article>
+      <article class="principle reveal" style="--delay:160ms"><i data-icon="shield"></i><h3 data-i18n="pr.t3">Promise ROI</h3><p data-i18n="pr.d3">Cost per outcome is calculated only from results you and the supplier report after the booking.</p></article>
+      <article class="principle reveal" style="--delay:240ms"><i data-icon="layers"></i><h3 data-i18n="pr.t4">Hide the fee</h3><p data-i18n="pr.d4">The platform fee is its own line on every package, offer and checkout.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="section section-tint" id="pricing">
+  <div class="container">
+    <div class="section-head split">
+      <div>
+        <span class="eyebrow reveal" data-i18n="pc.eye">Pricing</span>
+        <h2 class="h1 reveal" style="--delay:80ms"><span data-i18n="pc.h1">Free to brief.</span> <span class="accent" data-i18n="pc.h2">Pay when you book.</span></h2>
+        <p class="lead reveal" style="--delay:160ms" data-i18n="pc.lead">During the Dubai pilot, the platform earns a transaction fee on booked opportunities. Subscriptions come later, and only if repeat use proves them worthwhile.</p>
+      </div>
+    </div>
+    <div class="pricing">
+      <article class="price-card reveal">
+        <span class="opp-cat" data-i18n="pc.b">Brands and agencies</span>
+        <div class="price"><b>0</b><span data-i18n="pc.bp">AED to brief, plan, compare and request offers</span></div>
+        <ul class="check-list"><li><i data-icon="check"></i><span data-i18n="pc.b1">Unlimited objectives and plans</span></li><li><i data-icon="check"></i><span data-i18n="pc.b2">Standard RFQs to any listed supplier</span></li><li><i data-icon="check"></i><span data-i18n="pc.b3">7% platform fee only on booked value</span></li></ul>
+        <a class="btn btn-dark" href="#brief"><span data-i18n="nav.cta">Create a brief</span><i data-icon="arrow"></i></a>
+      </article>
+      <article class="price-card featured reveal" style="--delay:90ms">
+        <span class="opp-cat" data-i18n="pc.s">Suppliers</span>
+        <div class="price"><b>0</b><span data-i18n="pc.sp">AED to list during the Dubai pilot</span></div>
+        <ul class="check-list"><li><i data-icon="check"></i><span data-i18n="pc.s1">Unlimited listings and RFQ replies</span></li><li><i data-icon="check"></i><span data-i18n="pc.s2">Payout after the buyer confirms delivery</span></li><li><i data-icon="check"></i><span data-i18n="pc.s3">Verification badge after licence check</span></li></ul>
+        <a class="btn btn-blue" href="platform.html#s-listings"><span data-i18n="sp.cta1">List an opportunity</span><i data-icon="arrow"></i></a>
+      </article>
+      <article class="price-card reveal" style="--delay:180ms">
+        <span class="opp-cat" data-i18n="pc.e">Enterprise and API</span>
+        <div class="price"><b data-i18n="pc.ep0">Later</b><span data-i18n="pc.ep">After the pilot shows repeat demand</span></div>
+        <ul class="check-list"><li><i data-icon="check"></i><span data-i18n="pc.e1">Market intelligence subscription</span></li><li><i data-icon="check"></i><span data-i18n="pc.e2">Inventory and RFQ API</span></li><li><i data-icon="check"></i><span data-i18n="pc.e3">Multi-brand agency workspaces</span></li></ul>
+        <a class="btn btn-light" href="#contact" data-i18n="pc.ecta">Register interest</a>
+      </article>
+    </div>
+    <p class="muted small center reveal" data-i18n="pc.note">The 7% pilot fee is a working assumption that the pilot is designed to test.</p>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section" id="faq">
+  <div class="container faq-grid">
+    <div class="faq-side">
+      <span class="pill reveal"><span class="dot"></span><span data-i18n="fq.pill">FAQ</span></span>
+      <h2 class="h1 reveal" style="--delay:80ms"><span data-i18n="fq.h1">Common questions.</span><br><span class="accent" data-i18n="fq.h2">Clear answers.</span></h2>
+      <p class="lead reveal" style="--delay:160ms" data-i18n="fq.lead">What the platform does, what it costs and how it handles data.</p>
+      <div class="ask-card reveal" style="--delay:220ms">
+        <b data-i18n="fq.askT">Question not listed?</b>
+        <p class="muted small" data-i18n="fq.askD">Write to the founding team. We reply personally.</p>
+        <div class="email-row"><span class="email-text" data-contact-email>visionseven@gmail.com</span><button class="icon-btn" type="button" data-copy-email data-i18n-aria="copyEmail" aria-label="Copy email address"><i data-icon="copy"></i></button></div>
+        <a class="btn btn-dark btn-sm" href="#contact"><span data-i18n="fq.askCta">Send a message</span><i data-icon="arrow"></i></a>
+      </div>
+    </div>
+    <div class="faq-list" data-faq>
+      <details class="faq-item reveal" open><summary><span class="faq-no">01</span><span data-i18n="q1">Is this an advertising agency or a DOOH network?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a1">Neither. We do not own media or buy it on your behalf. The platform matches your objective with opportunities listed by independent suppliers and runs the procurement: RFQ, offer comparison, approval and payment.</div></details>
+      <details class="faq-item reveal"><summary><span class="faq-no">02</span><span data-i18n="q2">What counts as a commercial opportunity?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a2">Anything a supplier can offer that helps you reach an outcome: mall activations, residential or gym sampling, café and retail partnerships, office and campus activations, event sponsorship, pop-up space, indoor media and digital follow-up.</div></details>
+      <details class="faq-item reveal"><summary><span class="faq-no">03</span><span data-i18n="q3">How is the match score calculated?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a3">It is a weighted sum of eight factors: objective fit, audience, geography, budget fit, timing, availability, historical evidence and data confidence. Each factor and weight is shown next to the score.</div></details>
+      <details class="faq-item reveal"><summary><span class="faq-no">04</span><span data-i18n="q4">Do you guarantee reach or results?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a4">No. Reach and performance appear only when a supplier has provided them, labelled with the source and whether they were verified. Results after a booking are reported by the supplier and by you.</div></details>
+      <details class="faq-item reveal"><summary><span class="faq-no">05</span><span data-i18n="q5">What does it cost?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a5">Briefing, planning, comparing and sending RFQs is free. When you book, a 7% platform fee is added as a separate line. Suppliers list for free during the pilot.</div></details>
+      <details class="faq-item reveal"><summary><span class="faq-no">06</span><span data-i18n="q6">Which areas do you cover?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a6">The pilot starts in Dubai with a limited set of categories where discovery and pricing are hardest. Other emirates follow once the Dubai network works.</div></details>
+      <details class="faq-item reveal"><summary><span class="faq-no">07</span><span data-i18n="q7">How are supplier offers compared?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a7">Every reply uses the same form. The platform adds setup costs, 5% VAT and the platform fee, then shows total, cost per day, date match, reporting level and payment terms side by side.</div></details>
+      <details class="faq-item reveal"><summary><span class="faq-no">08</span><span data-i18n="q8">How do payments work?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a8">You pay once at checkout by card, bank transfer or invoice for approved accounts. The supplier is paid after you confirm delivery. In this prototype, payments are simulated and no money moves.</div></details>
+      <details class="faq-item reveal"><summary><span class="faq-no">09</span><span data-i18n="q9">Can I use Arabic?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a9">Yes. The website and the platform work in English and Arabic, with full right-to-left layout. Use the language button in the header.</div></details>
+      <details class="faq-item reveal"><summary><span class="faq-no">10</span><span data-i18n="q10">Where is my data stored in the prototype?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a10">Only in your own browser. Nothing you enter in the prototype is sent to a server. You can reset the demo data at any time from the platform header.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT / EARLY ACCESS ============ -->
+<section class="section section-tint" id="contact">
+  <div class="container contact-grid">
+    <div>
+      <span class="eyebrow reveal" data-i18n="ct.eye">Early access</span>
+      <h2 class="h1 reveal" style="--delay:80ms"><span data-i18n="ct.h1">Join the</span> <span class="accent" data-i18n="ct.h2">Dubai pilot.</span></h2>
+      <p class="lead reveal" style="--delay:160ms" data-i18n="ct.lead">We are looking for a small group of brands, agencies and suppliers to run real briefs through the platform with us.</p>
+      <ul class="check-list reveal" style="--delay:220ms">
+        <li><i data-icon="check"></i><span data-i18n="ct.b1">Brands with frequent local campaigns</span></li>
+        <li><i data-icon="check"></i><span data-i18n="ct.b2">Agencies tired of supplier spreadsheets</span></li>
+        <li><i data-icon="check"></i><span data-i18n="ct.b3">Owners with under-used spaces, audiences or events</span></li>
+      </ul>
+    </div>
+    <form class="contact-card reveal" id="contact-form" novalidate style="--delay:120ms">
+      <div class="row-2">
+        <div class="field"><label for="ct-name" data-i18n="ct.name">Your name</label><input class="input" id="ct-name" name="name" autocomplete="name" required maxlength="80"></div>
+        <div class="field"><label for="ct-company" data-i18n="ct.company">Company</label><input class="input" id="ct-company" name="company" autocomplete="organization" required maxlength="80"></div>
+      </div>
+      <div class="field"><label for="ct-email" data-i18n="ct.email">Work email</label><input class="input" id="ct-email" name="email" type="email" autocomplete="email" required maxlength="120" placeholder="name@company.ae"></div>
+      <div class="field">
+        <span class="label" id="lbl-role" data-i18n="ct.role">I am a</span>
+        <div class="chip-group" role="radiogroup" aria-labelledby="lbl-role">
+          <label class="chip"><input type="radio" name="role" value="Brand" checked><span data-i18n="ct.r1">Brand</span></label>
+          <label class="chip"><input type="radio" name="role" value="Agency"><span data-i18n="ct.r2">Agency</span></label>
+          <label class="chip"><input type="radio" name="role" value="Supplier"><span data-i18n="ct.r3">Supplier</span></label>
+          <label class="chip"><input type="radio" name="role" value="Investor or partner"><span data-i18n="ct.r4">Investor or partner</span></label>
+        </div>
+      </div>
+      <div class="field"><label for="ct-msg" data-i18n="ct.msg">What would you like to achieve?</label><textarea class="textarea" id="ct-msg" name="message" maxlength="800" placeholder="A short description of your next campaign or what you can offer." data-i18n-ph="ct.msgPh"></textarea></div>
+      <p class="error-text" id="ct-error" role="alert" hidden></p>
+      <button class="btn btn-dark" type="submit"><span data-i18n="ct.submit">Prepare my request</span><i data-icon="arrow"></i></button>
+      <div class="contact-done" id="contact-done" hidden>
+        <div class="done-head"><i data-icon="check-circle"></i><b data-i18n="ct.doneT">Your request is ready to send</b></div>
+        <p class="muted small" data-i18n="ct.doneD">Copy the message below and email it to the founding team. It has also been saved in this browser.</p>
+        <pre class="done-msg" id="contact-msg"></pre>
+        <div class="email-row"><span class="email-text" data-contact-email>visionseven@gmail.com</span></div>
+        <div class="hero-ctas">
+          <button class="btn btn-dark btn-sm" type="button" id="contact-copy"><i data-icon="copy"></i><span data-i18n="ct.copy">Copy message</span></button>
+          <a class="btn btn-light btn-sm" id="contact-mailto" href="mailto:visionseven@gmail.com"><i data-icon="mail"></i><span data-i18n="ct.open">Open in email app</span></a>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta-wrap">
+  <div class="container">
+    <div class="cta-card reveal">
+      <div class="cta-dots dots-light" aria-hidden="true"></div>
+      <div class="cta-inner">
+        <div class="cta-pills"><span><i data-icon="check-circle"></i><span data-i18n="cta.p1">Free to brief</span></span><span><i data-icon="check-circle"></i><span data-i18n="cta.p2">No obligation</span></span><span><i data-icon="check-circle"></i><span data-i18n="cta.p3">English and Arabic</span></span></div>
+        <h2 class="display-2"><span data-i18n="cta.h1">Find your next</span><br><span class="accent-light" data-i18n="cta.h2">commercial opportunity.</span></h2>
+        <p data-i18n="cta.lead">Tell the platform what you want to achieve. Get a ranked plan, send one RFQ and compare offers that finally line up.</p>
+        <div class="hero-ctas center">
+          <a class="btn btn-dark on-navy" href="#brief"><span data-i18n="hero.cta1">Create a free brief</span><i data-icon="arrow"></i></a>
+          <a class="btn btn-light" href="platform.html#s-listings"><i data-icon="store"></i><span data-i18n="cta.supplier">List as a supplier</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="footer-dots dots-light" aria-hidden="true"></div>
+  <div class="container footer-inner">
+    <div class="footer-top">
+      <div>
+        <a class="logo on-dark" href="index.html"><span class="logo-mark" data-logo-mark></span><span class="logo-text"><span data-i18n="brand1">Opportunity Network</span><small data-i18n="brand2">Commercial · UAE</small></span></a>
+        <h2 class="footer-title"><span data-i18n="ft.h1">Good campaigns</span><br><span class="dim" data-i18n="ft.h2">start with an objective.</span></h2>
+        <p class="footer-lead" data-i18n="ft.lead">An AI-assisted procurement layer that connects business objectives with commercial opportunities from independent UAE suppliers.</p>
+        <div class="email-row on-dark"><span class="email-text" data-contact-email>visionseven@gmail.com</span><button class="icon-btn" type="button" data-copy-email data-i18n-aria="copyEmail" aria-label="Copy email address"><i data-icon="copy"></i></button></div>
+      </div>
+      <div class="footer-cards">
+        <a class="footer-card" href="#brief"><span class="fc-ico blue"><i data-icon="target"></i></span><span><small data-i18n="ft.c1s">For brands</small><b data-i18n="nav.cta">Create a brief</b></span><i data-icon="arrow-up-right"></i></a>
+        <a class="footer-card" href="platform.html#s-listings"><span class="fc-ico green"><i data-icon="store"></i></span><span><small data-i18n="ft.c2s">For suppliers</small><b data-i18n="sp.cta1">List an opportunity</b></span><i data-icon="arrow-up-right"></i></a>
+      </div>
+    </div>
+    <div class="footer-cols">
+      <div><h4 data-i18n="ft.col1">Platform</h4><a href="platform.html#c-new" data-i18n="pl.l1">Create an objective</a><a href="platform.html#c-plans" data-i18n="pl.l2">Opportunity plans</a><a href="platform.html#c-catalog" data-i18n="op.cta">Browse the catalogue</a><a href="platform.html#c-rfqs" data-i18n="pl.l4">RFQs and offers</a></div>
+      <div><h4 data-i18n="ft.col2">Suppliers</h4><a href="platform.html#s-overview" data-i18n="ft.sw">Supplier workspace</a><a href="platform.html#s-listings" data-i18n="pl.l5">List opportunities</a><a href="platform.html#s-rfqs" data-i18n="pl.l6">Answer RFQs</a><a href="platform.html#s-profile" data-i18n="pl.l8">Get verified</a></div>
+      <div><h4 data-i18n="ft.col3">Company</h4><a href="#how" data-i18n="nav.how">How it works</a><a href="#engine" data-i18n="nav.engine">Matching</a><a href="#pricing" data-i18n="nav.pricing">Pricing</a><a href="#faq" data-i18n="nav.faq">FAQ</a><a href="#contact" data-i18n="ct.eye">Early access</a></div>
+      <div><h4 data-i18n="ft.col4">Legal</h4><a href="privacy.html" data-i18n="ft.privacy">Privacy</a><a href="terms.html" data-i18n="ft.terms">Terms of use</a></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Commercial Opportunity Network · <span data-i18n="ft.loc">Dubai, United Arab Emirates</span></span>
+      <span class="footer-bottom-links"><a href="privacy.html" data-i18n="ft.privacy">Privacy</a><a href="terms.html" data-i18n="ft.terms">Terms of use</a><button class="lang-toggle dark" type="button" data-lang-toggle><i data-icon="globe"></i><span data-i18n="lang">العربية</span></button></span>
+    </div>
+  </div>
+</footer>
+
+<div id="toast-root" class="toast-root" aria-live="polite"></div>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/i18n-site.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/engine.js"></script>
+<script src="assets/js/illustrations.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>
