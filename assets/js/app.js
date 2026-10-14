@@ -47,6 +47,7 @@
       '<div class="top-actions"><span class="demo-flag">' + ic('info') + t('demoFlag') + '</span>' +
       '<button class="lang-toggle" type="button" data-act="lang">' + ic('globe') + '<span>' + (A.lang === 'ar' ? 'English' : 'العربية') + '</span></button>' +
       '<button class="btn btn-ghost btn-sm hide-sm" type="button" data-act="reset">' + ic('refresh') + '<span>' + t('reset') + '</span></button>' +
+      '<a class="btn btn-ghost btn-sm hide-sm" href="workflow.html">' + ic('track') + '<span>' + t('workflow') + '</span></a>' +
       '<a class="btn btn-light btn-sm hide-sm" href="index.html">' + t('website') + '</a></div></div></header>' +
       '<div class="app-shell"><nav class="side-nav" aria-label="' + esc(wsTitle[ws]) + '"><span class="nav-title">' + wsTitle[ws] + '</span>' +
       NAV[ws].map(([p, icon]) => '<a href="#' + ws + '-' + p + '" class="' + (active === p ? 'active' : '') + '"' + (active === p ? ' aria-current="page"' : '') + '>' + ic(icon) + '<span>' + t('nav.' + ws + '.' + p) + '</span>' + (cnt[p] ? '<span class="count">' + cnt[p] + '</span>' : '') + '</a>').join('') +
