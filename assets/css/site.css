@@ -17,7 +17,7 @@ svg.inline { width: 14px; height: 14px; vertical-align: -2px; }
 .nav-links a { white-space: nowrap; padding: 8px 10px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: .9375rem; color: var(--ink-2); transition: background .2s, color .2s; }
 .nav-links a:hover { background: var(--surface); color: var(--ink); }
 .nav-actions { display: flex; align-items: center; gap: 10px; }
-.nav-signin { text-decoration: none; font-weight: 600; font-size: .9375rem; color: var(--muted); padding: 8px 6px; }
+.nav-signin { white-space: nowrap; text-decoration: none; font-weight: 600; font-size: .9375rem; color: var(--muted); padding: 8px 6px; }
 .nav-signin:hover { color: var(--ink); }
 .menu-btn { display: none; }
 .mobile-menu { display: grid; gap: 4px; padding: 10px var(--gutter) 18px; border-top: 1px solid var(--line); background: var(--surface); }

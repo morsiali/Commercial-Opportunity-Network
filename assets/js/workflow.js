@@ -79,8 +79,8 @@
       const dim = role !== 'all' && !(byId[a].lane === role || byId[b].lane === role);
       out += '<path d="' + d + '" class="' + (opt.dashed ? 'dashed ' : '') + (hot ? 'hot ' : '') + (dim ? 'dim' : '') + '" marker-end="url(#' + (hot ? 'wf-a-hot' : 'wf-a') + ')"/>';
       if (opt.label) {
-        const x = (opt.offset ? A.l + A.w * (lang === 'ar' ? 1 - opt.offset : opt.offset) : A.cx) + (lang === 'ar' ? -8 : 8);
-        out += '<text x="' + x + '" y="' + ((A.b + B.t) / 2) + '" text-anchor="' + (lang === 'ar' ? 'end' : 'start') + '">' + esc(t().payment) + '</text>';
+        const x = (opt.offset ? A.l + A.w * (lang === 'ar' ? 1 - opt.offset : opt.offset) : A.cx) + (lang === 'ar' ? 8 : -8);
+        out += '<text x="' + x + '" y="' + ((A.b + B.t) / 2) + '" text-anchor="' + (lang === 'ar' ? 'start' : 'end') + '">' + esc(t().payment) + '</text>';
       }
     });
     g.innerHTML = out;
