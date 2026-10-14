@@ -1,0 +1,115 @@
+/* Commercial Opportunity Network — taxonomy and illustrative seed data.
+   All suppliers and listings below are fictional demo records for the prototype. */
+(function (root) {
+  'use strict';
+  const CON = root.CON = root.CON || {};
+
+  const objectives = ['trial', 'acquisition', 'launch', 'footfall', 'leads', 'awareness'];
+  const types = ['mall_activation', 'residential_sampling', 'gym_partnership', 'cafe_partnership', 'indoor_media', 'office_activation', 'hotel_activation', 'event_sponsorship', 'popup_space', 'university_activation', 'retail_partnership', 'digital_retargeting'];
+  const typeIcons = { mall_activation: 'store', residential_sampling: 'home', gym_partnership: 'dumbbell', cafe_partnership: 'coffee', indoor_media: 'monitor', office_activation: 'office', hotel_activation: 'bed', event_sponsorship: 'ticket', popup_space: 'tent', university_activation: 'cap', retail_partnership: 'handshake', digital_retargeting: 'phone' };
+  const interests = ['families', 'professionals', 'fitness', 'students', 'tourists', 'residents', 'affluent', 'shoppers', 'foodies'];
+
+  /* Dubai areas with approximate coordinates (for the schematic map only) */
+  const areas = {
+    marina: { lat: 25.080, lng: 55.140, en: 'Dubai Marina & JBR', ar: 'دبي مارينا وجي بي آر' },
+    jlt: { lat: 25.069, lng: 55.146, en: 'JLT', ar: 'أبراج بحيرات الجميرا' },
+    palm: { lat: 25.112, lng: 55.139, en: 'Palm Jumeirah', ar: 'نخلة جميرا' },
+    barsha: { lat: 25.110, lng: 55.200, en: 'Al Barsha', ar: 'البرشاء' },
+    hills: { lat: 25.110, lng: 55.245, en: 'Dubai Hills', ar: 'دبي هيلز' },
+    jvc: { lat: 25.060, lng: 55.210, en: 'JVC', ar: 'قرية جميرا الدائرية' },
+    downtown: { lat: 25.197, lng: 55.274, en: 'Downtown', ar: 'وسط مدينة دبي' },
+    bizbay: { lat: 25.186, lng: 55.262, en: 'Business Bay', ar: 'الخليج التجاري' },
+    difc: { lat: 25.212, lng: 55.282, en: 'DIFC', ar: 'مركز دبي المالي العالمي' },
+    jumeirah: { lat: 25.210, lng: 55.250, en: 'Jumeirah', ar: 'جميرا' },
+    deira: { lat: 25.270, lng: 55.320, en: 'Deira', ar: 'ديرة' },
+    burdubai: { lat: 25.255, lng: 55.298, en: 'Bur Dubai', ar: 'بر دبي' },
+    festival: { lat: 25.222, lng: 55.352, en: 'Festival City', ar: 'دبي فستيفال سيتي' },
+    mirdif: { lat: 25.220, lng: 55.420, en: 'Mirdif', ar: 'مردف' },
+    dso: { lat: 25.120, lng: 55.380, en: 'Silicon Oasis', ar: 'واحة دبي للسيليكون' },
+    academic: { lat: 25.128, lng: 55.415, en: 'Academic City', ar: 'المدينة الأكاديمية' }
+  };
+  /* Neighbouring areas used for the "nearby" geography score */
+  const neighbours = {
+    marina: ['jlt', 'palm', 'barsha'], jlt: ['marina', 'barsha', 'jvc'], palm: ['marina', 'barsha', 'jumeirah'],
+    barsha: ['marina', 'jlt', 'hills', 'jvc', 'palm'], hills: ['barsha', 'jvc', 'downtown'], jvc: ['jlt', 'barsha', 'hills'],
+    downtown: ['bizbay', 'difc', 'jumeirah', 'hills'], bizbay: ['downtown', 'difc', 'jumeirah'], difc: ['downtown', 'bizbay', 'jumeirah', 'burdubai'],
+    jumeirah: ['downtown', 'bizbay', 'difc', 'palm'], deira: ['burdubai', 'festival'], burdubai: ['deira', 'difc', 'festival'],
+    festival: ['deira', 'burdubai', 'mirdif'], mirdif: ['festival', 'academic'], dso: ['academic', 'mirdif'], academic: ['dso', 'mirdif']
+  };
+
+  /* How well each opportunity type serves each objective (0–1). Product assumption, editable. */
+  const objectiveFit = {
+    mall_activation:       { trial: .90, acquisition: .80, launch: .95, footfall: .60, leads: .70, awareness: .80 },
+    residential_sampling:  { trial: 1.0, acquisition: .80, launch: .70, footfall: .30, leads: .60, awareness: .50 },
+    gym_partnership:       { trial: .85, acquisition: .75, launch: .60, footfall: .30, leads: .80, awareness: .50 },
+    cafe_partnership:      { trial: .85, acquisition: .65, launch: .60, footfall: .50, leads: .50, awareness: .60 },
+    indoor_media:          { trial: .30, acquisition: .45, launch: .70, footfall: .55, leads: .35, awareness: .95 },
+    office_activation:     { trial: .75, acquisition: .70, launch: .60, footfall: .30, leads: .90, awareness: .55 },
+    hotel_activation:      { trial: .70, acquisition: .50, launch: .75, footfall: .30, leads: .45, awareness: .70 },
+    event_sponsorship:     { trial: .65, acquisition: .60, launch: .85, footfall: .40, leads: .70, awareness: .90 },
+    popup_space:           { trial: .70, acquisition: .75, launch: .90, footfall: .90, leads: .60, awareness: .70 },
+    university_activation: { trial: .85, acquisition: .80, launch: .70, footfall: .30, leads: .75, awareness: .60 },
+    retail_partnership:    { trial: .85, acquisition: .70, launch: .70, footfall: .80, leads: .40, awareness: .55 },
+    digital_retargeting:   { trial: .30, acquisition: .80, launch: .60, footfall: .50, leads: .80, awareness: .70 }
+  };
+
+  const suppliers = [
+    { id: 's1', name: { en: 'Marina Heights Community Management', ar: 'إدارة مجتمع مارينا هايتس' }, category: 'residential_sampling', verified: 'verified', licence: 'DED-1048-221', emirate: 'Dubai', contact: 'partnerships@demo-marinaheights.test', joined: '2026-08-02' },
+    { id: 's2', name: { en: 'Harbourline Mall Group', ar: 'مجموعة هاربرلاين للمراكز التجارية' }, category: 'mall_activation', verified: 'verified', licence: 'DED-2210-871', emirate: 'Dubai', contact: 'leasing@demo-harbourline.test', joined: '2026-07-21' },
+    { id: 's3', name: { en: 'Pulse Fitness Collective', ar: 'مجموعة بالس للياقة' }, category: 'gym_partnership', verified: 'verified', licence: 'DED-3391-004', emirate: 'Dubai', contact: 'brands@demo-pulsefit.test', joined: '2026-08-11' },
+    { id: 's4', name: { en: 'Bean & Board Café Network', ar: 'شبكة مقاهي بين آند بورد' }, category: 'cafe_partnership', verified: 'verified', licence: 'DED-4410-337', emirate: 'Dubai', contact: 'hello@demo-beanboard.test', joined: '2026-08-19' },
+    { id: 's5', name: { en: 'Atrium Indoor Media', ar: 'أتريوم للإعلام الداخلي' }, category: 'indoor_media', verified: 'verified', licence: 'DED-5521-118', emirate: 'Dubai', contact: 'sales@demo-atrium.test', joined: '2026-07-30' },
+    { id: 's6', name: { en: 'Tower Lobby Activations', ar: 'تفعيلات ردهات الأبراج' }, category: 'office_activation', verified: 'pending', licence: 'DED-6630-902', emirate: 'Dubai', contact: 'ops@demo-towerlobby.test', joined: '2026-10-06' },
+    { id: 's7', name: { en: 'Creekside Events Co.', ar: 'كريكسايد للفعاليات' }, category: 'event_sponsorship', verified: 'verified', licence: 'DED-7745-216', emirate: 'Dubai', contact: 'sponsor@demo-creekside.test', joined: '2026-08-27' },
+    { id: 's8', name: { en: 'Campus Connect', ar: 'كامبس كونكت' }, category: 'university_activation', verified: 'pending', licence: 'DED-8812-650', emirate: 'Dubai', contact: 'team@demo-campusconnect.test', joined: '2026-10-09' },
+    { id: 's9', name: { en: 'Lumen Hotels Collection', ar: 'مجموعة فنادق لومن' }, category: 'hotel_activation', verified: 'verified', licence: 'DED-9904-371', emirate: 'Dubai', contact: 'partners@demo-lumen.test', joined: '2026-09-03' },
+    { id: 's10', name: { en: 'Kiosk & Co. Pop-ups', ar: 'كيوسك آند كو للمساحات المؤقتة' }, category: 'popup_space', verified: 'verified', licence: 'DED-1120-448', emirate: 'Dubai', contact: 'book@demo-kioskco.test', joined: '2026-09-12' },
+    { id: 's11', name: { en: 'Nearby Digital', ar: 'نيربي ديجيتال' }, category: 'digital_retargeting', verified: 'verified', licence: 'DED-1231-509', emirate: 'Dubai', contact: 'campaigns@demo-nearby.test', joined: '2026-09-18' },
+    { id: 's12', name: { en: 'Souq Partners Retail', ar: 'سوق بارتنرز للتجزئة' }, category: 'retail_partnership', verified: 'verified', licence: 'DED-1342-713', emirate: 'Dubai', contact: 'trade@demo-souqpartners.test', joined: '2026-09-22' }
+  ];
+
+  function O(id, supplierId, type, area, en, ar, dEn, dAr, price, unit, setupFee, minUnits, maxUnits, from, to, leadDays, slotsTotal, slotsBooked, audience, reach, performance, reqEn, reqAr) {
+    return {
+      id, supplierId, type, area,
+      title: { en, ar }, desc: { en: dEn, ar: dAr },
+      price, unit, setupFee, minUnits, maxUnits,
+      availableFrom: from, availableTo: to, leadDays,
+      slotsTotal, slotsBooked, audience, reach, performance,
+      requirements: { en: reqEn, ar: reqAr }, status: 'active', demo: true
+    };
+  }
+  const W = (gender, ageMin, ageMax, interests) => ({ gender, ageMin, ageMax, interests });
+
+  const opportunities = [
+    O('o1', 's2', 'mall_activation', 'marina', 'Atrium activation stand, weekends', 'منصة تفعيل في الردهة الرئيسية، عطلات نهاية الأسبوع', '3 × 3 m stand in the main atrium with power, Thursday to Saturday.', 'منصة ٣×٣ م في الردهة الرئيسية مع كهرباء، من الخميس إلى السبت.', 6500, 'day', 3500, 2, 12, '2026-10-01', '2027-03-31', 10, 8, 3, W('mixed', 18, 55, ['shoppers', 'families', 'tourists', 'residents']), { value: 45000, unit: 'weekly visitors', source: 'supplier-declared', date: '2026-06' }, [], 'Brand staff must hold mall access passes. Creative approval 5 days before.', 'يجب أن يحمل فريق العلامة تصاريح دخول المركز. اعتماد التصميم قبل ٥ أيام.'),
+    O('o2', 's2', 'mall_activation', 'barsha', 'Concourse sampling point', 'نقطة تذوق في الممر الرئيسي', 'Sampling counter on the ground-floor concourse next to the hypermarket entrance.', 'منصة تذوق في ممر الطابق الأرضي بجوار مدخل الهايبر ماركت.', 3800, 'day', 1500, 2, 20, '2026-10-01', '2027-02-28', 7, 10, 2, W('mixed', 22, 50, ['families', 'shoppers', 'residents']), { value: 30000, unit: 'weekly visitors', source: 'supplier-declared', date: '2026-05' }, [{ metric: 'samples per day', value: 650, source: 'verified', date: '2026-04' }], 'Food samples need a Dubai Municipality permit, which the supplier can arrange.', 'تحتاج عينات الطعام إلى تصريح بلدية دبي، ويمكن للمورد ترتيبه.'),
+    O('o3', 's2', 'mall_activation', 'mirdif', 'Family weekend zone', 'منطقة العائلة في عطلة نهاية الأسبوع', 'Branded play-and-try zone near the cinema level, Friday and Saturday.', 'منطقة لعب وتجربة تحمل علامتك بالقرب من طابق السينما، الجمعة والسبت.', 4200, 'day', 2500, 2, 10, '2026-11-01', '2027-03-31', 14, 6, 1, W('mixed', 25, 45, ['families', 'residents', 'shoppers']), null, [], 'Child-safe materials only. Activity plan required.', 'مواد آمنة للأطفال فقط. يلزم تقديم خطة النشاط.'),
+    O('o4', 's1', 'residential_sampling', 'marina', 'Weekend lobby sampling, 6 towers', 'تذوق في ردهات ٦ أبراج، عطلة نهاية الأسبوع', 'Staffed sampling table in six residential tower lobbies, 5 pm to 9 pm.', 'طاولة تذوق مع فريق في ردهات ستة أبراج سكنية، من ٥ إلى ٩ مساءً.', 620, 'day', 0, 4, 60, '2026-10-01', '2027-03-31', 5, 12, 4, W('mixed', 25, 50, ['residents', 'professionals', 'families', 'affluent']), { value: 4200, unit: 'residents', source: 'supplier-declared', date: '2026-09' }, [], 'No door-to-door distribution. Samples must be sealed.', 'لا توزيع من باب إلى باب. يجب أن تكون العينات مغلقة.'),
+    O('o5', 's1', 'residential_sampling', 'jvc', 'Community pool-day booth', 'كشك في يوم المسبح المجتمعي', 'Booth at the monthly community pool day with up to 400 residents attending.', 'كشك في يوم المسبح الشهري للمجتمع بحضور يصل إلى ٤٠٠ ساكن.', 2400, 'activation', 0, 1, 1, '2026-10-15', '2027-01-31', 7, 4, 1, W('mixed', 25, 45, ['families', 'residents', 'fitness']), { value: 400, unit: 'attendees per event', source: 'supplier-declared', date: '2026-08' }, [{ metric: 'leads captured', value: 120, source: 'supplier-declared', date: '2026-08' }], 'Activities must be family-friendly.', 'يجب أن تكون الأنشطة مناسبة للعائلات.'),
+    O('o6', 's1', 'residential_sampling', 'jlt', 'Resident welcome-pack insert', 'إدراج في حقيبة ترحيب السكان', 'Product or voucher in the welcome pack for new tenants, about 1,200 packs a month.', 'منتج أو قسيمة في حقيبة الترحيب للمستأجرين الجدد، نحو ١٬٢٠٠ حقيبة شهرياً.', 5200, 'month', 0, 1, 6, '2026-10-01', '2027-06-30', 14, 3, 0, W('mixed', 22, 45, ['residents', 'professionals']), { value: 1200, unit: 'packs per month', source: 'supplier-declared', date: '2026-09' }, [], 'Item size under 15 × 10 cm.', 'حجم المنتج أقل من ١٥×١٠ سم.'),
+    O('o7', 's3', 'gym_partnership', 'bizbay', 'Front-desk sampling, 4 studios', 'تذوق عند الاستقبال في ٤ استوديوهات', 'Sampling at reception during peak hours across four studios.', 'تذوق عند الاستقبال في أوقات الذروة عبر أربعة استوديوهات.', 3200, 'week', 800, 1, 8, '2026-10-01', '2027-03-31', 7, 6, 2, W('mixed', 22, 45, ['fitness', 'professionals']), { value: 5200, unit: 'member visits per week', source: 'supplier-declared', date: '2026-09' }, [{ metric: 'samples per week', value: 1400, source: 'supplier-declared', date: '2026-07' }], 'Health and fitness products preferred. No sugary drinks.', 'تفضيل منتجات الصحة واللياقة. لا مشروبات سكرية.'),
+    O('o8', 's3', 'gym_partnership', 'downtown', 'Member perk in app and newsletter', 'ميزة للأعضاء في التطبيق والنشرة', 'Exclusive member offer in the booking app and the monthly newsletter.', 'عرض حصري للأعضاء في تطبيق الحجز والنشرة الشهرية.', 2800, 'month', 0, 1, 3, '2026-10-01', '2027-03-31', 5, 4, 1, W('mixed', 22, 45, ['fitness', 'professionals', 'affluent']), { value: 9800, unit: 'active members', source: 'verified', date: '2026-09' }, [{ metric: 'offer redemptions per month', value: 310, source: 'verified', date: '2026-08' }], 'Offer must be exclusive to members.', 'يجب أن يكون العرض حصرياً للأعضاء.'),
+    O('o9', 's3', 'gym_partnership', 'jumeirah', 'Class sponsorship, 12 classes', 'رعاية ١٢ حصة تدريبية', 'Branded sponsorship of 12 group classes with product hand-outs after class.', 'رعاية ١٢ حصة جماعية مع توزيع المنتج بعد الحصة.', 5400, 'activation', 600, 1, 1, '2026-10-20', '2027-02-28', 10, 3, 1, W('female', 22, 40, ['fitness', 'affluent']), null, [], 'Instructor scripts are not allowed.', 'لا يُسمح بنصوص ترويجية للمدربين.'),
+    O('o10', 's4', 'cafe_partnership', 'jlt', 'Table cards and counter display, 8 cafés', 'بطاقات طاولة وعرض على المنضدة في ٨ مقاهٍ', 'Table cards and a counter display unit in eight independent cafés.', 'بطاقات طاولة ووحدة عرض على المنضدة في ثمانية مقاهٍ مستقلة.', 3600, 'week', 1200, 1, 12, '2026-10-01', '2027-03-31', 5, 8, 3, W('mixed', 20, 45, ['professionals', 'foodies', 'students']), { value: 7600, unit: 'orders per week', source: 'supplier-declared', date: '2026-08' }, [], 'Print files supplied by brand.', 'ملفات الطباعة تقدمها العلامة.'),
+    O('o11', 's4', 'cafe_partnership', 'difc', 'Menu pairing trial', 'تجربة إقران في القائمة', 'Your product paired with a menu item for one month, with staff recommendation.', 'منتجك مقترن بعنصر في القائمة لمدة شهر مع توصية من الموظفين.', 6000, 'month', 0, 1, 2, '2026-11-01', '2027-03-31', 21, 2, 0, W('mixed', 25, 50, ['professionals', 'affluent', 'foodies']), null, [], 'Food-safety documentation required.', 'يلزم تقديم وثائق سلامة الغذاء.'),
+    O('o12', 's5', 'indoor_media', 'marina', 'Lift screens, 20 residential towers', 'شاشات المصاعد في ٢٠ برجاً سكنياً', '15-second slot in rotation on lift screens across 20 towers.', 'إعلان ١٥ ثانية ضمن التدوير على شاشات المصاعد في ٢٠ برجاً.', 9000, 'week', 0, 1, 12, '2026-10-01', '2027-03-31', 7, 10, 6, W('mixed', 22, 55, ['residents', 'professionals', 'affluent', 'families']), { value: 38000, unit: 'residents', source: 'verified', date: '2026-07' }, [{ metric: 'plays per week', value: 50400, source: 'verified', date: '2026-07' }], 'Silent creative. 1080 × 1920.', 'تصميم صامت. ١٠٨٠×١٩٢٠.'),
+    O('o13', 's5', 'indoor_media', 'bizbay', 'Office lobby screens, 10 towers', 'شاشات ردهات ١٠ أبراج مكتبية', 'Lobby screen loop in ten office towers, weekdays 7 am to 7 pm.', 'حلقة عرض على شاشات ردهات عشرة أبراج مكتبية، أيام العمل من ٧ صباحاً إلى ٧ مساءً.', 7500, 'week', 0, 1, 12, '2026-10-01', '2027-03-31', 7, 10, 4, W('mixed', 24, 55, ['professionals', 'affluent']), { value: 26000, unit: 'office workers', source: 'supplier-declared', date: '2026-06' }, [], 'Silent creative. 1920 × 1080.', 'تصميم صامت. ١٩٢٠×١٠٨٠.'),
+    O('o14', 's6', 'office_activation', 'difc', 'Lunch-hour lobby pop-up', 'منصة مؤقتة في الردهة وقت الغداء', 'Pop-up table in a premium office lobby from 12 pm to 3 pm.', 'طاولة مؤقتة في ردهة مكتبية فاخرة من ١٢ ظهراً إلى ٣ عصراً.', 3900, 'day', 900, 1, 10, '2026-10-01', '2027-03-31', 10, 10, 2, W('mixed', 25, 55, ['professionals', 'affluent']), { value: 3200, unit: 'tenants', source: 'supplier-declared', date: '2026-09' }, [], 'Business attire for staff.', 'زي رسمي للفريق.'),
+    O('o15', 's6', 'office_activation', 'dso', 'Tenant wellness day booth', 'كشك في يوم الصحة للمستأجرين', 'Booth at the quarterly tenant wellness day.', 'كشك في يوم الصحة الفصلي للمستأجرين.', 2600, 'activation', 0, 1, 1, '2026-11-10', '2026-12-20', 14, 6, 2, W('mixed', 22, 50, ['professionals', 'fitness']), null, [], 'Wellness-related products only.', 'منتجات متعلقة بالصحة فقط.'),
+    O('o16', 's7', 'event_sponsorship', 'jumeirah', 'Community 10K run, category sponsor', 'سباق ١٠ كم المجتمعي، راعٍ للفئة', 'Category sponsorship with finish-line sampling and logo on race kits.', 'رعاية فئة مع تذوق عند خط النهاية وشعار على حقائب السباق.', 28000, 'activation', 0, 1, 1, '2027-01-10', '2027-01-24', 30, 1, 0, W('mixed', 20, 50, ['fitness', 'families', 'residents']), { value: 3500, unit: 'registered runners (last edition)', source: 'supplier-declared', date: '2026-01' }, [], 'Category exclusivity. Contract 30 days before.', 'حصرية الفئة. توقيع العقد قبل ٣٠ يوماً.'),
+    O('o17', 's7', 'event_sponsorship', 'deira', 'Weekend night market booth', 'كشك في سوق الليل نهاية الأسبوع', 'Booth at a weekend night market by the creek.', 'كشك في سوق ليلي نهاية الأسبوع بجانب الخور.', 2200, 'day', 400, 2, 16, '2026-10-15', '2027-03-15', 7, 20, 9, W('mixed', 18, 50, ['families', 'tourists', 'foodies', 'shoppers']), null, [], 'Trade licence copy required.', 'يلزم تقديم نسخة من الرخصة التجارية.'),
+    O('o18', 's8', 'university_activation', 'academic', 'Student week stand, 3 campuses', 'منصة أسبوع الطلاب في ٣ حرم جامعية', 'Stand during student week on three campuses.', 'منصة خلال أسبوع الطلاب في ثلاثة حرم جامعية.', 4500, 'day', 1000, 1, 5, '2026-11-01', '2027-02-28', 21, 5, 0, W('mixed', 18, 25, ['students']), null, [], 'Campus approval needed. No alcohol or tobacco.', 'يلزم موافقة الحرم الجامعي. لا كحول ولا تبغ.'),
+    O('o19', 's9', 'hotel_activation', 'palm', 'Lobby display and guest sampling', 'عرض في الردهة وتذوق للضيوف', 'Display in the lobby lounge and samples in guest welcome amenities.', 'عرض في صالة الردهة وعينات ضمن ضيافة الترحيب بالنزلاء.', 5200, 'week', 1500, 1, 8, '2026-10-01', '2027-03-31', 14, 3, 1, W('mixed', 28, 60, ['tourists', 'affluent']), { value: 2100, unit: 'guest check-ins per week', source: 'supplier-declared', date: '2026-08' }, [], 'Premium packaging only.', 'تغليف فاخر فقط.'),
+    O('o20', 's9', 'hotel_activation', 'downtown', 'Weekend brunch partnership', 'شراكة غداء نهاية الأسبوع', 'Featured product at the Saturday brunch with table placement.', 'منتج مميز في غداء السبت مع عرض على الطاولات.', 7800, 'month', 0, 1, 3, '2026-10-15', '2027-03-31', 21, 2, 0, W('mixed', 28, 55, ['affluent', 'tourists', 'foodies']), null, [], 'Food and beverage products only.', 'منتجات الأغذية والمشروبات فقط.'),
+    O('o21', 's10', 'popup_space', 'downtown', 'Kiosk in a high-street mall', 'كشك في مركز تجاري رئيسي', '2 × 2 m kiosk on a main walkway, fitted with lighting.', 'كشك ٢×٢ م على ممر رئيسي مع إضاءة.', 9500, 'week', 2000, 1, 8, '2026-10-01', '2027-03-31', 14, 4, 2, W('mixed', 18, 55, ['shoppers', 'tourists', 'affluent']), { value: 120000, unit: 'weekly visitors (mall total)', source: 'supplier-declared', date: '2026-04' }, [], 'Retail trade licence required.', 'يلزم وجود رخصة تجارة تجزئة.'),
+    O('o22', 's10', 'popup_space', 'festival', 'Pop-up unit, 40 m²', 'وحدة مؤقتة ٤٠ م²', 'Fitted short-term unit with storefront, rented by the week.', 'وحدة مجهزة قصيرة الأجل بواجهة، تؤجر أسبوعياً.', 14000, 'week', 3000, 2, 12, '2026-11-01', '2027-03-31', 21, 2, 0, W('mixed', 20, 55, ['shoppers', 'families', 'residents']), null, [], 'Minimum two weeks.', 'الحد الأدنى أسبوعان.'),
+    O('o23', 's11', 'digital_retargeting', 'all', 'Follow-up campaign near booked venues', 'حملة متابعة قرب المواقع المحجوزة', 'Mobile follow-up aimed at people who visited your booked venues.', 'متابعة عبر الهاتف تستهدف من زاروا المواقع التي حجزتها.', 12000, 'month', 1500, 1, 3, '2026-10-01', '2027-06-30', 5, 20, 5, W('mixed', 18, 60, []), null, [], 'Consent-based audiences only, in line with UAE data protection law.', 'جماهير قائمة على الموافقة فقط، وفق قانون حماية البيانات في الإمارات.'),
+    O('o24', 's12', 'retail_partnership', 'burdubai', 'Shelf-end trial stand, 6 grocery stores', 'منصة تجربة في نهاية الرفوف، ٦ متاجر بقالة', 'Trial stand at shelf ends in six neighbourhood grocery stores.', 'منصة تجربة في نهايات الرفوف في ستة متاجر بقالة في الأحياء.', 4200, 'week', 1000, 1, 8, '2026-10-01', '2027-03-31', 7, 6, 2, W('mixed', 22, 55, ['families', 'residents', 'shoppers']), null, [{ metric: 'units sold during trial week', value: 380, source: 'supplier-declared', date: '2026-06' }], 'Product must be stocked by the store.', 'يجب أن يكون المنتج متوفراً في المتجر.'),
+    O('o25', 's12', 'retail_partnership', 'hills', 'Checkout sampling, 14 pharmacies', 'تذوق عند الدفع في ١٤ صيدلية', 'Sampling basket at checkout in 14 pharmacies.', 'سلة عينات عند الدفع في ١٤ صيدلية.', 5600, 'week', 800, 1, 6, '2026-10-15', '2027-03-31', 10, 4, 1, W('female', 25, 50, ['families', 'residents', 'fitness']), { value: 8400, unit: 'transactions per week', source: 'supplier-declared', date: '2026-08' }, [], 'Health products need a registration certificate.', 'تحتاج المنتجات الصحية إلى شهادة تسجيل.'),
+    O('o26', 's3', 'gym_partnership', 'barsha', 'Ladies-only studio sampling', 'تذوق في استوديو للسيدات فقط', 'Sampling and a branded towel drop at a ladies-only studio.', 'تذوق وتوزيع مناشف تحمل العلامة في استوديو للسيدات فقط.', 2100, 'week', 500, 1, 8, '2026-10-01', '2027-03-31', 5, 4, 1, W('female', 22, 45, ['fitness', 'residents']), { value: 1600, unit: 'member visits per week', source: 'supplier-declared', date: '2026-09' }, [], 'Female staff only.', 'فريق نسائي فقط.'),
+    O('o27', 's1', 'residential_sampling', 'mirdif', 'Villa community family day', 'يوم العائلة في مجتمع الفلل', 'Booth at a villa community family day with games area.', 'كشك في يوم العائلة بمجتمع الفلل مع منطقة ألعاب.', 3200, 'activation', 0, 1, 1, '2026-11-15', '2027-02-28', 10, 2, 0, W('mixed', 28, 50, ['families', 'residents']), null, [], 'Family-friendly activities only.', 'أنشطة مناسبة للعائلات فقط.'),
+    O('o28', 's4', 'cafe_partnership', 'deira', 'Loyalty-card insert, 5 cafés', 'إدراج في بطاقات الولاء، ٥ مقاهٍ', 'Voucher printed on the loyalty card used in five cafés.', 'قسيمة مطبوعة على بطاقة الولاء في خمسة مقاهٍ.', 2400, 'month', 600, 1, 6, '2026-10-01', '2027-03-31', 10, 5, 1, W('mixed', 20, 50, ['residents', 'foodies', 'students']), null, [], 'Voucher must have an expiry date.', 'يجب أن تحمل القسيمة تاريخ انتهاء.')
+  ];
+
+  CON.DATA = { objectives, types, typeIcons, interests, areas, neighbours, objectiveFit, suppliers, opportunities };
+})(typeof window !== 'undefined' ? window : globalThis);

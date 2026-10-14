@@ -1,0 +1,15 @@
+{
+  "name": "commercial-opportunity-network",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Commercial Opportunity Network — website and working platform prototype (English/Arabic).",
+  "scripts": {
+    "preview": "node scripts/preview.mjs",
+    "test": "node scripts/verify.mjs && node --test tests/engine.test.mjs",
+    "test:e2e": "node tests/e2e.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.56.0"
+  }
+}
