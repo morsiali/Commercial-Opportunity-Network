@@ -1,4 +1,4 @@
 .DS_Store
 *.log
-node_modules/
+node_modules
 site-archive.tar.gz

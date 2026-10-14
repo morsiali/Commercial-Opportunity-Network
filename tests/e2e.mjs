@@ -94,6 +94,29 @@ try {
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth));
   step('Arabic right-to-left layout');
 
+  // Interactive workflow page
+  await page.goto(base + 'workflow.html');
+  await page.evaluate(() => localStorage.setItem('con.lang', JSON.stringify('en')));
+  await page.reload();
+  assert.equal(await page.locator('.step').count(), 16);
+  assert.ok(await page.locator('#wire-g path').count() >= 14, 'connectors drawn');
+  await page.click('[data-step="s5"]');
+  assert.match(await page.locator('#detail h2').innerText(), /Reply to RFQ/);
+  await page.click('#wf-next');
+  assert.match(await page.locator('#detail h2').innerText(), /Nudge late reply/);
+  await page.click('#role-chips [data-role="supplier"]');
+  assert.equal(await page.locator('.step.dim').count(), 12);
+  await page.click('#role-chips [data-role="all"]');
+  await page.click('#status-tabs [data-record="payout"]');
+  await page.click('.status-chip:has-text("Released")');
+  assert.match(await page.locator('#detail h2').innerText(), /Release payout/);
+  await page.click('#wf-play'); await page.waitForTimeout(5000);
+  assert.match(await page.locator('#detail h2').innerText(), /Weekly review/);
+  assert.equal(await page.locator('#wf-play').getAttribute('aria-pressed'), 'false', 'play stops at the last step');
+  await page.click('#detail [data-nav="-1"]');
+  assert.match(await page.locator('#detail h2').innerText(), /Release payout/);
+  step('interactive workflow: select, next, filter, status explorer, play');
+
   assert.deepEqual(errors, [], 'no console errors');
   step('no console errors');
 } finally {

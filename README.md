@@ -7,6 +7,7 @@ Website and working platform prototype for an AI-assisted commercial opportunity
 | Page | What it does |
 |---|---|
 | `index.html` | Marketing site in the Wibify design style (Cairo typeface): brief wizard, how it works, opportunity types, live match-score demo, platform modules, suppliers, ground rules, pricing, FAQ, early access, footer |
+| `workflow.html` | Interactive project workflow: swimlanes for Brand, Platform, Supplier and Operations, step-by-step player, role filter, step details with links to each screen, status explorer |
 | `platform.html` | The working prototype with three workspaces: **Brand**, **Supplier**, **Operations** |
 | `privacy.html`, `terms.html` | Prototype privacy notice and terms |
 

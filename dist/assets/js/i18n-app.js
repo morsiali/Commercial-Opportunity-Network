@@ -6,7 +6,7 @@
   const en = {
     appTitle: 'Commercial Opportunity Network', brand1: 'Opportunity Network', brand2: 'Commercial · UAE',
     'ws.c': 'Brand', 'ws.s': 'Supplier', 'ws.o': 'Operations', 'ws.label': 'Workspace',
-    demoFlag: 'Prototype · demo data', reset: 'Reset demo', website: 'Website', sideFoot: 'Data stays in this browser. Nothing is sent to a server.',
+    demoFlag: 'Prototype · demo data', reset: 'Reset demo', website: 'Website', workflow: 'Workflow', sideFoot: 'Data stays in this browser. Nothing is sent to a server.',
     'nav.c.overview': 'Overview', 'nav.c.new': 'New objective', 'nav.c.plans': 'Objectives & plans', 'nav.c.catalog': 'Catalogue', 'nav.c.compare': 'Compare', 'nav.c.rfqs': 'RFQs & offers', 'nav.c.bookings': 'Bookings', 'nav.c.results': 'Results',
     'nav.s.overview': 'Overview', 'nav.s.listings': 'Listings', 'nav.s.rfqs': 'RFQ inbox', 'nav.s.bookings': 'Bookings', 'nav.s.profile': 'Business & verification',
     'nav.o.metrics': 'Pilot metrics', 'nav.o.verify': 'Verification', 'nav.o.rfqs': 'RFQ monitor', 'nav.o.payments': 'Payments', 'nav.o.economics': 'Unit economics', 'nav.o.kill': 'Kill criteria',
@@ -122,7 +122,7 @@
   const ar = {
     appTitle: 'شبكة الفرص التجارية', brand1: 'شبكة الفرص', brand2: 'التجارية · الإمارات',
     'ws.c': 'العلامة', 'ws.s': 'المورد', 'ws.o': 'العمليات', 'ws.label': 'مساحة العمل',
-    demoFlag: 'نموذج أولي · بيانات تجريبية', reset: 'إعادة الضبط', website: 'الموقع', sideFoot: 'تبقى البيانات في هذا المتصفح. لا يُرسل شيء إلى خادم.',
+    demoFlag: 'نموذج أولي · بيانات تجريبية', reset: 'إعادة الضبط', website: 'الموقع', workflow: 'سير العمل', sideFoot: 'تبقى البيانات في هذا المتصفح. لا يُرسل شيء إلى خادم.',
     'nav.c.overview': 'نظرة عامة', 'nav.c.new': 'هدف جديد', 'nav.c.plans': 'الأهداف والخطط', 'nav.c.catalog': 'الكتالوج', 'nav.c.compare': 'المقارنة', 'nav.c.rfqs': 'طلبات العروض والعروض', 'nav.c.bookings': 'الحجوزات', 'nav.c.results': 'النتائج',
     'nav.s.overview': 'نظرة عامة', 'nav.s.listings': 'الفرص المدرجة', 'nav.s.rfqs': 'صندوق الطلبات', 'nav.s.bookings': 'الحجوزات', 'nav.s.profile': 'النشاط والتوثيق',
     'nav.o.metrics': 'مؤشرات التجربة', 'nav.o.verify': 'التوثيق', 'nav.o.rfqs': 'متابعة الطلبات', 'nav.o.payments': 'المدفوعات', 'nav.o.economics': 'اقتصاديات الوحدة', 'nav.o.kill': 'معايير الإيقاف',
