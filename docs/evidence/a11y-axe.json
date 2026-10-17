@@ -1,0 +1,136 @@
+{
+  "ranAt": "2026-10-17T15:46:28.378Z",
+  "axe": "4.10.3",
+  "results": [
+    {
+      "lang": "en",
+      "page": "index.html",
+      "violations": []
+    },
+    {
+      "lang": "en",
+      "page": "workflow.html",
+      "violations": []
+    },
+    {
+      "lang": "en",
+      "page": "privacy.html",
+      "violations": []
+    },
+    {
+      "lang": "en",
+      "page": "terms.html",
+      "violations": []
+    },
+    {
+      "lang": "en",
+      "page": "404-test",
+      "violations": []
+    },
+    {
+      "lang": "en",
+      "page": "platform.html#c-overview",
+      "violations": []
+    },
+    {
+      "lang": "en",
+      "page": "platform.html#c-new",
+      "violations": []
+    },
+    {
+      "lang": "en",
+      "page": "platform.html#c-plan-obsample",
+      "violations": []
+    },
+    {
+      "lang": "en",
+      "page": "platform.html#c-catalog",
+      "violations": []
+    },
+    {
+      "lang": "en",
+      "page": "platform.html#s-listing",
+      "violations": []
+    },
+    {
+      "lang": "en",
+      "page": "platform.html#s-profile",
+      "violations": []
+    },
+    {
+      "lang": "en",
+      "page": "platform.html#o-payments",
+      "violations": []
+    },
+    {
+      "lang": "en",
+      "page": "platform.html#o-verify",
+      "violations": []
+    },
+    {
+      "lang": "ar",
+      "page": "index.html",
+      "violations": []
+    },
+    {
+      "lang": "ar",
+      "page": "workflow.html",
+      "violations": []
+    },
+    {
+      "lang": "ar",
+      "page": "privacy.html",
+      "violations": []
+    },
+    {
+      "lang": "ar",
+      "page": "terms.html",
+      "violations": []
+    },
+    {
+      "lang": "ar",
+      "page": "404-test",
+      "violations": []
+    },
+    {
+      "lang": "ar",
+      "page": "platform.html#c-overview",
+      "violations": []
+    },
+    {
+      "lang": "ar",
+      "page": "platform.html#c-new",
+      "violations": []
+    },
+    {
+      "lang": "ar",
+      "page": "platform.html#c-plan-obsample",
+      "violations": []
+    },
+    {
+      "lang": "ar",
+      "page": "platform.html#c-catalog",
+      "violations": []
+    },
+    {
+      "lang": "ar",
+      "page": "platform.html#s-listing",
+      "violations": []
+    },
+    {
+      "lang": "ar",
+      "page": "platform.html#s-profile",
+      "violations": []
+    },
+    {
+      "lang": "ar",
+      "page": "platform.html#o-payments",
+      "violations": []
+    },
+    {
+      "lang": "ar",
+      "page": "platform.html#o-verify",
+      "violations": []
+    }
+  ]
+}

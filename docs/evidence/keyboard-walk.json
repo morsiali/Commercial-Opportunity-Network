@@ -1,0 +1,146 @@
+{
+  "ranAt": "2026-10-17T15:47:51.527Z",
+  "note": "Scripted Tab walk in headless Chromium. A person still has to do the manual keyboard check (docs/MANUAL_CHECKLIST.md).",
+  "results": [
+    {
+      "lang": "en",
+      "page": "index.html",
+      "stops": 86,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "en",
+      "page": "workflow.html",
+      "stops": 75,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "en",
+      "page": "privacy.html",
+      "stops": 38,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "en",
+      "page": "terms.html",
+      "stops": 36,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "en",
+      "page": "platform.html#c-overview",
+      "stops": 23,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "en",
+      "page": "platform.html#c-new",
+      "stops": 67,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "en",
+      "page": "platform.html#c-plan-obsample",
+      "stops": 55,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "en",
+      "page": "platform.html#c-catalog",
+      "stops": 78,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "en",
+      "page": "platform.html#s-listing",
+      "stops": 84,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "en",
+      "page": "platform.html#o-payments",
+      "stops": 20,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "ar",
+      "page": "index.html",
+      "stops": 86,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "ar",
+      "page": "workflow.html",
+      "stops": 75,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "ar",
+      "page": "privacy.html",
+      "stops": 38,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "ar",
+      "page": "terms.html",
+      "stops": 36,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "ar",
+      "page": "platform.html#c-overview",
+      "stops": 23,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "ar",
+      "page": "platform.html#c-new",
+      "stops": 67,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "ar",
+      "page": "platform.html#c-plan-obsample",
+      "stops": 55,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "ar",
+      "page": "platform.html#c-catalog",
+      "stops": 78,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "ar",
+      "page": "platform.html#s-listing",
+      "stops": 84,
+      "skipOk": true,
+      "problems": []
+    },
+    {
+      "lang": "ar",
+      "page": "platform.html#o-payments",
+      "stops": 20,
+      "skipOk": true,
+      "problems": []
+    }
+  ]
+}

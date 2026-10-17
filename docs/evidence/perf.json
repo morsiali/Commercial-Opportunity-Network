@@ -1,0 +1,116 @@
+{
+  "ranAt": "2026-10-17T15:30:05.464Z",
+  "method": "Headless Chromium, local server, no throttling, no compression, median of 5 cold loads. Not Lighthouse and not field data.",
+  "pages": [
+    {
+      "page": "index.html",
+      "runs": 5,
+      "medianMs": {
+        "domContentLoaded": 381,
+        "load": 381,
+        "largestContentfulPaint": 288
+      },
+      "transferKB": 273.2,
+      "requests": 16,
+      "domNodes": 2097
+    },
+    {
+      "page": "workflow.html",
+      "runs": 5,
+      "medianMs": {
+        "domContentLoaded": 223,
+        "load": 289,
+        "largestContentfulPaint": 192
+      },
+      "transferKB": 175.8,
+      "requests": 12,
+      "domNodes": 488
+    },
+    {
+      "page": "privacy.html",
+      "runs": 5,
+      "medianMs": {
+        "domContentLoaded": 209,
+        "load": 308,
+        "largestContentfulPaint": 216
+      },
+      "transferKB": 124.9,
+      "requests": 9,
+      "domNodes": 225
+    },
+    {
+      "page": "platform.html#c-overview",
+      "runs": 5,
+      "medianMs": {
+        "domContentLoaded": 302,
+        "load": 399,
+        "largestContentfulPaint": 436
+      },
+      "transferKB": 648.1,
+      "requests": 28,
+      "domNodes": 263
+    },
+    {
+      "page": "platform.html#c-plan-obsample",
+      "runs": 5,
+      "medianMs": {
+        "domContentLoaded": 356,
+        "load": 484,
+        "largestContentfulPaint": 528
+      },
+      "transferKB": 643.4,
+      "requests": 28,
+      "domNodes": 2382
+    }
+  ],
+  "largestAssets": [
+    {
+      "file": "assets/js/i18n-app3.js",
+      "kb": 95.1
+    },
+    {
+      "file": "assets/js/views-customer.js",
+      "kb": 80.4
+    },
+    {
+      "file": "assets/js/i18n-app.js",
+      "kb": 79.3
+    },
+    {
+      "file": "assets/js/app.js",
+      "kb": 59
+    },
+    {
+      "file": "assets/og-image.png",
+      "kb": 55
+    },
+    {
+      "file": "assets/js/views-supplier.js",
+      "kb": 43
+    },
+    {
+      "file": "assets/js/i18n-site.js",
+      "kb": 40.8
+    },
+    {
+      "file": "assets/js/core/domain.js",
+      "kb": 37.5
+    },
+    {
+      "file": "assets/css/site.css",
+      "kb": 32.4
+    },
+    {
+      "file": "assets/css/app.css",
+      "kb": 30.7
+    },
+    {
+      "file": "assets/js/data.js",
+      "kb": 30.5
+    },
+    {
+      "file": "assets/js/core/parse.js",
+      "kb": 25.9
+    }
+  ]
+}

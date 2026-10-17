@@ -1,0 +1,77 @@
+{
+  "ranAt": "2026-10-17T15:47:51.768Z",
+  "today": "2026-10-17",
+  "parser": {
+    "H1 \"500 qualified leads, AED 20,000, men 35–55\" budget (fils)": 2000000,
+    "H2a \"AED 100k\" (AED)": "100000.00",
+    "H2b \"100k AED\" (AED)": "100000.00",
+    "H2c \"AED 1.5 million\" (AED)": "1500000.00",
+    "H2d \"١٠٠٬٠٠٠ درهم\" (AED)": "100000.00",
+    "H2e \"١٬٥٠٠٫٥٠ درهم\" (AED)": "1500.50",
+    "H3a \"500 qualified leads\" target/objective": [
+      500,
+      "leads"
+    ],
+    "H3b \"5,000 new customers\"": [
+      5000,
+      "acquisition"
+    ],
+    "H3c \"New customers, not sampling\" objective / excluded": [
+      "acquisition",
+      [
+        "trial"
+      ]
+    ],
+    "H4 \"start on 1 December 2026\" start": "2026-12-01"
+  },
+  "matching": {
+    "H7 female-only venues among recommended / eligible / relaxed": [
+      0,
+      0,
+      0
+    ],
+    "H7 eligible outside Dubai Marina (city-wide excluded)": "0 of 4",
+    "H8 90-day request vs max 60 daily units": {
+      "status": "partial",
+      "purchasedUnits": 60,
+      "uncoveredDays": 30
+    },
+    "H9 1000.10 + 0.20 setup (fils, integer)": {
+      "net": 100030,
+      "fee": 7002,
+      "vat": 5352,
+      "total": 112384,
+      "display": "AED 1,123.84"
+    }
+  },
+  "store": {
+    "H10 approve an expired offer": "refused: OFFER_NOT_APPROVABLE (OFFER_EXPIRED)",
+    "H11 approval after a material revision": "cleared (line status offered)",
+    "H13 payments created by two checkout calls": "1 (second call refused: CHECKOUT_NOTHING_APPROVED)",
+    "H12 release payout while payment is awaiting": "refused: PAYOUT_GUARDS_FAILED",
+    "H14 capacity is per date": {
+      "capacityPerDate": 12,
+      "freeOnBookedDate": 7,
+      "globalSlotCounter": "removed"
+    },
+    "H15 delete a listing used by a booking": "archived; booking snapshot title: Concourse sampling point",
+    "H16 approve with only a file name": "refused: VERIFICATION_NO_REVIEWABLE_DOCUMENT",
+    "H21 sample records are flagged and sample evidence is labelled": {
+      "sampleRfqs": 2,
+      "evidenceLevels": [
+        "sample"
+      ]
+    }
+  },
+  "ui": {
+    "H5/H6 drafts (browser e2e)": [
+      "A01 pass: Sentence extraction shows a merge preview and keeps typed fields",
+      "A01b pass: A budget-only sentence changes only the budget; hand-typed product and success criteria stay unchanged",
+      "A02 pass: Applying selected values sets budget 20,000, target 500, men 35–55, Dubai Marina (required), dates",
+      "A03 pass: Draft survives language switches and a page reload, with a visible restore notice"
+    ],
+    "H20 dialogs (browser e2e)": [
+      "A18 pass: Dialogs are labelled, modal, trap focus and return focus to the opener"
+    ]
+  }
+}

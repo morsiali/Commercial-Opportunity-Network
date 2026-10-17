@@ -1,51 +1,89 @@
 # Commercial Opportunity Network
 
-Website and working platform prototype for an AI-assisted commercial opportunity intelligence and procurement platform for the UAE (Dubai pilot). English and Arabic, with full right-to-left layout.
+A website, a demo platform and a live-mode API for an AI-assisted commercial opportunity and procurement platform for the UAE, with a Dubai pilot. English and Arabic are both supported, with a full right-to-left layout.
 
-## What is in `dist/`
+> **Status:** a corrected demo plus a locally runnable live-mode API implementation. It is **not** a verified live service: nothing is deployed, no payment, payout or notification provider is connected, and legal and tax review is outstanding. See `docs/LIMITATIONS.md`.
 
-| Page | What it does |
+## What is here
+
+| Path | What it is |
 |---|---|
-| `index.html` | Marketing site in the Wibify design style (Cairo typeface): brief wizard, how it works, opportunity types, live match-score demo, platform modules, suppliers, ground rules, pricing, FAQ, early access, footer |
-| `workflow.html` | Interactive project workflow: swimlanes for Brand, Platform, Supplier and Operations, step-by-step player, role filter, step details with links to each screen, status explorer |
-| `platform.html` | The working prototype with three workspaces: **Brand**, **Supplier**, **Operations** |
-| `privacy.html`, `terms.html` | Prototype privacy notice and terms |
+| `dist/index.html` | Marketing site: brief wizard, how it works, matching demo, pricing (fee and VAT from configuration), FAQ, and early access (prepares an email; nothing is sent or stored) |
+| `dist/workflow.html` | Interactive project workflow: 12 project steps shown as 16 playback positions |
+| `dist/platform.html` | **Demo mode** platform with buyer, supplier and operations workspaces. It uses labelled sample data and simulated payments and replies, and stores data in this browser only. |
+| `dist/privacy.html`, `dist/terms.html` | Prototype notices, with separate data-deletion controls on `privacy.html#your-data` |
+| `dist/assets/js/core/` | Shared domain core: money, dates, parser, state machines, inventory, offers, domain operations, migrations. The browser and the API both use it. |
+| `server/` | **Live mode** API on Node, with PostgreSQL storage and adapters for providers |
+| `tests/` | Unit, API, PostgreSQL, browser, accessibility, keyboard and performance tests |
+| `docs/` | Issue register, architecture, modes, providers, tax and fees, parser, checklists, results, screenshots and evidence |
 
-### Platform flow (all working)
+## Requirements
 
-Create objective (form or one sentence) → requirements read → ranked opportunity plan with 8 transparent match factors, risks, sources and alternatives → packages within budget (fee on its own line) → schematic Dubai map → compare up to four → one standard RFQ → supplier replies (you can answer as a supplier; others reply automatically, labelled "simulated") → normalised offers (VAT 5%, platform fee 7%, cost per day, date coverage, terms) → approve → checkout (card / bank transfer / invoice, simulated) → booking timeline → supplier results with measurement method → buyer confirms delivery and adds own outcome → operations releases payout.
+- Node **20.11 or newer**.
+- Chromium for the browser tests. Playwright downloads it with `npx playwright install chromium`, or you can set `CHROMIUM_PATH`.
+- PostgreSQL 16 for live mode and `test:pg`. This is optional for development.
 
-Supplier workspace: switch supplier, register a new one, add/edit/pause/delete listings with photo upload, CSV import, RFQ inbox and structured replies, booking status and results, licence verification.
-
-Operations workspace: pilot metrics, verification queue, RFQ monitor with nudges, payments and payouts, editable unit economics (stress / conservative / base), kill-criteria tracker with a GO / NO-GO reading.
-
-All demo suppliers, listings and prices are fictional and labelled as illustrative. Data is stored only in the browser (localStorage); "Reset demo" in the platform header restores the sample records.
-
-## Run and test
+## Run the demo site
 
 ```bash
-npm run preview        # http://127.0.0.1:4176
-npm test               # link, route and translation checks + engine unit tests (no install needed)
-npm install            # only for the browser test
-npx playwright install chromium
-npm run test:e2e       # full end-to-end flow in Chromium
+npm install
+npm run preview            # http://127.0.0.1:4176  (PORT=… to change)
 ```
+
+The demo needs no server-side services. **"Your data"** in the platform header opens the controls to reset the sample data, delete drafts or clear everything this site stored. The privacy page (`privacy.html#your-data`) also deletes early-access details left by older versions.
+
+## Run the live-mode API locally
+
+```bash
+cp .env.example .env       # then edit .env; never commit it
+# at minimum set AUTH_SECRET (e.g. `openssl rand -base64 48`)
+# optional: DATABASE_URL=postgres://user:pass@localhost:5432/con   (otherwise in-memory, development only)
+# optional: PRIVATE_STORAGE_DIR, OPS_BOOTSTRAP_EMAIL / OPS_BOOTSTRAP_PASSWORD for the first operations account
+node --env-file=.env server/index.mjs
+curl -s http://127.0.0.1:8787/api/health
+```
+
+Providers you have not configured return **503 not configured**, and `GET /api/health` shows what is configured. To connect real providers, see `docs/PROVIDERS.md`.
+
+## Tests
+
+```bash
+npm test                   # static checks + 50 unit tests + 9 API tests
+PG_TEST_URL=postgres://postgres@localhost:5432/con_test npm run test:pg   # disposable database only
+npm run test:e2e           # browser acceptance flows (Chromium)
+npm run test:a11y          # axe-core scan, EN + AR
+npm run test:keyboard      # scripted keyboard walk, EN + AR
+npm run test:all           # all of the above except test:pg
+npm run repro:after        # audit reproductions against the current code
+npm run perf               # local load-time baseline (not Lighthouse)
+npm run screens            # refresh docs/screenshots/after-*.png
+npm run sync-copy          # mirror dist/ into dist/Commercial-Opportunity-Network-1/ (noindex)
+```
+
+The latest results are in `docs/TEST_RESULTS.md`, and the raw output is in `docs/evidence/`.
 
 ## Configuration
 
-- Contact email shown on the site: `CON.config.contactEmail` in `dist/assets/js/common.js`.
-- Platform fee and VAT: `CON.config.platformFeeRate`, `CON.config.vatRate` in the same file.
-- Match-factor weights and objective-fit table: `dist/assets/js/engine.js` and `dist/assets/js/data.js`.
+- **Contact email, platform fee and VAT:** `CON.config` in `dist/assets/js/common.js`. Rates are set as `platformFeeBps` and `vatBps`. They are working assumptions until an accountant confirms them; see `docs/TAX_AND_FEES.md`.
+- **Matching:** eligibility rules and factor weights are in `dist/assets/js/engine.js`, and listings are in `dist/assets/js/data.js`.
+- **Server:** environment variables only; see `.env.example`.
 
-## Structure
+## Documentation
 
-```
-dist/assets/css/   base.css (tokens), site.css, app.css
-dist/assets/js/    common.js, data.js, engine.js, illustrations.js,
-                   i18n-site.js, i18n-app.js, store.js,
-                   app-core.js, views-customer.js, views-supplier.js, views-ops.js, app.js, site.js, legal.js
-scripts/           preview.mjs (static server), verify.mjs (static checks)
-tests/             engine.test.mjs (node:test), e2e.mjs (Playwright)
-```
+- `docs/ISSUES.md`: the issue register, with reproduction, root cause, fix, verification and status for every finding
+- `docs/ARCHITECTURE.md`, `docs/MODES.md`: layers, invariants, concurrency, migrations, and the boundary between demo and live
+- `docs/PROVIDERS.md`, `docs/BACKUP_RESTORE.md`: provider setup, and backup and restore
+- `docs/TAX_AND_FEES.md`, `docs/PARSER.md`: money rules and the supported input formats
+- `docs/MANUAL_CHECKLIST.md`, `docs/PILOT_VALIDATION.md`: checks that need a person, and business validation
+- `docs/TEST_RESULTS.md`, `docs/LIMITATIONS.md`: what ran and the results, plus what still blocks launch
+- `docs/screenshots/`: before and after screenshots of the screens that changed materially
 
-Version 1 of the prototype is kept in `legacy-v1/` and in git history.
+## Data migration
+
+Data stored by the previous version (`con.state.v2`) is migrated in the browser to `con.state.v3`:
+
+- Records you created are kept.
+- Unsafe states are re-opened.
+- The v2 copy is left in place for rollback.
+
+Details are in `docs/ARCHITECTURE.md`.

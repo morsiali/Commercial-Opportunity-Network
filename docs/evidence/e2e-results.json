@@ -1,5 +1,5 @@
 {
-  "ranAt": "2026-10-17T12:28:25.551Z",
+  "ranAt": "2026-10-17T15:46:27.577Z",
   "browser": "chromium 141.0.7390.37",
   "results": [
     {
@@ -19,9 +19,15 @@
           "\tAudience\tEveryone\tMen\tRecognised",
           "\tAge\t25–45\t35–55\tRecognised",
           "\tWhere\tAll Dubai\tDubai Marina & JBR\tRecognised",
-          "xn.required"
+          "You used a word like “only” or “must”, so this is treated as a requirement."
         ]
       }
+    },
+    {
+      "id": "A01b",
+      "name": "A budget-only sentence changes only the budget; hand-typed product and success criteria stay unchanged",
+      "result": "pass",
+      "detail": null
     },
     {
       "id": "A02",
@@ -186,7 +192,7 @@
     },
     {
       "id": "A21",
-      "name": "No horizontal scrolling at 360, 390, 768, 1024 and 1440 px in English and Arabic (6 platform views each)",
+      "name": "No horizontal scrolling at 360, 390, 640 (200% zoom), 768, 1024 and 1440 px in English and Arabic (6 platform views each)",
       "result": "pass",
       "detail": null
     },
@@ -197,8 +203,38 @@
       "detail": null
     },
     {
+      "id": "A24",
+      "name": "Early access only prepares an email: the confirmation says nothing was sent or stored, and nothing is stored",
+      "result": "pass",
+      "detail": null
+    },
+    {
+      "id": "A25",
+      "name": "Privacy page delete controls remove early-access details, drafts, records and everything separately, never other apps’ keys",
+      "result": "pass",
+      "detail": {
+        "before": [
+          "con.draft.obj.new",
+          "con.earlyAccess",
+          "con.lang",
+          "con.state.v2",
+          "con.state.v3",
+          "unrelated.app"
+        ],
+        "after": [
+          "unrelated.app"
+        ]
+      }
+    },
+    {
+      "id": "A26",
+      "name": "Metrics keep sample records apart, and sample evidence is labelled “Sample data (illustrative)”, never “Verified”",
+      "result": "pass",
+      "detail": null
+    },
+    {
       "id": "A23",
-      "name": "No console errors during the run",
+      "name": "No console errors and no untranslated keys during the run",
       "result": "pass",
       "detail": null
     }
