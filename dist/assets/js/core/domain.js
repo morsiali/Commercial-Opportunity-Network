@@ -33,6 +33,11 @@
     if (!roles.includes(ctx.role)) throw new DomainError('FORBIDDEN', { role: ctx.role, allowed: roles });
     if (ctx.role === 'supplier' && supplierId && ctx.supplierId !== supplierId) throw new DomainError('FORBIDDEN', { reason: 'not_owner' });
   }
+  /* Customers act only on their own organisation's records (always enforced in live mode). */
+  function ownCustomer(ctx, rec) {
+    if (ctx.role !== 'customer' || !rec) return;
+    if ((ctx.mode === 'live' || rec.orgId) && rec.orgId !== ctx.orgId) throw new DomainError('FORBIDDEN', { reason: 'not_your_organisation' });
+  }
   const find = (arr, k, v, code) => { const x = arr.find(o => o[k] === v); if (!x && code) throw new DomainError(code, { [k]: v }); return x; };
   const opp = (st, oid) => st.opportunities.find(o => o.id === oid);
   const sup = (st, sid) => st.suppliers.find(s => s.id === sid);
@@ -112,6 +117,7 @@
     ctx = c(ctx); ensureState(st);
     authorize(ctx, ['customer']);
     const obj = find(st.objectives, 'id', args.objectiveId, 'OBJECTIVE_NOT_FOUND');
+    ownCustomer(ctx, obj);
     const brief = E.normalizeObjective(obj, { today: ctx.today });
     const ops = (args.oppIds || []).map(x => opp(st, x)).filter(o => o && o.status === 'active');
     need(ops.length, 'RFQ_NO_LISTINGS');
@@ -122,7 +128,7 @@
       if (!chk.ok) throw new DomainError('RFQ_DEADLINE_INVALID', chk);
     }
     const gen = E.generateRFQ(brief, ops, m, { today: ctx.today, money: ctx.money });
-    const rfq = Object.assign({ id: id('rq'), number: num(st, 'rfq', 'RFQ', ctx), objectiveId: obj.id, createdAt: ctx.now, status: 'open', shareBudget: m.shareBudget !== false, mode: ctx.mode }, gen);
+    const rfq = Object.assign({ id: id('rq'), number: num(st, 'rfq', 'RFQ', ctx), objectiveId: obj.id, orgId: obj.orgId, createdAt: ctx.now, status: 'open', shareBudget: m.shareBudget !== false, mode: ctx.mode }, gen);
     rfq.lines = gen.lines.map((l, i) => ({
       id: rfq.id + '-l' + (i + 1), oppId: l.oppId, supplierId: l.supplierId, status: 'requested',
       requested: { coverage: { status: l.requested.coverage.status, purchasedUnits: l.requested.coverage.purchasedUnits, neededUnits: l.requested.coverage.neededUnits, coveredDates: l.requested.coverage.coveredDates, overMax: l.requested.coverage.overMax }, price: l.requested.price },
@@ -177,6 +183,7 @@
     ctx = c(ctx); ensureState(st);
     authorize(ctx, ['customer']);
     const { r, l } = lineOf(st, args.rfqId, args.line);
+    ownCustomer(ctx, r);
     const v = Of.current(l);
     const accepted = Array.isArray(args.acceptedDeviations) ? args.acceptedDeviations : [];
     const res = Of.validate(Object.assign({}, l, { approval: null }), lineContext(st, r, l, ctx, { acceptedDeviations: accepted, stage: 'approval' }));
@@ -190,7 +197,8 @@
   }
   function unapprove(st, args, ctx) {
     ctx = c(ctx); authorize(ctx, ['customer']);
-    const { l } = lineOf(st, args.rfqId, args.line);
+    const { r, l } = lineOf(st, args.rfqId, args.line);
+    ownCustomer(ctx, r);
     if (l.status !== 'accepted') return l;
     T(st.audit, 'offer', l, 'unaccept', meta(ctx)); l.approval = null; return l;
   }
@@ -207,15 +215,18 @@
 
   /* ---------- Checkout, payment and holds ---------- */
   function snapshotListing(op, s) {
-    return { id: op.id, version: op.version || 1, title: op.title, type: op.type, area: op.area, unit: op.unit, price: op.price, setupFee: op.setupFee, supplierName: s ? s.name : null, supplierVerification: s && s.verification ? s.verification.status : null, takenAt: null };
+    return { id: op.id, version: op.version || 1, title: op.title, desc: op.desc, requirements: op.requirements, type: op.type, area: op.area, unit: op.unit, price: op.price, setupFee: op.setupFee, schedule: op.schedule, audience: op.audience, restrictions: op.restrictions,
+      evidence: JSON.parse(JSON.stringify(op.evidence || [])), supplierId: s ? s.id : op.supplierId, supplierName: s ? s.name : null, supplierLicence: s ? s.licenceNumber : null,
+      supplierVerification: s && s.verification ? { status: s.verification.status, licenceExpiry: s.verification.licenceExpiry || null, simulated: !!s.verification.simulated } : null, takenAt: null };
   }
   function checkout(st, args, ctx) {
     ctx = c(ctx); ensureState(st);
     authorize(ctx, ['customer']);
     const key = args.idempotencyKey;
     need(key && /^[A-Za-z0-9_-]{8,80}$/.test(key), 'IDEMPOTENCY_KEY_REQUIRED');
-    if (st.idem[key]) { const p = st.payments.find(x => x.id === st.idem[key]); if (p) return { payment: p, replay: true }; }
+    if (st.idem[key]) { const p = st.payments.find(x => x.id === st.idem[key]); if (p && (!ctx.orgId || p.orgId === ctx.orgId)) return { payment: p, replay: true }; if (p) throw new DomainError('IDEMPOTENCY_KEY_REUSED'); }
     const r = find(st.rfqs, 'id', args.rfqId, 'RFQ_NOT_FOUND');
+    ownCustomer(ctx, r);
     need(['card', 'transfer'].includes(args.method), 'PAYMENT_METHOD_INVALID');
     Inv.sweep(st, st.audit, ctx.now);
     const accepted = r.lines.filter(l => l.status === 'accepted');
@@ -230,7 +241,7 @@
     const totals = M.totals(lines.map(x => x.money));
     const b = args.billing || {};
     const pay = {
-      id: id('py'), number: num(st, 'pay', 'PAY', ctx), rfqId: r.id, objectiveId: r.objectiveId, status: 'awaiting', method: args.method,
+      id: id('py'), number: num(st, 'pay', 'PAY', ctx), rfqId: r.id, objectiveId: r.objectiveId, orgId: r.orgId, status: 'awaiting', method: args.method,
       amount: totals, lines, createdAt: ctx.now, expiresAt: holds[0].expiresAt, idempotencyKey: key, mode: ctx.mode,
       provider: ctx.mode === 'demo' ? 'demo-simulated' : (args.provider || 'unconfigured'),
       billing: { company: String(b.company || '').slice(0, 120), email: String(b.email || '').slice(0, 160), trn: String(b.trn || '').slice(0, 20) },
@@ -243,7 +254,7 @@
       T(st.audit, 'offer', l, 'reserve', meta(ctx, '', { payment: pay.id }));
       const op = opp(st, l.oppId); const s = sup(st, l.supplierId); const v = Of.current(l);
       const snap = snapshotListing(op, s); snap.takenAt = ctx.now;
-      const bk = { id: id('bk'), number: num(st, 'bk', 'BK', ctx), paymentId: pay.id, rfqId: r.id, lineId: l.id, objectiveId: r.objectiveId, oppId: l.oppId, supplierId: l.supplierId,
+      const bk = { id: id('bk'), number: num(st, 'bk', 'BK', ctx), paymentId: pay.id, rfqId: r.id, lineId: l.id, objectiveId: r.objectiveId, orgId: r.orgId, oppId: l.oppId, supplierId: l.supplierId,
         status: 'reserved', money: lines[i].money, dates: v.dates.slice(), from: v.dates[0], to: v.dates[v.dates.length - 1], offerVersion: v.version, offer: JSON.parse(JSON.stringify(v)), snapshot: snap,
         allocationId: holds[i].id, createdAt: ctx.now, report: null, outcome: null, deliveryAcceptedAt: null, mode: ctx.mode };
       st.bookings.unshift(bk);
@@ -347,6 +358,7 @@
     ctx = c(ctx); ensureState(st);
     authorize(ctx, ['customer']);
     const b = find(st.bookings, 'id', args.bookingId, 'BOOKING_NOT_FOUND');
+    ownCustomer(ctx, b);
     need(b.report, 'BOOKING_REPORT_REQUIRED');
     T(st.audit, 'booking', b, 'accept_delivery', meta(ctx));
     b.deliveryAcceptedAt = ctx.now;
@@ -356,6 +368,7 @@
   function setOutcome(st, args, ctx) {
     ctx = c(ctx); authorize(ctx, ['customer']);
     const b = find(st.bookings, 'id', args.bookingId, 'BOOKING_NOT_FOUND');
+    ownCustomer(ctx, b);
     need(['delivery_accepted', 'completed'].includes(b.status), 'BOOKING_STATUS', { status: b.status });
     const n = args.newCustomers == null || args.newCustomers === '' ? null : Number(args.newCustomers);
     need(n == null || (Number.isSafeInteger(n) && n >= 0), 'OUTCOME_INVALID', { field: 'newCustomers' });
@@ -370,6 +383,7 @@
     ctx = c(ctx); ensureState(st);
     authorize(ctx, ['customer']);
     const b = find(st.bookings, 'id', args.bookingId, 'BOOKING_NOT_FOUND');
+    ownCustomer(ctx, b);
     const reason = String(args.reason || '').trim();
     need(reason.length >= 10, 'DISPUTE_REASON_REQUIRED');
     T(st.audit, 'booking', b, 'dispute', meta(ctx, reason));
@@ -405,6 +419,7 @@
     ctx = c(ctx); ensureState(st);
     authorize(ctx, ['customer', 'ops']);
     const b = find(st.bookings, 'id', args.bookingId, 'BOOKING_NOT_FOUND');
+    ownCustomer(ctx, b);
     need(S.can('booking', b.status, 'cancel'), 'BOOKING_CANCEL_NOT_ALLOWED', { status: b.status });
     const reason = String(args.reason || 'Cancelled').slice(0, 300);
     T(st.audit, 'booking', b, 'cancel', meta(ctx, reason));
@@ -471,6 +486,33 @@
     if (payoutGuards(st, b.id, ctx).every(g => g.ok)) T(st.audit, 'payout', po, 'make_eligible', meta(ctx, 'All payout checks passed'));
     return po;
   }
+  /* Live mode: claim the payout (guards re-checked inside the transaction) before calling the payout
+     provider, so a second concurrent request is refused instead of transferring the money twice. */
+  function claimPayoutRelease(st, args, ctx) {
+    ctx = c(ctx); ensureState(st);
+    authorize(ctx, ['ops']);
+    const po = find(st.payouts, 'id', args.payoutId, 'PAYOUT_NOT_FOUND');
+    if (po.status === 'released') return { payout: po, replay: true };
+    need(po.status !== 'releasing', 'PAYOUT_RELEASE_IN_PROGRESS', { since: po.releaseClaimedAt });
+    const b = find(st.bookings, 'id', po.bookingId, 'BOOKING_NOT_FOUND');
+    if (po.status === 'held') refreshPayout(st, b, ctx);
+    const failed = payoutGuards(st, b.id, ctx).filter(x => !x.ok).map(x => x.guard);
+    if (failed.length) throw new DomainError('PAYOUT_GUARDS_FAILED', { failed });
+    need(po.status === 'eligible', 'PAYOUT_NOT_ELIGIBLE', { status: po.status });
+    T(st.audit, 'payout', po, 'start_release', meta(ctx, args.reason || ''));
+    po.releaseClaimedAt = ctx.now;
+    return { payout: po, replay: false };
+  }
+  /* Live mode: the provider refused or failed; the payout returns to eligible with the reason audited. */
+  function failPayoutRelease(st, args, ctx) {
+    ctx = c(ctx); ensureState(st);
+    authorize(ctx, ['ops']);
+    const po = find(st.payouts, 'id', args.payoutId, 'PAYOUT_NOT_FOUND');
+    need(po.status === 'releasing', 'PAYOUT_NOT_RELEASING', { status: po.status });
+    T(st.audit, 'payout', po, 'release_failed', meta(ctx, String(args.reason || 'provider error').slice(0, 300)));
+    delete po.releaseClaimedAt;
+    return { payout: po };
+  }
   function releasePayout(st, args, ctx) {
     ctx = c(ctx); ensureState(st);
     authorize(ctx, ['ops']);
@@ -481,7 +523,7 @@
     const g = payoutGuards(st, b.id, ctx);
     const failed = g.filter(x => !x.ok).map(x => x.guard);
     if (failed.length) throw new DomainError('PAYOUT_GUARDS_FAILED', { failed });
-    need(po.status === 'eligible', 'PAYOUT_NOT_ELIGIBLE', { status: po.status });
+    need(po.status === 'eligible' || po.status === 'releasing', 'PAYOUT_NOT_ELIGIBLE', { status: po.status });
     T(st.audit, 'payout', po, 'release', meta(ctx, args.reason || '', { simulated: ctx.mode === 'demo' }));
     po.releasedAt = ctx.now; po.simulated = ctx.mode === 'demo';
     return { payout: po, replay: false };
@@ -556,10 +598,10 @@
   }
 
   CON.Domain = {
-    DOC_TYPES, DOC_MAX_BYTES, ensureState, authorize, validateListing, saveListing, removeListing, setListingStatus, listingReferenced,
+    DOC_TYPES, DOC_MAX_BYTES, ensureState, authorize, ownCustomer, validateListing, saveListing, removeListing, setListingStatus, listingReferenced,
     createRfq, respond, withdraw, approve, unapprove, expireOffers, budgetUse,
     checkout, paymentEvent, expireHolds, advanceBooking, submitReport, acceptDelivery, setOutcome,
-    openDispute, resolveDispute, cancelBooking, decideRefund, refundProcessed, payoutGuards, releasePayout,
+    openDispute, resolveDispute, cancelBooking, decideRefund, refundProcessed, payoutGuards, claimPayoutRelease, failPayoutRelease, releasePayout,
     validateDocument, submitVerification, reviewVerification, updateSupplierProfile
   };
 })(typeof window !== 'undefined' ? window : globalThis);

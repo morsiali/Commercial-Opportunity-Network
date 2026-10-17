@@ -56,7 +56,9 @@
     },
     payout: {
       held: { make_eligible: 'eligible', withhold: 'withheld', cancel: 'cancelled' },
-      eligible: { release: 'released', withhold: 'withheld', cancel: 'cancelled' },
+      eligible: { release: 'released', start_release: 'releasing', withhold: 'withheld', cancel: 'cancelled' },
+      /* Live mode only: claimed before the provider transfer, so two requests can never both move money. */
+      releasing: { release: 'released', release_failed: 'eligible' },
       withheld: { make_eligible: 'eligible', cancel: 'cancelled', hold: 'held' },
       released: {}, cancelled: {}
     }

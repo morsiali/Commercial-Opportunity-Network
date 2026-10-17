@@ -1,15 +1,32 @@
 {
   "name": "commercial-opportunity-network",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "private": true,
   "type": "module",
-  "description": "Commercial Opportunity Network — website and working platform prototype (English/Arabic).",
+  "description": "Commercial Opportunity Network \u2014 website, demo platform (English/Arabic) and a live-mode API implementation.",
   "scripts": {
     "preview": "node scripts/preview.mjs",
-    "test": "node scripts/verify.mjs && node --test tests/engine.test.mjs",
-    "test:e2e": "node tests/e2e.mjs"
+    "verify": "node scripts/verify.mjs",
+    "test": "node scripts/verify.mjs && node --test tests/unit/*.test.mjs tests/server/api.test.mjs",
+    "test:pg": "node --test tests/server/postgres.test.mjs",
+    "test:e2e": "node tests/e2e.mjs",
+    "test:a11y": "node tests/a11y.mjs",
+    "test:keyboard": "node tests/keyboard.mjs",
+    "test:all": "npm test && npm run test:e2e && npm run test:a11y && npm run test:keyboard",
+    "perf": "node tests/perf.mjs",
+    "repro:after": "node tests/repro/repro-after.mjs",
+    "screens": "node tests/repro/screens.mjs",
+    "sync-copy": "node scripts/sync-copy.mjs",
+    "start:api": "node server/index.mjs"
   },
   "devDependencies": {
+    "axe-core": "4.10.3",
     "playwright": "1.56.0"
+  },
+  "engines": {
+    "node": ">=20.11"
+  },
+  "dependencies": {
+    "pg": "8.16.3"
   }
 }
