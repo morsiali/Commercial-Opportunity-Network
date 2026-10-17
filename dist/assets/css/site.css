@@ -364,3 +364,11 @@ input[type="range"] { width: 100%; accent-color: var(--brand); }
 .legal-card h2 { font-size: 1.25rem; margin-top: 12px; }
 .legal-card p, .legal-card li { color: var(--ink-2); }
 .legal-card ul { margin: 0; padding-inline-start: 20px; display: grid; gap: 6px; }
+
+/* v3: prototype status notes near calls to action */
+.proto-note { display: flex; gap: 8px; align-items: flex-start; margin: 14px 0 0; padding: 10px 12px; border-radius: 12px; background: #fff7e8; border: 1px solid #f6dcaa; color: #5c3600; font-size: .8125rem; line-height: 1.5; max-width: 560px; }
+.proto-note svg { width: 16px; height: 16px; flex: none; margin-top: 2px; color: #b85f00; }
+.data-controls { display: grid; gap: 10px; margin: 16px 0 24px; }
+.data-controls .dc-row { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.data-controls .dc-row span { flex: 1 1 260px; }
+.data-controls .dc-row small { display: block; color: var(--muted); }

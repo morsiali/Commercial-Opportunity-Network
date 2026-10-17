@@ -26,8 +26,8 @@
   /* ---------- Contact configuration (change in one place) ---------- */
   CON.config = {
     contactEmail: 'visionseven@gmail.com',
-    platformFeeRate: 0.07,
-    vatRate: 0.05,
+    platformFeeBps: 700, // 7.00% — pilot assumption, see docs/TAX_AND_FEES.md
+    vatBps: 500,         // 5.00% UAE standard rate — to be confirmed by a tax adviser
     currency: 'AED'
   };
 
@@ -155,7 +155,14 @@
       const key = el.getAttribute('data-i18n-aria');
       el.setAttribute('aria-label', lang === 'ar' && dict[key] != null ? dict[key] : el.__enAria);
     });
+    CON.fillRates();
     CON.hydrateIcons();
+  };
+  /* Fee and VAT percentages shown in copy always come from configuration, never from fixed text. */
+  CON.fillRates = function (scope) {
+    const pct = bps => (bps / 100).toString();
+    (scope || document).querySelectorAll('[data-fee]').forEach(el => { el.textContent = pct(CON.config.platformFeeBps); });
+    (scope || document).querySelectorAll('[data-vat]').forEach(el => { el.textContent = pct(CON.config.vatBps); });
   };
 
   /* ---------- Toasts ---------- */

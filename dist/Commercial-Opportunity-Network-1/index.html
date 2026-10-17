@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Commercial Opportunity Network</title>
 <meta name="description" content="Describe the commercial outcome you need. Commercial Opportunity Network matches it with activations, sampling, partnerships and media from independent UAE suppliers, then runs the RFQ, comparison and booking in one workflow.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="canonical" href="https://morsiali.github.io/Commercial-Opportunity-Network/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Commercial Opportunity Network">
+<meta property="og:description" content="Describe the commercial outcome you need. Commercial Opportunity Network matches it with activations, sampling, partnerships and media from independent UAE suppliers, then runs the RFQ, comparison and booking in one workflow.">
+<meta property="og:url" content="https://morsiali.github.io/Commercial-Opportunity-Network/">
+<meta property="og:image" content="https://morsiali.github.io/Commercial-Opportunity-Network/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,7 +66,7 @@
   <div class="hero-bg" aria-hidden="true"><div class="hero-dots dots"></div><div class="hero-glow"></div></div>
   <div class="container hero-grid">
     <div class="hero-copy">
-      <a class="pill reveal" href="#suppliers" style="--delay:60ms"><span class="dot live"></span><span data-i18n="hero.pill">Dubai pilot · Brands and suppliers onboarding</span><i data-icon="chevron-right" data-class="flip"></i></a>
+      <a class="pill reveal" href="#suppliers" style="--delay:60ms"><span class="dot"></span><span data-i18n="hero.pill">Prototype · Dubai pilot in preparation</span><i data-icon="chevron-right" data-class="flip"></i></a>
       <h1 class="display reveal" style="--delay:160ms">
         <span data-i18n="hero.h1">Commercial opportunities for</span>
         <span class="rotator accent" aria-live="polite"><span class="rotator-word" data-rotate>product trials</span></span>
@@ -66,9 +76,10 @@
         <a class="btn btn-dark" href="#brief"><span data-i18n="hero.cta1">Create a free brief</span><i data-icon="arrow"></i></a>
         <a class="btn btn-light" href="#how" data-i18n="hero.cta2">See how it works</a>
       </div>
+      <p class="proto-note reveal" style="--delay:480ms"><i data-icon="info"></i><span data-i18n="hero.proto">Prototype: plans, offers and payments run on sample data in your browser. No supplier is contacted and no money moves.</span></p>
       <ul class="hero-stats reveal" style="--delay:540ms">
         <li><span class="stat-ico"><i data-icon="target"></i></span><span><strong>7</strong><small data-i18n="hero.s1">questions, no media jargon</small></span></li>
-        <li><span class="stat-ico"><i data-icon="layers"></i></span><span><strong>8</strong><small data-i18n="hero.s2">match factors, all visible</small></span></li>
+        <li><span class="stat-ico"><i data-icon="layers"></i></span><span><strong>6</strong><small data-i18n="hero.s2">preference factors, scored after hard checks</small></span></li>
         <li><span class="stat-ico"><i data-icon="send"></i></span><span><strong>1</strong><small data-i18n="hero.s3">RFQ to many suppliers</small></span></li>
       </ul>
     </div>
@@ -128,7 +139,7 @@
         </fieldset>
 
         <fieldset class="wizard-step" data-step="3" hidden>
-          <legend><span class="wz-title" data-i18n="wz.q3">Budget and timing</span><span class="wz-sub" data-i18n="wz.q3s">Totals are shown excluding 5% VAT.</span></legend>
+          <legend><span class="wz-title" data-i18n="wz.q3">Budget and timing</span><span class="wz-sub" data-i18n="wz.q3s">Budgets are compared including the platform fee and excluding VAT.</span></legend>
           <div class="row-2">
             <div class="field"><label for="wz-budget" data-i18n="wz.budget">Budget (AED)</label><div class="input-wrap"><i data-icon="wallet"></i><input class="input" id="wz-budget" name="budget" type="number" min="5000" step="1000" value="100000" inputmode="numeric" required></div></div>
             <div class="field"><label for="wz-days" data-i18n="wz.days">Duration (days)</label><div class="input-wrap"><i data-icon="clock"></i><input class="input" id="wz-days" name="duration" type="number" min="1" max="180" value="30" inputmode="numeric" required></div></div>
@@ -145,7 +156,7 @@
             <button class="btn btn-dark btn-sm" type="submit" data-wz-next><span data-i18n="wz.next">Continue</span><i data-icon="arrow"></i></button>
           </div>
         </div>
-        <p class="wz-privacy"><i data-icon="lock"></i><span data-i18n="wz.privacy">Your brief stays private until you choose to send an RFQ.</span></p>
+        <p class="wz-privacy"><i data-icon="lock"></i><span data-i18n="wz.proto">This creates a plan in the browser prototype. Nothing is sent to any supplier.</span></p>
       </form>
     </div>
   </div>
@@ -300,21 +311,21 @@
     <div class="engine-copy">
       <span class="eyebrow reveal" data-i18n="en.eye">Opportunity matching</span>
       <h2 class="h1 reveal" style="--delay:80ms"><span data-i18n="en.h1">A match score</span><br><span class="accent" data-i18n="en.h2">you can question.</span></h2>
-      <p class="lead reveal" style="--delay:160ms" data-i18n="en.lead">The score is a weighted sum of eight factors. Each one is shown with its weight and reason, so you see why an opportunity is on the list, not just that it is.</p>
+      <p class="lead reveal" style="--delay:160ms" data-i18n="en.lead">First, every requirement is checked: access, area, dates, facilities, capacity and budget. Only listings that pass are scored on six preferences, each shown with its weight and reason. Evidence is shown on its own, never mixed into the score.</p>
       <ul class="ai-list reveal" style="--delay:220ms">
-        <li><i data-icon="file"></i><div><b data-i18n="en.f1">Requirement extraction</b><span data-i18n="en.f1d">Turns a sentence like “5,000 customers, 45 days, AED 100k” into structured fields you confirm.</span></div></li>
-        <li><i data-icon="layers"></i><div><b data-i18n="en.f2">Matching and ranking</b><span data-i18n="en.f2d">Scores every listing against audience, area, budget, timing, objective, availability and evidence.</span></div></li>
+        <li><i data-icon="file"></i><div><b data-i18n="en.f1">Requirement extraction</b><span data-i18n="en.f1d">Reads a sentence like “5,000 customers, 45 days, AED 100k” with fixed rules, then shows each value for you to confirm. It never overwrites what you typed.</span></div></li>
+        <li><i data-icon="layers"></i><div><b data-i18n="en.f2">Matching and ranking</b><span data-i18n="en.f2d">Excludes listings that cannot meet a requirement, flags what needs confirmation, then ranks the rest by objective, audience, location, budget, coverage and free capacity.</span></div></li>
         <li><i data-icon="grid"></i><div><b data-i18n="en.f3">Package builder</b><span data-i18n="en.f3d">Combines listings into mixes that fit the budget, with the platform fee shown on its own line.</span></div></li>
         <li><i data-icon="compare"></i><div><b data-i18n="en.f4">RFQ and offer normalisation</b><span data-i18n="en.f4d">Writes one standard RFQ, then brings each reply to the same basis: price, setup, VAT, fee, dates, reporting.</span></div></li>
       </ul>
-      <p class="never reveal"><i data-icon="shield"></i><span data-i18n="en.never">It never invents reach, performance or ROI. Missing data lowers the confidence score instead.</span></p>
+      <p class="never reveal"><i data-icon="shield"></i><span data-i18n="en.never">It never invents reach, performance or ROI. Missing evidence is shown as missing, with its source and date when it exists.</span></p>
     </div>
 
     <div class="engine-demo reveal" style="--delay:200ms">
       <div class="demo-card">
         <div class="demo-head">
           <div>
-            <span class="opp-cat" data-i18n="en.dcat">Live example · Residential sampling</span>
+            <span class="opp-cat" data-i18n="en.dcat">Interactive example · Residential sampling</span>
             <h3 data-i18n="en.dtitle">Weekend lobby sampling, 6 towers</h3>
             <p class="muted small"><i data-icon="pin" data-class="inline"></i> <span data-i18n="area.marina">Dubai Marina &amp; JBR</span> · <span data-i18n="en.dsupplier">Demo supplier</span></p>
           </div>
@@ -368,7 +379,7 @@
           <a href="platform.html#s-listings"><span><b data-i18n="pl.l5">List opportunities</b><small data-i18n="pl.l5d">Form or spreadsheet import</small></span><i data-icon="arrow-up-right"></i></a>
           <a href="platform.html#s-rfqs"><span><b data-i18n="pl.l6">Answer RFQs</b><small data-i18n="pl.l6d">One structured reply form</small></span><i data-icon="arrow-up-right"></i></a>
           <a href="platform.html#s-bookings"><span><b data-i18n="pl.l7">Manage bookings</b><small data-i18n="pl.l7d">Status updates and results</small></span><i data-icon="arrow-up-right"></i></a>
-          <a href="platform.html#s-profile"><span><b data-i18n="pl.l8">Get verified</b><small data-i18n="pl.l8d">Trade licence check</small></span><i data-icon="arrow-up-right"></i></a>
+          <a href="platform.html#s-profile"><span><b data-i18n="pl.l8">Licence review</b><small data-i18n="pl.l8d">Business licence document check</small></span><i data-icon="arrow-up-right"></i></a>
         </div>
       </div>
       <div class="module reveal">
@@ -445,13 +456,13 @@
       <article class="price-card reveal">
         <span class="opp-cat" data-i18n="pc.b">Brands and agencies</span>
         <div class="price"><b>0</b><span data-i18n="pc.bp">AED to brief, plan, compare and request offers</span></div>
-        <ul class="check-list"><li><i data-icon="check"></i><span data-i18n="pc.b1">Unlimited objectives and plans</span></li><li><i data-icon="check"></i><span data-i18n="pc.b2">Standard RFQs to any listed supplier</span></li><li><i data-icon="check"></i><span data-i18n="pc.b3">7% platform fee only on booked value</span></li></ul>
+        <ul class="check-list"><li><i data-icon="check"></i><span data-i18n="pc.b1">Unlimited objectives and plans</span></li><li><i data-icon="check"></i><span data-i18n="pc.b2">Standard RFQs to any listed supplier</span></li><li><i data-icon="check"></i><span data-i18n="pc.b3"><span data-fee>7</span>% platform fee only on booked value (pilot assumption)</span></li></ul>
         <a class="btn btn-dark" href="#brief"><span data-i18n="nav.cta">Create a brief</span><i data-icon="arrow"></i></a>
       </article>
       <article class="price-card featured reveal" style="--delay:90ms">
         <span class="opp-cat" data-i18n="pc.s">Suppliers</span>
         <div class="price"><b>0</b><span data-i18n="pc.sp">AED to list during the Dubai pilot</span></div>
-        <ul class="check-list"><li><i data-icon="check"></i><span data-i18n="pc.s1">Unlimited listings and RFQ replies</span></li><li><i data-icon="check"></i><span data-i18n="pc.s2">Payout after the buyer confirms delivery</span></li><li><i data-icon="check"></i><span data-i18n="pc.s3">Verification badge after licence check</span></li></ul>
+        <ul class="check-list"><li><i data-icon="check"></i><span data-i18n="pc.s1">Unlimited listings and RFQ replies</span></li><li><i data-icon="check"></i><span data-i18n="pc.s2">Payout after delivery is accepted and payout checks pass</span></li><li><i data-icon="check"></i><span data-i18n="pc.s3">“Business licence reviewed” label after a document review</span></li></ul>
         <a class="btn btn-blue" href="platform.html#s-listings"><span data-i18n="sp.cta1">List an opportunity</span><i data-icon="arrow"></i></a>
       </article>
       <article class="price-card reveal" style="--delay:180ms">
@@ -461,7 +472,7 @@
         <a class="btn btn-light" href="#contact" data-i18n="pc.ecta">Register interest</a>
       </article>
     </div>
-    <p class="muted small center reveal" data-i18n="pc.note">The 7% pilot fee is a working assumption that the pilot is designed to test.</p>
+    <p class="muted small center reveal" data-i18n="pc.note">The <span data-fee>7</span>% pilot fee and the tax treatment are working assumptions that the pilot and a tax adviser must confirm.</p>
   </div>
 </section>
 
@@ -482,14 +493,14 @@
     <div class="faq-list" data-faq>
       <details class="faq-item reveal" open><summary><span class="faq-no">01</span><span data-i18n="q1">Is this an advertising agency or a DOOH network?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a1">Neither. We do not own media or buy it on your behalf. The platform matches your objective with opportunities listed by independent suppliers and runs the procurement: RFQ, offer comparison, approval and payment.</div></details>
       <details class="faq-item reveal"><summary><span class="faq-no">02</span><span data-i18n="q2">What counts as a commercial opportunity?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a2">Anything a supplier can offer that helps you reach an outcome: mall activations, residential or gym sampling, café and retail partnerships, office and campus activations, event sponsorship, pop-up space, indoor media and digital follow-up.</div></details>
-      <details class="faq-item reveal"><summary><span class="faq-no">03</span><span data-i18n="q3">How is the match score calculated?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a3">It is a weighted sum of eight factors: objective fit, audience, geography, budget fit, timing, availability, historical evidence and data confidence. Each factor and weight is shown next to the score.</div></details>
+      <details class="faq-item reveal"><summary><span class="faq-no">03</span><span data-i18n="q3">How is the match score calculated?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a3">In two stages. First every requirement is checked as met, not met or needs confirmation; a listing that fails one is never recommended. Then the listings that pass are scored on six weighted preferences: objective fit, audience, location, budget, date coverage and free capacity. Evidence is shown separately.</div></details>
       <details class="faq-item reveal"><summary><span class="faq-no">04</span><span data-i18n="q4">Do you guarantee reach or results?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a4">No. Reach and performance appear only when a supplier has provided them, labelled with the source and whether they were verified. Results after a booking are reported by the supplier and by you.</div></details>
-      <details class="faq-item reveal"><summary><span class="faq-no">05</span><span data-i18n="q5">What does it cost?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a5">Briefing, planning, comparing and sending RFQs is free. When you book, a 7% platform fee is added as a separate line. Suppliers list for free during the pilot.</div></details>
+      <details class="faq-item reveal"><summary><span class="faq-no">05</span><span data-i18n="q5">What does it cost?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a5">Briefing, planning, comparing and sending RFQs is free. When you book, a platform fee (<span data-fee>7</span>% in the pilot assumption) is added as a separate line. Suppliers list for free during the pilot.</div></details>
       <details class="faq-item reveal"><summary><span class="faq-no">06</span><span data-i18n="q6">Which areas do you cover?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a6">The pilot starts in Dubai with a limited set of categories where discovery and pricing are hardest. Other emirates follow once the Dubai network works.</div></details>
-      <details class="faq-item reveal"><summary><span class="faq-no">07</span><span data-i18n="q7">How are supplier offers compared?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a7">Every reply uses the same form. The platform adds setup costs, 5% VAT and the platform fee, then shows total, cost per day, date match, reporting level and payment terms side by side.</div></details>
-      <details class="faq-item reveal"><summary><span class="faq-no">08</span><span data-i18n="q8">How do payments work?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a8">You pay once at checkout by card, bank transfer or invoice for approved accounts. The supplier is paid after you confirm delivery. In this prototype, payments are simulated and no money moves.</div></details>
+      <details class="faq-item reveal"><summary><span class="faq-no">07</span><span data-i18n="q7">How are supplier offers compared?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a7">Every reply uses the same form and is kept as a numbered version. The platform shows the supplier price, the platform fee and VAT where it applies on separate lines, plus coverage, deliverables, validity and every difference from your request, which you must accept explicitly.</div></details>
+      <details class="faq-item reveal"><summary><span class="faq-no">08</span><span data-i18n="q8">How do payments work?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a8">In this prototype, payments are simulated and no money moves. In live operation, payment would go through a licensed payment provider (not yet selected), and the supplier would be paid only after you accept delivery and the payout checks pass.</div></details>
       <details class="faq-item reveal"><summary><span class="faq-no">09</span><span data-i18n="q9">Can I use Arabic?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a9">Yes. The website and the platform work in English and Arabic, with full right-to-left layout. Use the language button in the header.</div></details>
-      <details class="faq-item reveal"><summary><span class="faq-no">10</span><span data-i18n="q10">Where is my data stored in the prototype?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a10">Only in your own browser. Nothing you enter in the prototype is sent to a server. You can reset the demo data at any time from the platform header.</div></details>
+      <details class="faq-item reveal"><summary><span class="faq-no">10</span><span data-i18n="q10">Where is my data stored in the prototype?</span><i data-icon="plus"></i></summary><div class="faq-a" data-i18n="a10">Only in your own browser. Nothing you enter in the prototype is sent to a server. You can delete it at any time from “Your data” in the platform header or on the privacy page.</div></details>
     </div>
   </div>
 </section>
@@ -523,11 +534,12 @@
         </div>
       </div>
       <div class="field"><label for="ct-msg" data-i18n="ct.msg">What would you like to achieve?</label><textarea class="textarea" id="ct-msg" name="message" maxlength="800" placeholder="A short description of your next campaign or what you can offer." data-i18n-ph="ct.msgPh"></textarea></div>
+      <p class="proto-note"><i data-icon="info"></i><span data-i18n="ct.note">This form does not send or store anything. It prepares an email that you can send yourself.</span></p>
       <p class="error-text" id="ct-error" role="alert" hidden></p>
       <button class="btn btn-dark" type="submit"><span data-i18n="ct.submit">Prepare my request</span><i data-icon="arrow"></i></button>
       <div class="contact-done" id="contact-done" hidden>
         <div class="done-head"><i data-icon="check-circle"></i><b data-i18n="ct.doneT">Your request is ready to send</b></div>
-        <p class="muted small" data-i18n="ct.doneD">Copy the message below and email it to the founding team. It has also been saved in this browser.</p>
+        <p class="muted small" data-i18n="ct.doneD">Nothing has been sent and nothing was stored. If you want to apply, copy the message and send it from your own email.</p>
         <pre class="done-msg" id="contact-msg"></pre>
         <div class="email-row"><span class="email-text" data-contact-email>visionseven@gmail.com</span></div>
         <div class="hero-ctas">
@@ -566,7 +578,7 @@
       <div>
         <a class="logo on-dark" href="index.html"><span class="logo-mark" data-logo-mark></span><span class="logo-text"><span data-i18n="brand1">Opportunity Network</span><small data-i18n="brand2">Commercial · UAE</small></span></a>
         <h2 class="footer-title"><span data-i18n="ft.h1">Good campaigns</span><br><span class="dim" data-i18n="ft.h2">start with an objective.</span></h2>
-        <p class="footer-lead" data-i18n="ft.lead">An AI-assisted procurement layer that connects business objectives with commercial opportunities from independent UAE suppliers.</p>
+        <p class="footer-lead" data-i18n="ft.lead">A procurement prototype that connects business objectives with commercial opportunities from independent UAE suppliers.</p>
         <div class="email-row on-dark"><span class="email-text" data-contact-email>visionseven@gmail.com</span><button class="icon-btn" type="button" data-copy-email data-i18n-aria="copyEmail" aria-label="Copy email address"><i data-icon="copy"></i></button></div>
       </div>
       <div class="footer-cards">
@@ -576,12 +588,12 @@
     </div>
     <div class="footer-cols">
       <div><h4 data-i18n="ft.col1">Platform</h4><a href="platform.html#c-new" data-i18n="pl.l1">Create an objective</a><a href="platform.html#c-plans" data-i18n="pl.l2">Opportunity plans</a><a href="platform.html#c-catalog" data-i18n="op.cta">Browse the catalogue</a><a href="platform.html#c-rfqs" data-i18n="pl.l4">RFQs and offers</a></div>
-      <div><h4 data-i18n="ft.col2">Suppliers</h4><a href="platform.html#s-overview" data-i18n="ft.sw">Supplier workspace</a><a href="platform.html#s-listings" data-i18n="pl.l5">List opportunities</a><a href="platform.html#s-rfqs" data-i18n="pl.l6">Answer RFQs</a><a href="platform.html#s-profile" data-i18n="pl.l8">Get verified</a></div>
+      <div><h4 data-i18n="ft.col2">Suppliers</h4><a href="platform.html#s-overview" data-i18n="ft.sw">Supplier workspace</a><a href="platform.html#s-listings" data-i18n="pl.l5">List opportunities</a><a href="platform.html#s-rfqs" data-i18n="pl.l6">Answer RFQs</a><a href="platform.html#s-profile" data-i18n="pl.l8">Licence review</a></div>
       <div><h4 data-i18n="ft.col3">Company</h4><a href="#how" data-i18n="nav.how">How it works</a><a href="workflow.html" data-i18n="nav.workflow">Workflow</a><a href="#engine" data-i18n="nav.engine">Matching</a><a href="#pricing" data-i18n="nav.pricing">Pricing</a><a href="#faq" data-i18n="nav.faq">FAQ</a><a href="#contact" data-i18n="ct.eye">Early access</a></div>
       <div><h4 data-i18n="ft.col4">Legal</h4><a href="privacy.html" data-i18n="ft.privacy">Privacy</a><a href="terms.html" data-i18n="ft.terms">Terms of use</a></div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 Commercial Opportunity Network · <span data-i18n="ft.loc">Dubai, United Arab Emirates</span></span>
+      <span>© 2026 Commercial Opportunity Network · <span data-i18n="ft.loc">Project name for a Dubai pilot; not yet a registered company</span></span>
       <span class="footer-bottom-links"><a href="privacy.html" data-i18n="ft.privacy">Privacy</a><a href="terms.html" data-i18n="ft.terms">Terms of use</a><button class="lang-toggle dark" type="button" data-lang-toggle><i data-icon="globe"></i><span data-i18n="lang">العربية</span></button></span>
     </div>
   </div>
@@ -590,7 +602,11 @@
 <div id="toast-root" class="toast-root" aria-live="polite"></div>
 <script src="assets/js/common.js"></script>
 <script src="assets/js/i18n-site.js"></script>
+<script src="assets/js/core/dates.js"></script>
+<script src="assets/js/core/money.js"></script>
+<script src="assets/js/core/migrate.js"></script>
 <script src="assets/js/data.js"></script>
+<script src="assets/js/core/parse.js"></script>
 <script src="assets/js/engine.js"></script>
 <script src="assets/js/illustrations.js"></script>
 <script src="assets/js/site.js"></script>

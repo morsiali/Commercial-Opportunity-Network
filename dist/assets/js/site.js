@@ -165,18 +165,25 @@
   function renderDemo() {
     const objective = (document.querySelector('input[name="demo-obj"]:checked') || {}).value || 'trial';
     const budget = Number(range.value);
-    const today = CON.Engine.util.todayIso();
-    const res = CON.Engine.scoreOpportunity(demoOpp, { objective, budget, duration: 30, start: CON.Engine.util.addDays(today, 21), areas: ['marina'], ageMin: 25, ageMax: 45, gender: 'all', interests: ['residents', 'professionals'] }, { today });
-    out.textContent = CON.fmtAED(budget, lang);
-    const shown = res.excluded ? 0 : res.score;
-    scoreEl.textContent = res.excluded ? '—' : String(res.score);
+    const E = CON.Engine, M = CON.Money, Dt = CON.Dates;
+    const today = Dt.today();
+    const brief = E.normalizeObjective({ objective, budgetMinor: M.fromAED(budget), duration: 30, start: Dt.addDays(today, 21), areas: ['marina'], ageMin: 25, ageMax: 45, gender: 'all', interests: ['residents', 'professionals'] }, { today });
+    const res = E.evaluate(demoOpp, brief, { today, suppliers: CON.DATA.suppliers });
+    out.textContent = M.format(M.fromAED(budget), lang, { compact: true });
+    const shown = res.eligible ? res.score : 0;
+    scoreEl.textContent = res.eligible ? String(res.score) : '—';
     arc.style.strokeDashoffset = String(169.6 * (1 - shown / 100));
-    list.innerHTML = res.factors.map(f => {
-      const pct = Math.round(f.value * 100);
-      const cls = pct < 35 ? 'vlow' : pct < 60 ? 'low' : '';
-      return '<li class="factor"><span class="factor-name">' + CON.esc(S().f[f.key]) + ' <small>' + S().weight + ' ' + Math.round(f.weight * 100) + '%</small></span><span class="factor-val">' + pct + '</span><span class="factor-bar"><i class="' + cls + '" style="width:' + pct + '%"></i></span></li>';
-    }).join('');
-    foot.textContent = res.excluded ? S().budgetOver : S().demoFoot(CON.fmtAED(res.cost.subtotal, lang));
+    if (res.eligible) {
+      list.innerHTML = res.factors.map(f => {
+        const pct = Math.round(f.value * 100);
+        const cls = pct < 35 ? 'vlow' : pct < 60 ? 'low' : '';
+        return '<li class="factor"><span class="factor-name">' + CON.esc(S().f[f.key]) + ' <small>' + S().weight + ' ' + Math.round(f.weight * 100) + '%</small></span><span class="factor-val">' + pct + '</span><span class="factor-bar" aria-hidden="true"><i class="' + cls + '" style="width:' + pct + '%"></i></span></li>';
+      }).join('');
+      foot.textContent = S().demoFoot(M.format(res.price.exVat, lang), res.coverage.coveredDates.length, (CON.config.platformFeeBps / 100).toString());
+    } else {
+      list.innerHTML = '<li class="factor"><span class="factor-name">' + CON.esc(S().notEligible) + '</span></li>';
+      foot.textContent = S().budgetOver;
+    }
   }
   range.addEventListener('input', renderDemo);
   document.querySelectorAll('input[name="demo-obj"]').forEach(r => r.addEventListener('change', renderDemo));
@@ -209,13 +216,21 @@
     lastMsg = S().msg(d);
     msgEl.textContent = lastMsg;
     mailto.href = 'mailto:' + CON.config.contactEmail + '?subject=' + encodeURIComponent(S().msgSubject) + '&body=' + encodeURIComponent(lastMsg);
-    const saved = CON.storage.get('con.earlyAccess', []);
-    saved.push(Object.assign({ at: new Date().toISOString() }, d));
-    CON.storage.set('con.earlyAccess', saved.slice(-20));
+    // Nothing is stored or sent: the message is only prepared for the visitor to send themselves.
     done.hidden = false;
     done.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
   });
   document.getElementById('contact-copy').addEventListener('click', () => CON.copy(CON.config.contactEmail + '\n\n' + lastMsg, S().copied, S().copyFail));
+
+  /* ---------- Details saved by an earlier version: shown, and deletable on their own ---------- */
+  const legacyEA = CON.storage.get('con.earlyAccess', null);
+  if (legacyEA && legacyEA.length && cform) {
+    const n = document.createElement('div');
+    n.className = 'proto-note'; n.setAttribute('role', 'status');
+    n.innerHTML = CON.icon('info') + '<span>' + CON.esc(S().legacyEA) + ' <button type="button" class="link-btn" data-del-ea>' + CON.esc(S().legacyEADel) + '</button></span>';
+    cform.prepend(n);
+    n.querySelector('[data-del-ea]').addEventListener('click', () => { CON.storage.remove('con.earlyAccess'); n.textContent = S().legacyEADone; });
+  }
 
   /* ---------- Boot ---------- */
   applyLang();

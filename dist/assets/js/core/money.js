@@ -9,9 +9,10 @@
   class MoneyError extends Error { constructor(code, message) { super(message || code); this.code = code; } }
 
   const MINOR = 100;
+  const CFG = CON.config || {};
   const DEFAULTS = {
-    platformFeeBps: 700,          // 7.00% platform fee on supplier net (configurable)
-    vatBps: 500,                  // UAE standard VAT rate 5% (verify before live use)
+    platformFeeBps: Number.isSafeInteger(CFG.platformFeeBps) ? CFG.platformFeeBps : 700, // platform fee on supplier net (configurable)
+    vatBps: Number.isSafeInteger(CFG.vatBps) ? CFG.vatBps : 500,                         // UAE standard VAT rate (verify before live use)
     vatOnPlatformFee: true,       // assumption: the platform charges VAT on its fee
     budgetIncludesVat: false,     // budgets are compared excluding VAT
     budgetIncludesPlatformFee: true // budgets are compared including the platform fee

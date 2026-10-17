@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://morsiali.github.io/Commercial-Opportunity-Network/sitemap.xml

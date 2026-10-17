@@ -134,9 +134,10 @@
   CON.SITE_STR = {
     en: {
       rotate: ['product trials', 'new customers', 'brand launches', 'store footfall', 'qualified leads'],
-      f: { objective: 'Objective fit', audience: 'Audience match', geography: 'Geographic match', budget: 'Budget fit', timing: 'Timing fit', availability: 'Availability', evidence: 'Historical evidence', confidence: 'Data confidence' },
-      weight: 'weight', budgetOver: 'Cost is above your budget, so this listing is excluded.',
-      demoFoot: (cost) => 'Cost for 30 days: ' + cost + ' excl. VAT. Reach is not scored: the supplier has declared resident numbers but no counted results yet.',
+      f: { objective: 'Objective fit', audience: 'Audience match', location: 'Location match', budget: 'Budget fit', coverage: 'Date coverage', availability: 'Free capacity' },
+      weight: 'weight', budgetOver: 'Cost is above your budget, so this listing fails a requirement and is not scored.', notEligible: 'Not eligible for this brief',
+      demoFoot: (cost, days, fee) => 'Weekends only: ' + days + ' activation days in a 30-day campaign. Cost ' + cost + ' incl. ' + fee + '% platform fee, excl. VAT. Audience evidence is supplier declared and is shown separately, not scored.',
+      legacyEA: 'An earlier version of this page saved early-access details in this browser.', legacyEADel: 'Delete them', legacyEADone: 'Deleted.',
       errBudget: 'Enter a budget of at least AED 5,000.', errDays: 'Enter a duration between 1 and 180 days.', errDate: 'Choose a start date from today onwards.', errAge: '“Age from” must be lower than “Age to”.',
       generating: 'Building your plan…',
       errContact: 'Fill in your name, company and a valid email address.', copied: 'Copied to clipboard', copyFail: 'Copy did not work. Select the text and copy it manually.',
@@ -146,9 +147,10 @@
     },
     ar: {
       rotate: ['تجربة المنتجات', 'عملاء جدد', 'إطلاق العلامات', 'زيارات المتاجر', 'عملاء محتملين'],
-      f: { objective: 'ملاءمة الهدف', audience: 'مطابقة الجمهور', geography: 'المطابقة الجغرافية', budget: 'ملاءمة الميزانية', timing: 'ملاءمة التوقيت', availability: 'التوفر', evidence: 'الأدلة التاريخية', confidence: 'ثقة البيانات' },
-      weight: 'الوزن', budgetOver: 'التكلفة أعلى من ميزانيتك، لذا استُبعدت هذه الفرصة.',
-      demoFoot: (cost) => 'التكلفة لمدة ٣٠ يوماً: ' + cost + ' دون الضريبة. الوصول غير محتسب: أعلن المورد عدد السكان لكن لا توجد نتائج محصاة بعد.',
+      f: { objective: 'ملاءمة الهدف', audience: 'مطابقة الجمهور', location: 'مطابقة الموقع', budget: 'ملاءمة الميزانية', coverage: 'تغطية التواريخ', availability: 'السعة المتاحة' },
+      weight: 'الوزن', budgetOver: 'التكلفة أعلى من ميزانيتك، لذا لا تستوفي هذه القائمة متطلباً ولا تُقيَّم.', notEligible: 'غير مستوفية لهذا الموجز',
+      demoFoot: (cost, days, fee) => 'نهاية الأسبوع فقط: ' + days + ' أيام تفعيل في حملة مدتها ٣٠ يوماً. التكلفة ' + cost + ' شاملة رسوم المنصة ' + fee + '٪، دون الضريبة. أدلة الجمهور مُصرَّح بها من المورد وتُعرض منفصلة ولا تُحتسب في الدرجة.',
+      legacyEA: 'حفظت نسخة سابقة من هذه الصفحة بيانات الوصول المبكر في هذا المتصفح.', legacyEADel: 'احذفها', legacyEADone: 'تم الحذف.',
       errBudget: 'أدخل ميزانية لا تقل عن ٥٬٠٠٠ درهم.', errDays: 'أدخل مدة بين ١ و١٨٠ يوماً.', errDate: 'اختر تاريخ بدء من اليوم فصاعداً.', errAge: 'يجب أن يكون «العمر من» أقل من «العمر إلى».',
       generating: 'جارٍ إعداد خطتك…',
       errContact: 'أدخل اسمك وشركتك وبريداً إلكترونياً صحيحاً.', copied: 'تم النسخ', copyFail: 'لم ينجح النسخ. حدد النص وانسخه يدوياً.',
@@ -158,3 +160,46 @@
     }
   };
 })(typeof window !== 'undefined' ? window : globalThis);
+
+/* v3: honest status wording, two-stage matching, fee/VAT from configuration, data controls */
+(function (root) {
+  'use strict';
+  const CON = root.CON = root.CON || {};
+  Object.assign(CON.SITE_AR, {
+  "hero.pill": "نموذج أولي · التحضير لتجربة في دبي",
+  "hero.s2": "عوامل أفضلية تُحتسب بعد الفحوصات الإلزامية",
+  "en.lead": "أولاً يُفحص كل متطلب: الدخول والمنطقة والتواريخ والمرافق والسعة والميزانية. ثم تُقيَّم القوائم المستوفية فقط وفق ست أفضليات، يظهر كل منها بوزنه وسببه. تُعرض الأدلة منفصلة ولا تُخلط بالدرجة أبداً.",
+  "en.f1d": "يقرأ جملة مثل «٥٬٠٠٠ عميل، ٤٥ يوماً، ١٠٠ ألف درهم» بقواعد ثابتة، ثم يعرض كل قيمة لتؤكدها. لا يستبدل ما كتبته أبداً.",
+  "en.f2d": "يستبعد القوائم التي لا تستوفي متطلباً، وينبّه إلى ما يحتاج إلى تأكيد، ثم يرتب البقية حسب الهدف والجمهور والموقع والميزانية والتغطية والسعة المتاحة.",
+  "en.never": "لا يخترع أبداً أرقام وصول أو أداء أو عائد. تُعرض الأدلة الناقصة على أنها ناقصة، ومع مصدرها وتاريخها عند توفرها.",
+  "a3": "على مرحلتين. أولاً يُفحص كل متطلب: مستوفى أو غير مستوفى أو يحتاج إلى تأكيد، ولا يُوصى أبداً بقائمة أخفقت في أحدها. ثم تُقيَّم القوائم المستوفية وفق ست أفضليات موزونة: ملاءمة الهدف والجمهور والموقع والميزانية وتغطية التواريخ والسعة المتاحة. وتُعرض الأدلة منفصلة.",
+  "a5": "الموجز والتخطيط والمقارنة وإرسال الطلبات مجانية. عند الحجز تُضاف رسوم المنصة (<span data-fee>7</span>٪ وفق افتراض التجربة) في بند منفصل. الإدراج مجاني للموردين خلال التجربة.",
+  "a7": "كل الردود بالنموذج نفسه وتُحفظ كنسخ مرقمة. تعرض المنصة سعر المورد ورسوم المنصة وضريبة القيمة المضافة عند انطباقها في بنود منفصلة، مع التغطية والمخرجات والصلاحية وكل اختلاف عن طلبك، ويجب أن توافق عليه صراحةً.",
+  "a8": "في هذا النموذج الأولي المدفوعات محاكاة ولا تنتقل أي أموال. في التشغيل الفعلي يتم الدفع عبر مزوّد دفع مرخص (لم يُختر بعد)، ولا يُدفع للمورد إلا بعد قبولك للتنفيذ واجتياز فحوصات الصرف.",
+  "a10": "في متصفحك فقط. لا يُرسل أي شيء تدخله في النموذج الأولي إلى خادم. يمكنك حذفه في أي وقت من «بياناتك» في رأس المنصة أو من صفحة الخصوصية.",
+  "pc.b3": "رسوم منصة <span data-fee>7</span>٪ على قيمة الحجز فقط (افتراض التجربة)",
+  "pc.s2": "الصرف بعد قبول التنفيذ واجتياز فحوصات الصرف",
+  "pc.s3": "علامة «تمت مراجعة الرخصة التجارية» بعد مراجعة المستند",
+  "pc.note": "رسوم التجربة البالغة <span data-fee>7</span>٪ والمعاملة الضريبية افتراضات عمل يجب أن تؤكدها التجربة ومستشار ضريبي.",
+  "ct.doneD": "لم يُرسل أي شيء ولم يُحفظ أي شيء. إذا أردت التقديم، انسخ الرسالة وأرسلها من بريدك الإلكتروني.",
+  "ft.lead": "نموذج أولي للمشتريات يربط أهداف الأعمال بالفرص التجارية لدى موردين مستقلين في الإمارات.",
+  "ft.loc": "اسم مشروع لتجربة في دبي؛ ليس شركة مسجلة بعد",
+  "hero.proto": "نموذج أولي: الخطط والعروض والمدفوعات تعمل على بيانات تجريبية في متصفحك. لا يتم التواصل مع أي مورد ولا تنتقل أي أموال.",
+  "ct.note": "هذا النموذج لا يرسل شيئاً ولا يحفظ بياناتك. يجهّز رسالة بريد إلكتروني ترسلها أنت إن أردت.",
+  "wz.proto": "ينشئ هذا خطة في النموذج الأولي داخل متصفحك. لا يُرسل شيء إلى أي مورد."
+});
+})(typeof window !== 'undefined' ? window : globalThis);
+
+(function (root) {
+  'use strict';
+  const CON = root.CON;
+  Object.assign(CON.SITE_AR, {"pv.updated": "آخر تحديث: ١٧ أكتوبر ٢٠٢٦", "pv.p2": "كل ما تدخله في المنصة، بما في ذلك الأهداف والمسودات وطلبات العروض والعروض والحجوزات، يُحفظ فقط في التخزين المحلي لمتصفحك ولا يُرسل إلى أي خادم. يمكنك حذفه في أي وقت أدناه أو من «بياناتك» في رأس المنصة.", "pv.p3": "يجهّز نموذج الوصول المبكر رسالة ترسلها أنت بالبريد الإلكتروني. لا يرسل النموذج شيئاً ولا يحفظ شيئاً. لا نتلقى شيئاً حتى ترسل تلك الرسالة، ثم نستخدم بياناتك فقط للرد وتنظيم التجربة.", "pv.p5": "لا توجد خدمة حية بعد. قبل إطلاق أي خدمة، سيُعدّ إشعار خصوصية كامل بمشورة قانونية، يوضح كيفية تطبيق المرسوم بقانون اتحادي رقم ٤٥ لسنة ٢٠٢١ بشأن حماية البيانات الشخصية، ويغطي الأساس القانوني ومدد الاحتفاظ والجهات المعالِجة وحقوقك.", "pv.hd": "بياناتك في هذا المتصفح", "pv.pd": "يخزّن هذا الموقع البيانات التالية في متصفحك فقط. احذف أي جزء منها على حدة، أو احذفها كلها. لا يتأثر أي موقع آخر."});
+  CON.SITE_STR.en.dc = {"records": "Demo records", "recordsD": "Objectives, RFQs, offers, bookings and listings in the platform prototype (including the sample set).", "drafts": "Unsaved drafts", "draftsD": "Form input you have not submitted.", "ea": "Early-access details", "eaD": "Only present if an earlier version of the site saved them.", "pending": "Brief waiting to open", "pendingD": "A brief from the homepage that has not opened in the platform yet.", "lang": "Language preference", "langD": "English or Arabic.", "all": "Everything from this site", "allD": "All of the above.", "del": "Delete", "none": "Nothing stored", "stored": "Stored", "done": "Deleted.", "blocked": "This browser blocks storage, so nothing is stored."};
+  CON.SITE_STR.ar.dc = {"records": "السجلات التجريبية", "recordsD": "الأهداف وطلبات العروض والعروض والحجوزات والقوائم في النموذج الأولي (بما فيها المجموعة التجريبية).", "drafts": "المسودات غير المحفوظة", "draftsD": "بيانات نماذج لم ترسلها.", "ea": "بيانات الوصول المبكر", "eaD": "موجودة فقط إذا حفظتها نسخة سابقة من الموقع.", "pending": "موجز بانتظار الفتح", "pendingD": "موجز من الصفحة الرئيسية لم يُفتح في المنصة بعد.", "lang": "تفضيل اللغة", "langD": "الإنجليزية أو العربية.", "all": "كل بيانات هذا الموقع", "allD": "كل ما سبق.", "del": "حذف", "none": "لا يوجد شيء مخزن", "stored": "مخزن", "done": "تم الحذف.", "blocked": "هذا المتصفح يمنع التخزين، لذا لا يوجد شيء مخزن."};
+})(typeof window !== 'undefined' ? window : globalThis);
+
+(function (root) { const CON = root.CON; CON.SITE_AR['wf.lead'] = 'يمر كل مشروع عبر ١٢ خطوة مرقمة في أربعة مسارات. تضم الخريطة ١٦ موضعاً لأن أربع مهام مساندة تجري بجانبها: توثيق الموردين وإدراج فرصهم قبل أي موجز، وتذكير الموردين المتأخرين، وتأكيد الدفع. اضغط على أي خطوة لترى من ينفذها وعلى أي شاشة وما ينتج عنها، أو شغّل العرض للمرور على المواضع الستة عشر.'; })(typeof window !== 'undefined' ? window : globalThis);
+
+(function (root) { Object.assign(root.CON.SITE_AR, {"wz.q3s": "تُقارن الميزانيات شاملة رسوم المنصة ودون ضريبة القيمة المضافة.", "en.dcat": "مثال تفاعلي · تذوق في المجمعات السكنية", "pl.l8": "مراجعة الرخصة", "pl.l8d": "التحقق من مستند الرخصة التجارية", "wf.r2d": "رسوم المنصة البالغة <span data-fee>7</span>٪ بند منفصل عند الدفع، ليحصل المورد على سعر عرضه كاملاً."}); })(typeof window !== 'undefined' ? window : globalThis);
+
+(function (root) { Object.assign(root.CON.SITE_AR, {"nf.h": "الصفحة غير موجودة", "nf.p": "هذا العنوان غير موجود على موقع شبكة الفرص التجارية. ربما نُقل، أو كُتب الرابط بشكل خاطئ."}); })(typeof window !== 'undefined' ? window : globalThis);
