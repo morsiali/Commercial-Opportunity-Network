@@ -82,7 +82,7 @@
 
   const opportunities = [
     O('o1', 's2', 'mall_activation', 'marina', 'Atrium activation stand, weekends', 'منصة تفعيل في الردهة الرئيسية، عطلات نهاية الأسبوع', '3 × 3 m stand in the main atrium with power, Thursday to Saturday.', 'منصة ٣×٣ م في الردهة الرئيسية مع كهرباء، من الخميس إلى السبت.', 6500, 'day', 3500, 2, 12, '2026-10-01', '2027-03-31', 10, 8, 3, W('mixed', 18, 55, ['shoppers', 'families', 'tourists', 'residents']), { value: 45000, unit: 'weekly visitors', source: 'supplier-declared', date: '2026-06' }, [], 'Brand staff must hold mall access passes. Creative approval 5 days before.', 'يجب أن يحمل فريق العلامة تصاريح دخول المركز. اعتماد التصميم قبل ٥ أيام.'),
-    O('o2', 's2', 'mall_activation', 'barsha', 'Concourse sampling point', 'نقطة تذوق في الممر الرئيسي', 'Sampling counter on the ground-floor concourse next to the hypermarket entrance.', 'منصة تذوق في ممر الطابق الأرضي بجوار مدخل الهايبر ماركت.', 3800, 'day', 1500, 2, 20, '2026-10-01', '2027-02-28', 7, 10, 2, W('mixed', 22, 50, ['families', 'shoppers', 'residents']), { value: 30000, unit: 'weekly visitors', source: 'supplier-declared', date: '2026-05' }, [{ metric: 'samples per day', value: 650, source: 'verified', date: '2026-04' }], 'Food samples need a Dubai Municipality permit, which the supplier can arrange.', 'تحتاج عينات الطعام إلى تصريح بلدية دبي، ويمكن للمورد ترتيبه.'),
+    O('o2', 's2', 'mall_activation', 'barsha', 'Concourse sampling point', 'نقطة تذوق في الممر الرئيسي', 'Sampling counter on the ground-floor concourse next to the hypermarket entrance.', 'منصة تذوق في ممر الطابق الأرضي بجوار مدخل الهايبر ماركت.', 3800, 'day', 1500, 2, 20, '2026-08-01', '2027-02-28', 7, 10, 2, W('mixed', 22, 50, ['families', 'shoppers', 'residents']), { value: 30000, unit: 'weekly visitors', source: 'supplier-declared', date: '2026-05' }, [{ metric: 'samples per day', value: 650, source: 'verified', date: '2026-04' }], 'Food samples need a Dubai Municipality permit, which the supplier can arrange.', 'تحتاج عينات الطعام إلى تصريح بلدية دبي، ويمكن للمورد ترتيبه.'),
     O('o3', 's2', 'mall_activation', 'mirdif', 'Family weekend zone', 'منطقة العائلة في عطلة نهاية الأسبوع', 'Branded play-and-try zone near the cinema level, Friday and Saturday.', 'منطقة لعب وتجربة تحمل علامتك بالقرب من طابق السينما، الجمعة والسبت.', 4200, 'day', 2500, 2, 10, '2026-11-01', '2027-03-31', 14, 6, 1, W('mixed', 25, 45, ['families', 'residents', 'shoppers']), null, [], 'Child-safe materials only. Activity plan required.', 'مواد آمنة للأطفال فقط. يلزم تقديم خطة النشاط.'),
     O('o4', 's1', 'residential_sampling', 'marina', 'Weekend lobby sampling, 6 towers', 'تذوق في ردهات ٦ أبراج، عطلة نهاية الأسبوع', 'Staffed sampling table in six residential tower lobbies, 5 pm to 9 pm.', 'طاولة تذوق مع فريق في ردهات ستة أبراج سكنية، من ٥ إلى ٩ مساءً.', 620, 'day', 0, 4, 60, '2026-10-01', '2027-03-31', 5, 12, 4, W('mixed', 25, 50, ['residents', 'professionals', 'families', 'affluent']), { value: 4200, unit: 'residents', source: 'supplier-declared', date: '2026-09' }, [], 'No door-to-door distribution. Samples must be sealed.', 'لا توزيع من باب إلى باب. يجب أن تكون العينات مغلقة.'),
     O('o5', 's1', 'residential_sampling', 'jvc', 'Community pool-day booth', 'كشك في يوم المسبح المجتمعي', 'Booth at the monthly community pool day with up to 400 residents attending.', 'كشك في يوم المسبح الشهري للمجتمع بحضور يصل إلى ٤٠٠ ساكن.', 2400, 'activation', 0, 1, 1, '2026-10-15', '2027-01-31', 7, 4, 1, W('mixed', 25, 45, ['families', 'residents', 'fitness']), { value: 400, unit: 'attendees per event', source: 'supplier-declared', date: '2026-08' }, [{ metric: 'leads captured', value: 120, source: 'supplier-declared', date: '2026-08' }], 'Activities must be family-friendly.', 'يجب أن تكون الأنشطة مناسبة للعائلات.'),
@@ -111,5 +111,51 @@
     O('o28', 's4', 'cafe_partnership', 'deira', 'Loyalty-card insert, 5 cafés', 'إدراج في بطاقات الولاء، ٥ مقاهٍ', 'Voucher printed on the loyalty card used in five cafés.', 'قسيمة مطبوعة على بطاقة الولاء في خمسة مقاهٍ.', 2400, 'month', 600, 1, 6, '2026-10-01', '2027-03-31', 10, 5, 1, W('mixed', 20, 50, ['residents', 'foodies', 'students']), null, [], 'Voucher must have an expiry date.', 'يجب أن تحمل القسيمة تاريخ انتهاء.')
   ];
 
-  CON.DATA = { objectives, types, typeIcons, interests, areas, neighbours, objectiveFit, suppliers, opportunities };
+  /* v3 detail for the illustrative listings: schedules, event dates, access, facilities and freshness.
+     All of this is synthetic demo data. */
+  const WK = [1, 2, 3, 4, 5], WE = [6, 0];
+  const ALL_CAT = null;
+  const EXTRAS = {
+    o1: { schedule: { days: [4, 5, 6] }, restrictions: { foodSampling: true, refrigeration: false, electricity: true, staffingProvided: false }, services: { included: ['power', 'table'], excluded: ['staff', 'storage'] }, fresh: -6 },
+    o2: { restrictions: { foodSampling: true, refrigeration: true, electricity: true, staffingProvided: false }, services: { included: ['power', 'table', 'storage'], excluded: ['staff'] }, fresh: -12 },
+    o3: { schedule: { days: [5, 6] }, restrictions: { electricity: true, staffingProvided: false }, fresh: -75 },
+    o4: { schedule: { days: WE }, restrictions: { foodSampling: true, refrigeration: false, electricity: false, staffingProvided: false }, services: { included: ['table'], excluded: ['power', 'staff'] }, fresh: -4 },
+    o5: { eventDates: ['2026-10-24', '2026-11-21', '2026-12-19', '2027-01-23'], restrictions: { foodSampling: true, refrigeration: false, electricity: false, staffingProvided: false }, fresh: -9 },
+    o6: { restrictions: { categoriesAllowed: ['food', 'beverage', 'personal_care', 'health', 'retail', 'tech'] }, fresh: -20 },
+    o7: { restrictions: { categoriesAllowed: ['health', 'fitness', 'beverage', 'food', 'personal_care'], foodSampling: true, refrigeration: false, electricity: true, staffingProvided: false }, fresh: -5 },
+    o8: { restrictions: { categoriesAllowed: ['health', 'fitness', 'personal_care', 'beverage', 'food', 'tech'] }, fresh: -3 },
+    o9: { restrictions: { categoriesAllowed: ['health', 'fitness', 'beverage', 'personal_care'], foodSampling: true, staffingProvided: false }, fresh: -14 },
+    o10: { restrictions: { foodSampling: false, electricity: false, staffingProvided: true }, fresh: -8 },
+    o11: { restrictions: { categoriesAllowed: ['food', 'beverage'], foodSampling: true, refrigeration: true, staffingProvided: true }, fresh: -18 },
+    o12: { fresh: -2 }, o13: { schedule: { days: WK }, fresh: -2 },
+    o14: { schedule: { days: WK }, restrictions: { electricity: true, staffingProvided: false }, fresh: -25 },
+    o15: { eventDates: ['2026-11-26', '2026-12-10'], restrictions: { categoriesAllowed: ['health', 'fitness', 'food', 'beverage', 'personal_care'], electricity: true }, fresh: -7 },
+    o16: { eventDates: ['2027-01-17'], restrictions: { foodSampling: true, electricity: true, staffingProvided: false }, fresh: -30 },
+    o17: { schedule: { days: [5, 6] }, restrictions: { foodSampling: true, electricity: true, refrigeration: false, staffingProvided: false }, fresh: -11 },
+    o18: { schedule: { days: [1, 2, 3, 4] }, restrictions: { electricity: true, staffingProvided: false }, fresh: -40 },
+    o19: { restrictions: { categoriesAllowed: ['personal_care', 'food', 'beverage', 'health', 'retail'], staffingProvided: true }, fresh: -10 },
+    o20: { schedule: { days: [6] }, restrictions: { categoriesAllowed: ['food', 'beverage'], foodSampling: true, refrigeration: true, staffingProvided: true }, fresh: -60 },
+    o21: { restrictions: { electricity: true, staffingProvided: false, foodSampling: false }, fresh: -6 },
+    o22: { restrictions: { electricity: true, staffingProvided: false, refrigeration: false }, fresh: -16 },
+    o23: { fresh: -1 },
+    o24: { restrictions: { categoriesAllowed: ['food', 'beverage', 'personal_care', 'health'], foodSampling: true, refrigeration: true, staffingProvided: false }, fresh: -9 },
+    o25: { restrictions: { categoriesAllowed: ['health', 'personal_care'], foodSampling: false, staffingProvided: true }, fresh: -13 },
+    o26: { audience: { access: 'female_only' }, restrictions: { categoriesAllowed: ['health', 'fitness', 'personal_care', 'beverage'], foodSampling: true, staffingProvided: false }, fresh: -5 },
+    o27: { eventDates: ['2026-12-12', '2027-02-13'], restrictions: { foodSampling: true, electricity: false, staffingProvided: false }, fresh: -22 },
+    o28: { restrictions: { categoriesAllowed: ALL_CAT }, fresh: -19 }
+  };
+  const today = CON.Dates.today();
+  /* The sample calendar was authored on 2026-10-14. Shift it forward so the demo never shows a calendar that has run out. */
+  const AUTHORED = '2026-10-14';
+  const shift = Math.max(0, CON.Dates.diffDays(AUTHORED, today));
+  const sh = d => (d && shift ? CON.Dates.addDays(d, shift) : d);
+  const v3opps = opportunities.map(op => {
+    const x = EXTRAS[op.id] || {};
+    const shifted = Object.assign({}, op, { availableFrom: sh(op.availableFrom), availableTo: sh(op.availableTo) });
+    const ex = Object.assign({}, x, { eventDates: x.eventDates ? x.eventDates.map(sh) : null, availabilityUpdatedAt: x.fresh != null ? CON.Dates.addDays(today, x.fresh) : today });
+    return CON.Migrate.listingV2toV3(shifted, ex, { today });
+  });
+  const v3sups = suppliers.map(sp => CON.Migrate.supplierV2toV3(Object.assign({ demo: true }, sp), { today }));
+
+  CON.DATA = { objectives, types, typeIcons, interests, areas, neighbours, objectiveFit, suppliers: v3sups, opportunities: v3opps, v2: { suppliers, opportunities } };
 })(typeof window !== 'undefined' ? window : globalThis);

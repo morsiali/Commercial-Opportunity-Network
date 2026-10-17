@@ -1,0 +1,79 @@
+{
+  "parser": {
+    "H1 \"500 qualified leads, AED 20,000, men 35–55\" budget": 20000000000,
+    "H2a \"AED 100k\"": 100000,
+    "H2b \"100k AED\"": 100000,
+    "H2c \"AED 1.5 million\"": 1500000,
+    "H2d \"١٠٠٬٠٠٠ درهم\"": 0,
+    "H2e \"١٬٥٠٠٫٥٠ درهم\"": 50,
+    "H3a \"500 qualified leads\" target/objective": [
+      null,
+      "leads"
+    ],
+    "H3b \"5,000 new customers\"": [
+      5000,
+      "acquisition"
+    ],
+    "H3c \"New customers, not sampling\" objective": "trial",
+    "H4 \"start on 1 December 2026\" start": null
+  },
+  "matching": {
+    "H7 men 35–55, Dubai Marina required: recommended female-only venues": [
+      {
+        "id": "o26",
+        "gender": "female",
+        "area": "barsha",
+        "score": 75
+      }
+    ],
+    "H7 recommended outside Dubai Marina": "4 of 8",
+    "H8 90-day request vs listing maxUnits 60 (per day)": {
+      "unitsPriced": 60,
+      "timingFactor": 1,
+      "maxUnits": 60
+    },
+    "H9 float: normalizeOffer(1000.10 + 0.20 setup)": {
+      "net": 1000.3000000000001,
+      "vat": 50,
+      "platformFee": 70,
+      "total": 1120.3000000000002,
+      "perDay": 33,
+      "days": 30,
+      "dateMatch": "full",
+      "coverage": 1,
+      "reporting": "none",
+      "terms": "upfront"
+    }
+  },
+  "store": {
+    "H10 expired offer approved": true,
+    "H11 approval kept after material revision": true,
+    "H13 transactions created by two checkout calls": 2,
+    "H12 payout released while payment status is": {
+      "payment": "awaiting",
+      "payout": "released"
+    },
+    "H14 slots after double checkout": {
+      "booked": 3,
+      "total": 4
+    },
+    "H15 booking listing after delete": "missing (booking now shows \"Removed listing\")",
+    "H16 verified with only a filename": "verified",
+    "H21 sample/simulated records in data": {
+      "sampleRfqs": 2,
+      "simulatedReplies": 2
+    }
+  },
+  "ui": {
+    "H5 after extraction: product / success": [
+      "",
+      ""
+    ],
+    "H6 after language switch: product": "",
+    "H20 dialog attributes": {
+      "labelledby": null,
+      "label": null
+    },
+    "H20 focus inside dialog after 8 Tabs": false
+  }
+}

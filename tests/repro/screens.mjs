@@ -1,0 +1,23 @@
+// Captures screenshots of key screens. Usage: PREFIX=before node tests/repro/screens.mjs [baseUrl]
+import { chromium } from 'playwright';
+const base = process.argv[2] || 'http://127.0.0.1:4176/';
+const prefix = process.env.PREFIX || 'after';
+const dir = new URL('../../docs/screenshots/', import.meta.url).pathname;
+const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
+const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+await page.goto(base + 'platform.html#c-overview'); await page.evaluate(() => localStorage.clear()); await page.reload(); await page.waitForTimeout(500);
+const shot = async (name, hash, prep) => { await page.goto(base + hash); await page.waitForTimeout(600); if (prep) await prep(); await page.screenshot({ path: dir + prefix + '-' + name + '.png', fullPage: false }); };
+await shot('new-objective', 'platform.html#c-new');
+await shot('plan', 'platform.html#c-plan-obsample');
+const rfq = await page.evaluate(() => JSON.parse(localStorage.getItem(Object.keys(localStorage).find(k => k.startsWith('con.state')))).rfqs.find(r => r.status === 'open').id);
+await shot('offers', 'platform.html#c-offers-' + rfq, async () => { await page.evaluate(() => window.scrollTo(0, 700)); });
+const bk = await page.evaluate(() => JSON.parse(localStorage.getItem(Object.keys(localStorage).find(k => k.startsWith('con.state')))).bookings[0].id);
+await shot('booking', 'platform.html#c-booking-' + bk);
+await shot('listing-form', 'platform.html#s-listing');
+await shot('verification', 'platform.html#s-profile');
+await shot('ops-metrics', 'platform.html#o-metrics');
+await shot('home-early-access', 'index.html#contact');
+await page.setViewportSize({ width: 390, height: 844 });
+await shot('mobile-plan', 'platform.html#c-plan-obsample');
+await browser.close();
+console.log('saved', prefix);
