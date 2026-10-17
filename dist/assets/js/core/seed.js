@@ -62,16 +62,16 @@
 
     /* 2. An open campaign with an RFQ: one line waiting for the demo supplier, two simulated replies (one partial). */
     const cur = Object.assign(E.normalizeObjective({ objective: 'trial', product: 'Plant-based protein drink', productCategory: 'beverage', gender: 'female', ageMin: 25, ageMax: 45, interests: ['fitness', 'residents'], areas: ['marina', 'jlt', 'barsha'], budget: 100000, duration: 30, start: Dt.addDays(today, 21), success: '5,000 product trials and 500 newsletter sign-ups', target: 5000, needs: { foodSampling: true } }, { today }),
-      { id: 'obsample', name: 'Protein drink launch', sample: true, createdAt: at(Dt.addDays(today, -2), 8), planViewed: true, selected: ['o4', 'o26', 'o10'], source: 'sentence',
+      { id: 'obsample', name: 'Protein drink launch', sample: true, createdAt: at(Dt.addDays(today, -2), 8), planViewed: true, selected: ['o4', 'o26', 'o7'], source: 'sentence',
         sentence: 'Get 5,000 women aged 25-45 in Dubai Marina, JLT and Al Barsha to try our protein drink in 30 days, budget AED 100,000.' });
     cur.extraction = CON.Parse.extract(cur.sentence, { today: Dt.addDays(today, -2) }).found;
     st.objectives.push(cur);
-    const r2 = Dm.createRfq(st, { objectiveId: 'obsample', oppIds: ['o4', 'o26', 'o10'], meta: { reporting: 'basic', requirements: 'Samples are chilled cans. Brand provides two promoters per site.', responseDeadline: Dt.addDays(today, 4) } }, ctxAt(-1, 'customer'));
+    const r2 = Dm.createRfq(st, { objectiveId: 'obsample', oppIds: ['o4', 'o26', 'o7'], meta: { reporting: 'basic', requirements: 'Samples are chilled cans. Brand provides two promoters per site.', responseDeadline: Dt.addDays(today, 4) } }, ctxAt(-1, 'customer'));
     r2.sample = true;
     const o26l = r2.lines.find(l => l.oppId === 'o26');
     Dm.respond(st, { rfqId: r2.id, line: o26l.id, simulated: true, input: { basePrice: 1050000, setupFee: 50000, units: 5, from: cur.start, to: cur.end, reporting: 'basic', deliverables: ['Sampling stand at reception, 5 weeks', 'Weekly member check-in count'], terms: 'full', validUntil: Dt.addDays(today, 12), notes: 'Simulated supplier reply (demo).' } }, ctxAt(-1, 'system', { h: 4 }));
-    const o10l = r2.lines.find(l => l.oppId === 'o10');
-    Dm.respond(st, { rfqId: r2.id, line: o10l.id, simulated: true, input: { basePrice: 1080000, setupFee: 120000, units: 3, from: cur.start, to: Dt.addDays(cur.start, 20), reporting: 'basic', deliverables: ['Counter display in 3 cafés', 'Weekly redemption count'], terms: 'split', validUntil: Dt.addDays(today, 9), notes: 'Simulated supplier reply (demo): 3 of the 5 requested weeks are available.' } }, ctxAt(-1, 'system', { h: 5 }));
+    const o7l = r2.lines.find(l => l.oppId === 'o7');
+    Dm.respond(st, { rfqId: r2.id, line: o7l.id, simulated: true, input: { basePrice: 960000, setupFee: 80000, units: 3, from: cur.start, to: Dt.addDays(cur.start, 20), reporting: 'basic', deliverables: ['Front-desk sampling in 4 studios, peak hours', 'Weekly sample count'], terms: 'split', validUntil: Dt.addDays(today, 9), notes: 'Simulated supplier reply (demo): 3 of the 5 requested weeks are available.' } }, ctxAt(-1, 'system', { h: 5 }));
     st.events.push({ type: 'objective', at: cur.createdAt }, { type: 'objective', at: past.createdAt });
     st.audit.forEach(a => { a.sample = true; });
     return st;

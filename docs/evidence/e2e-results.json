@@ -1,0 +1,207 @@
+{
+  "ranAt": "2026-10-17T12:20:54.156Z",
+  "browser": "chromium 141.0.7390.37",
+  "results": [
+    {
+      "id": "A01",
+      "name": "Sentence extraction shows a merge preview and keeps typed fields",
+      "result": "pass",
+      "detail": {
+        "preview": [
+          "What we found in your sentence",
+          "",
+          "Tick the values to apply. Values you typed yourself are not ticked.",
+          "",
+          "Apply\tField\tIn the form now\tFrom the sentence\tStatus",
+          "\tObjective\tProduct trial\tQualified leads\tRecognised",
+          "\tTarget\t—\t500",
+          "Candidates: 500\tRecognised",
+          "\tAudience\tEveryone\tMen\tRecognised",
+          "\tAge\t25–45\t35–55\tRecognised",
+          "\tWhere\tAll Dubai\tDubai Marina & JBR\tRecognised",
+          "xn.required"
+        ]
+      }
+    },
+    {
+      "id": "A02",
+      "name": "Applying selected values sets budget 20,000, target 500, men 35–55, Dubai Marina (required), dates",
+      "result": "pass",
+      "detail": null
+    },
+    {
+      "id": "A03",
+      "name": "Draft survives language switches and a page reload, with a visible restore notice",
+      "result": "pass",
+      "detail": null
+    },
+    {
+      "id": "A04",
+      "name": "Submitting stores integer fils (2000000) and clears the draft",
+      "result": "pass",
+      "detail": null
+    },
+    {
+      "id": "A05",
+      "name": "Ladies-only listing excluded for men 35–55 in Dubai Marina; eligible list only Marina or city-wide",
+      "result": "pass",
+      "detail": {
+        "rec": [
+          "o4",
+          "o23"
+        ],
+        "elig": [
+          [
+            "o4",
+            "marina"
+          ],
+          [
+            "o23",
+            "all"
+          ]
+        ],
+        "relaxed": [
+          "o6",
+          "o15",
+          "o8",
+          "o27"
+        ],
+        "o26": [
+          "e.access.female_only",
+          "e.location.outside"
+        ]
+      }
+    },
+    {
+      "id": "A06",
+      "name": "Plan tabs follow the ARIA tabs pattern (arrow keys move and select)",
+      "result": "pass",
+      "detail": null
+    },
+    {
+      "id": "A07",
+      "name": "A partial offer cannot be approved until the coverage difference is explicitly accepted",
+      "result": "pass",
+      "detail": null
+    },
+    {
+      "id": "A08",
+      "name": "A supplier revision after approval creates v2 and clears the approval, with a visible notice",
+      "result": "pass",
+      "detail": null
+    },
+    {
+      "id": "A09",
+      "name": "Supplier answers in the supplier workspace and the customer approves each line",
+      "result": "pass",
+      "detail": null
+    },
+    {
+      "id": "A10",
+      "name": "Double submission creates one payment; totals equal the sum of rounded lines; dates are held",
+      "result": "pass",
+      "detail": {
+        "total": 3157035
+      }
+    },
+    {
+      "id": "A11",
+      "name": "A second checkout for the same approvals is refused (CHECKOUT_NOTHING_APPROVED)",
+      "result": "pass",
+      "detail": null
+    },
+    {
+      "id": "A12",
+      "name": "Payout release is refused while payment is outstanding",
+      "result": "pass",
+      "detail": {
+        "failed": [
+          "payment_received",
+          "delivery_accepted"
+        ]
+      }
+    },
+    {
+      "id": "A13",
+      "name": "Simulated payment event confirms bookings and is labelled as simulated",
+      "result": "pass",
+      "detail": null
+    },
+    {
+      "id": "A14",
+      "name": "An offer past its validity date cannot be approved",
+      "result": "pass",
+      "detail": {
+        "ok": false,
+        "code": "OFFER_NOT_APPROVABLE",
+        "sub": [
+          "OFFER_EXPIRED"
+        ]
+      }
+    },
+    {
+      "id": "A15",
+      "name": "Verification needs a reviewable document and a completed checklist; a file name alone cannot be approved; demo approvals are labelled simulated",
+      "result": "pass",
+      "detail": null
+    },
+    {
+      "id": "A16",
+      "name": "Deleting a listing used by bookings archives it; the booking shows the terms as booked",
+      "result": "pass",
+      "detail": null
+    },
+    {
+      "id": "A17",
+      "name": "A payout with all five checks passed can be released (simulated) by operations",
+      "result": "pass",
+      "detail": null
+    },
+    {
+      "id": "A18",
+      "name": "Dialogs are labelled, modal, trap focus and return focus to the opener",
+      "result": "pass",
+      "detail": {
+        "modal": "true",
+        "label": "Table cards and counter display, 8 cafés",
+        "inert": true
+      }
+    },
+    {
+      "id": "A19",
+      "name": "Data controls delete drafts on their own, and “delete everything” removes only this site’s keys",
+      "result": "pass",
+      "detail": {
+        "keys": [
+          "other.site.key",
+          "con.state.v3"
+        ]
+      }
+    },
+    {
+      "id": "A20",
+      "name": "Stored v2 data migrates to v3 with user records kept, decisions re-opened and a rollback copy left in place",
+      "result": "pass",
+      "detail": null
+    },
+    {
+      "id": "A21",
+      "name": "No horizontal scrolling at 360, 390, 768, 1024 and 1440 px in English and Arabic (6 platform views each)",
+      "result": "pass",
+      "detail": null
+    },
+    {
+      "id": "A22",
+      "name": "Interactive workflow page still selects and steps through its 16 positions",
+      "result": "pass",
+      "detail": null
+    },
+    {
+      "id": "A23",
+      "name": "No console errors during the run",
+      "result": "pass",
+      "detail": null
+    }
+  ],
+  "consoleErrors": []
+}

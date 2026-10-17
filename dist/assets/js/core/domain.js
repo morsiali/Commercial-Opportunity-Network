@@ -357,7 +357,12 @@
     ctx = c(ctx); authorize(ctx, ['customer']);
     const b = find(st.bookings, 'id', args.bookingId, 'BOOKING_NOT_FOUND');
     need(['delivery_accepted', 'completed'].includes(b.status), 'BOOKING_STATUS', { status: b.status });
-    b.outcome = { at: ctx.now, rating: Math.max(1, Math.min(5, parseInt(args.rating, 10) || 0)) || null, value: args.value != null && Number.isFinite(Number(args.value)) ? Number(args.value) : null, metric: String(args.metric || '').slice(0, 60), notes: String(args.notes || '').slice(0, 500), source: 'customer_declared' };
+    const n = args.newCustomers == null || args.newCustomers === '' ? null : Number(args.newCustomers);
+    need(n == null || (Number.isSafeInteger(n) && n >= 0), 'OUTCOME_INVALID', { field: 'newCustomers' });
+    const rev = args.revenueMinor == null ? null : args.revenueMinor;
+    need(rev == null || (Number.isSafeInteger(rev) && rev >= 0), 'OUTCOME_INVALID', { field: 'revenue' });
+    need(n != null || rev != null, 'OUTCOME_EMPTY');
+    b.outcome = { at: ctx.now, newCustomers: n, revenueMinor: rev, how: ['code', 'form', 'pos', 'other'].includes(args.how) ? args.how : 'other', source: 'customer_declared' };
     S.audit(st.audit, 'booking', b.id, 'outcome', meta(ctx));
     return b;
   }

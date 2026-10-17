@@ -79,3 +79,11 @@ test('RFQ response deadline must leave the supplier notice period', () => {
   assert.equal(E.rfqDeadlineCheck('2026-10-17', b, ops, today).code, 'rfq.deadline.past');
   assert.equal(E.rfqDeadlineCheck('2026-02-30', b, ops, today).code, 'rfq.deadline.invalid');
 });
+
+test('a staffing need is checked against the listing staffing field', () => {
+  const b = brief({ objective: 'trial', areas: ['all'], needs: { staffing: true } });
+  const o10 = E.eligibility(D.opportunities.find(o => o.id === 'o10'), null, b, ctx); // staffingProvided: true
+  assert.ok(o10.checks.some(x => x.key === 'facility' && x.status === 'pass'));
+  const o1 = E.eligibility(D.opportunities.find(o => o.id === 'o1'), null, b, ctx); // staffingProvided: false
+  assert.ok(o1.checks.some(x => x.code === 'e.facility.no'));
+});

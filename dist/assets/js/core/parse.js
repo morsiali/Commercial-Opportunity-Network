@@ -300,7 +300,7 @@
       [/\b(?:in|starting in|after)\s+(\d{1,3})\s+(days?|weeks?)\b|بعد\s+(\d{1,3})\s+(يوم|أيام|يوما|أسبوع|أسابيع)/, (m) => { const k = +(m[1] || m[3]); const u = m[2] || m[4]; return Dt.addDays(today, /week|أسبوع|أسابيع/.test(u) ? k * 7 : k); }]
     ];
     const relSpans = [];
-    rel.forEach(([re, fn]) => { const m = re.exec(n); if (!m) return; const iso = fn(m); const r = roleOf(clauseBefore(n, m.index)); const role = r === 'end' && !/\bin\b|بعد/.test(m[0]) ? 'end' : 'start'; dates.push({ iso, idx: m.index, raw: orig.slice(m.index, m.index + m[0].length), role, relative: true, len: m[0].length }); relSpans.push([m.index, m.index + m[0].length]); });
+    rel.forEach(([re, fn]) => { const m = re.exec(n); if (!m) return; const iso = fn(m); const r = roleOf(clauseBefore(n, m.index)); const inN = /\bin\b|بعد/.test(m[0]); const role = r === 'end' && !inN ? 'end' : 'start'; dates.push({ iso, idx: m.index, raw: orig.slice(m.index, m.index + m[0].length), role, relative: true, len: m[0].length, review: inN && r !== 'start', inN: inN && r !== 'start' }); relSpans.push([m.index, m.index + m[0].length]); });
 
     /* Duration (spans that are relative-start phrases are not durations) */
     const durRe = /(\d{1,3})\s*(days?|weeks?|months?|يوم|أيام|يوما|يومًا|أسبوع|أسابيع|أسبوعين|شهر|أشهر|شهور)(?![a-z])/g; let du; let duration = null;
@@ -330,7 +330,7 @@
     if (start) {
       const st = start.iso < today ? 'past' : (start.review || start.assumedYear || start.dayFirstAmbiguous ? 'review' : 'recognized');
       fields.start = start.iso;
-      push('start', start.iso, start.raw, st, start.iso < today ? 'past' : start.dayFirstAmbiguous ? 'day-first' : start.assumedYear ? 'assumed-year' : start.review ? 'no-cue' : (start.relative ? 'relative' : ''));
+      push('start', start.iso, start.raw, st, start.iso < today ? 'past' : start.dayFirstAmbiguous ? 'day-first' : start.assumedYear ? 'assumed-year' : start.inN ? 'in-n' : start.review ? 'no-cue' : (start.relative ? 'relative' : ''));
     }
     if (end) {
       const st = end.iso < today ? 'past' : (end.assumedYear || end.dayFirstAmbiguous ? 'review' : 'recognized');

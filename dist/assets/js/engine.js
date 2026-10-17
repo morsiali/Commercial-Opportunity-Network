@@ -12,6 +12,7 @@
   const FACTORS = Object.keys(WEIGHTS);
   const CATEGORIES = ['food', 'beverage', 'personal_care', 'health', 'fitness', 'tech', 'finance', 'retail', 'other'];
   const FACILITIES = ['foodSampling', 'refrigeration', 'electricity', 'staffing'];
+  const FAC_KEY = { foodSampling: 'foodSampling', refrigeration: 'refrigeration', electricity: 'electricity', staffing: 'staffingProvided' }; // brief need → listing field
   const FRESH = { availabilityDays: 30, evidenceMonths: 12 };
   const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
   const r2 = v => Math.round(v * 100) / 100;
@@ -110,7 +111,7 @@
     const present = req.filter(k => {
       const v = op[k];
       if (k === 'title' || k === 'desc') return v && (v.en || v.ar);
-      if (k === 'restrictions') return v && FACILITIES.some(f => v[f] != null);
+      if (k === 'restrictions') return v && FACILITIES.some(f => v[FAC_KEY[f]] != null);
       if (k === 'audience') return v && v.ageMin != null && (v.interests || []).length;
       return v != null && v !== '';
     }).length;
@@ -138,6 +139,8 @@
     // audience access is physical: a ladies-only venue cannot reach men, required or not
     if (aud.access === 'female_only' && brief.gender === 'male') add('access', 'fail', 'e.access.female_only');
     else if (aud.access === 'male_only' && brief.gender === 'female') add('access', 'fail', 'e.access.male_only');
+    else if ((aud.access === 'female_only' && brief.gender !== 'female') || (aud.access === 'male_only' && brief.gender !== 'male')) add('access', 'confirm', 'e.access.restricted', { g: aud.access === 'female_only' ? 'female' : 'male' });
+    else if (aud.access === 'members_only') add('access', 'confirm', 'e.access.members');
     else add('access', 'pass', 'e.access.ok');
     // audience (age / gender) when required
     if (brief.requirements.audience === 'required') {
@@ -164,8 +167,9 @@
     // facilities and operating conditions the brief requires
     FACILITIES.forEach(f => {
       if (!brief.needs[f]) return;
-      if (r[f] === true) add('facility', 'pass', 'e.facility.ok', { f });
-      else if (r[f] === false) add('facility', 'fail', 'e.facility.no', { f });
+      const val = r[FAC_KEY[f]];
+      if (val === true) add('facility', 'pass', 'e.facility.ok', { f });
+      else if (val === false) add('facility', 'fail', 'e.facility.no', { f });
       else add('facility', 'confirm', 'e.facility.unknown', { f });
     });
     // availability, coverage, notice, quantities
