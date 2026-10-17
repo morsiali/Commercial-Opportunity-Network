@@ -12,7 +12,8 @@ const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePa
 const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
 const errors = [];
 page.on('pageerror', e => errors.push(String(e)));
-page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+const missing = new Set();
+page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); if (m.type() === 'warning' && m.text().startsWith('[i18n] missing key: ')) missing.add(m.text().slice(20)); });
 const results = [];
 const step = (id, name, detail) => { results.push({ id, name, result: 'pass', detail: detail || null }); console.log('✓ ' + id + ' ' + name); };
 const S = () => page.evaluate(() => JSON.parse(JSON.stringify(CON.Store.state)));
@@ -36,6 +37,16 @@ try {
   const mergeText = await page.locator('.merge').innerText();
   assert.match(mergeText, /AED 20,000\.00/); assert.match(mergeText, /500/);
   step('A01', 'Sentence extraction shows a merge preview and keeps typed fields', { preview: mergeText.split('\n').slice(0, 12) });
+  // Specification §4 acceptance: product and success typed by hand, then a sentence with only a budget.
+  await page.fill('#f-success', 'Hand-typed success');
+  await page.fill('#f-sentence', 'budget AED 35,000');
+  await page.click('form[data-form="extract"] button[type="submit"]'); await page.waitForSelector('#merge-h');
+  await page.click('#merge-form button[type="submit"]'); await page.waitForTimeout(150);
+  assert.equal(await page.inputValue('#f-product'), 'Fintech app'); assert.equal(await page.inputValue('#f-success'), 'Hand-typed success');
+  assert.equal(await page.inputValue('#f-budget'), '35000');
+  step('A01b', 'A budget-only sentence changes only the budget; hand-typed product and success criteria stay unchanged');
+  await page.fill('#f-sentence', '500 qualified leads, AED 20,000, men 35–55 in Dubai Marina only, start 2026-11-20 for 4 weeks');
+  await page.click('form[data-form="extract"] button[type="submit"]'); await page.waitForSelector('#merge-h');
   await page.click('#merge-form button[type="submit"]');
   await page.waitForTimeout(150);
   assert.equal(await page.inputValue('#f-budget'), '20000');
@@ -248,7 +259,7 @@ try {
   step('A20', 'Stored v2 data migrates to v3 with user records kept, decisions re-opened and a rollback copy left in place');
 
   /* ---- Responsive: no horizontal scrolling ---- */
-  const widths = [360, 390, 768, 1024, 1440]; const overflow = [];
+  const widths = [360, 390, 640, 768, 1024, 1440]; const overflow = []; // 640 ≈ 1280 px at 200% browser zoom
   for (const w of widths) {
     await page.setViewportSize({ width: w, height: 900 });
     for (const l of ['en', 'ar']) {
@@ -261,7 +272,7 @@ try {
     }
   }
   assert.deepEqual(overflow, [], 'no horizontal overflow');
-  step('A21', 'No horizontal scrolling at 360, 390, 768, 1024 and 1440 px in English and Arabic (6 platform views each)');
+  step('A21', 'No horizontal scrolling at 360, 390, 640 (200% zoom), 768, 1024 and 1440 px in English and Arabic (6 platform views each)');
   await page.setViewportSize({ width: 1280, height: 900 });
 
   /* ---- Workflow page (unchanged behaviour) ---- */
@@ -275,8 +286,46 @@ try {
   assert.match(await page.locator('#detail h2').innerText(), /Nudge late reply/);
   step('A22', 'Interactive workflow page still selects and steps through its 16 positions');
 
+  /* ---- Early access: honest email-preparation flow, nothing stored or sent ---- */
+  await page.goto(base + 'index.html#contact'); await page.waitForTimeout(200);
+  await page.fill('#ct-name', 'Test Person'); await page.fill('#ct-company', 'Test Co'); await page.fill('#ct-email', 'person@example.test');
+  await page.click('#contact-form button[type="submit"]'); await page.waitForTimeout(150);
+  const doneText = await page.locator('#contact-done').innerText();
+  assert.match(doneText, /Nothing has been sent and nothing was stored/); assert.ok(!/received/i.test(doneText));
+  assert.equal(await page.evaluate(() => localStorage.getItem('con.earlyAccess')), null);
+  step('A24', 'Early access only prepares an email: the confirmation says nothing was sent or stored, and nothing is stored');
+
+  /* ---- Privacy page: each delete control removes only what it describes ---- */
+  await page.evaluate(() => { localStorage.setItem('con.earlyAccess', '[{"name":"old"}]'); localStorage.setItem('con.draft.obj.new', '{}'); localStorage.setItem('con.lang', '"en"'); localStorage.setItem('unrelated.app', '1'); });
+  await page.goto(base + 'privacy.html#your-data'); await page.waitForTimeout(200);
+  const keysBefore = await page.evaluate(() => Object.keys(localStorage).sort());
+  await page.click('[data-dc="ea"]'); await page.waitForTimeout(50);
+  let ks = await page.evaluate(() => Object.keys(localStorage));
+  assert.ok(!ks.includes('con.earlyAccess') && ks.includes('con.draft.obj.new') && ks.includes('con.state.v3'));
+  await page.click('[data-dc="drafts"]'); await page.waitForTimeout(50);
+  ks = await page.evaluate(() => Object.keys(localStorage));
+  assert.ok(!ks.some(k => k.startsWith('con.draft.')) && ks.includes('con.state.v3'));
+  await page.click('[data-dc="records"]'); await page.waitForTimeout(50);
+  ks = await page.evaluate(() => Object.keys(localStorage));
+  assert.ok(!ks.some(k => k.startsWith('con.state.')) && ks.includes('con.lang'));
+  await page.click('[data-dc="all"]'); await page.waitForTimeout(50);
+  ks = await page.evaluate(() => Object.keys(localStorage));
+  assert.deepEqual(ks.sort(), ['other.site.key', 'unrelated.app'].filter(k => keysBefore.includes(k)).sort());
+  step('A25', 'Privacy page delete controls remove early-access details, drafts, records and everything separately, never other apps’ keys', { before: keysBefore, after: ks });
+
+  /* ---- Sample data is labelled, never shown as validated evidence ---- */
+  await page.goto(base + 'platform.html#o-metrics'); await page.waitForTimeout(300);
+  const mt = await page.locator('#main').innerText();
+  assert.match(mt, /Activity created in this browser/); assert.match(mt, /Sample records \(illustrative\)/);
+  await page.goto(base + 'platform.html#c-plan-obsample'); await page.waitForTimeout(300);
+  const pt = await page.locator('#panel-plan').innerText();
+  assert.ok(!/\bVerified\b/.test(pt.replace(/Licence reviewed \(simulated\)/g, '')), 'no sample evidence shown as Verified');
+  assert.match(pt, /Sample data \(illustrative\)|Insufficient/);
+  step('A26', 'Metrics keep sample records apart, and sample evidence is labelled “Sample data (illustrative)”, never “Verified”');
+
   assert.deepEqual(errors.filter(e => !/favicon/.test(e)), [], 'no console errors');
-  step('A23', 'No console errors during the run');
+  assert.deepEqual([...missing], [], 'no translation key was shown raw: ' + [...missing].join(', '));
+  step('A23', 'No console errors and no untranslated keys during the run');
 } catch (err) {
   results.push({ id: 'FAIL', name: String(err && err.message || err).slice(0, 500), result: 'fail' });
   console.error(err);

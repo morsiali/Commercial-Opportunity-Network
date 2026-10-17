@@ -71,7 +71,8 @@ const E = CON.Engine;
 const coreSrc = (await Promise.all(['core/domain.js', 'core/offers.js', 'core/inventory.js', 'core/states.js', 'engine.js', 'core/parse.js'].map(f => readFile(join(dist, 'assets/js', f), 'utf8')))).join('\n');
 const errCodes = [...new Set([...coreSrc.matchAll(/(?:DomainError|need)\([^']*'([A-Z_]+)'/g)].map(m => m[1]))].filter(c => !['STATE_UNKNOWN', 'STATE_UNKNOWN_MACHINE', 'DISPUTE_OUTCOME_INVALID', 'PAYMENT_EVENT_ID_REQUIRED', 'PAYMENT_EVENT_UNKNOWN', 'RESERVATION_NOT_FOUND', 'RFQ_LINE_NOT_FOUND', 'VERIFICATION_DECISION_INVALID', 'LISTING_STATUS_INVALID', 'PAYOUT_NOT_FOUND', 'BOOKING_NOT_FOUND', 'PAYMENT_NOT_FOUND', 'REFUND_NOT_FOUND', 'DISPUTE_NOT_FOUND', 'RFQ_NOT_FOUND', 'OBJECTIVE_NOT_FOUND', 'SUPPLIER_NOT_FOUND'].includes(c));
 const eCodes = [...new Set([...coreSrc.matchAll(/'(e\.[a-z_]+\.[a-z_]+|r\.[a-z]+(?:\.[a-z]+)?|risk\.[a-z]+)'/g)].map(m => m[1]))];
-const notes = [...new Set([...coreSrc.matchAll(/push\('\w+', [^;]*?'(?:recognized|review|confirm|conflict|ambiguous|invalid|past|derived)', '([a-z-]+)'/g)].map(m => m[1]))];
+/* The note argument after the status: a literal or a conditional expression; collect every literal in it. */
+const notes = [...new Set([...coreSrc.matchAll(/push\('\w+', [^;]*?'(?:recognized|review|confirm|conflict|ambiguous|invalid|past|derived)', ([^,)]*)/g)].flatMap(m => [...m[1].matchAll(/'([a-z][a-z-]*)'/g)].map(x => x[1])).filter(x => !['recognized', 'review', 'confirm', 'conflict', 'ambiguous', 'invalid', 'past', 'derived'].includes(x)))];
 const STATES = CON.States.MACHINES;
 const fam = [
   ...D.types.flatMap(x => ['type.' + x, 'expect.' + x]), ...D.objectives.map(x => 'obj.' + x), ...D.interests.map(x => 'int.' + x),

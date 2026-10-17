@@ -233,3 +233,20 @@ test('the sample seed obeys the same rules: totals reconcile and audit covers ev
   const kinds = new Set(st.audit.map(a => a.entity));
   ['rfq', 'offer', 'payment', 'booking', 'payout', 'reservation'].forEach(k => assert.ok(kinds.has(k), k));
 });
+
+test('an offer whose dates do not overlap the campaign cannot be approved', () => {
+  const st = fresh(); const ob = objective(st);
+  const r = Dm.createRfq(st, { objectiveId: ob.id, oppIds: ['o4'] }, cust()); const l = r.lines[0];
+  const later = Dt.addDays(ob.end, 14);
+  const weekend = [later, Dt.addDays(later, 1), Dt.addDays(later, 2)].filter(d => [6, 0].includes(Dt.weekday(d)));
+  Dm.respond(st, { rfqId: r.id, line: l.id, input: offerInput(l, { dates: weekend, from: weekend[0], to: weekend[weekend.length - 1], units: weekend.length }) }, supp('s1'));
+  const v = Of.current(l);
+  assert.throws(() => Dm.approve(st, { rfqId: r.id, line: l.id, acceptedDeviations: v.deviations.map(d => d.field) }, cust()), err => err.details.errors.some(e => e.code === 'OFFER_NO_DATE_OVERLAP'));
+});
+
+test('a booking snapshot keeps supplier identity, scope, prices, fees, taxes, terms and evidence', () => {
+  const st = fresh(); const bk = st.bookings[0];
+  ['title', 'desc', 'evidence', 'supplierName', 'supplierLicence', 'supplierVerification', 'price', 'unit', 'version'].forEach(k => assert.ok(k in bk.snapshot, k));
+  ['net', 'fee', 'vat', 'total'].forEach(k => assert.ok(Number.isSafeInteger(bk.money[k]), k));
+  assert.ok(bk.offer && bk.offer.deliverables.length && bk.dates.length);
+});

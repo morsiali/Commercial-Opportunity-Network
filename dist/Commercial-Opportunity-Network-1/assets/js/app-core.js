@@ -12,7 +12,7 @@
     const dict = CON.APP_STR[A.lang] || CON.APP_STR.en;
     let s = dict[key];
     if (s == null) s = CON.APP_STR.en[key];
-    if (s == null) return key;
+    if (s == null) { const m = CON.missingKeys = CON.missingKeys || new Set(); if (!m.has(key)) { m.add(key); console.warn('[i18n] missing key: ' + key); } return key; } /* reported so tests fail on untranslated text */
     if (p) s = s.replace(/\{(\w+)\}/g, (m, k) => (p[k] != null ? p[k] : m));
     return s;
   };

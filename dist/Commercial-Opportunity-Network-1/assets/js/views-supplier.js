@@ -27,7 +27,7 @@
     const inProg = bks.filter(b => ['confirmed', 'preparing', 'live'].includes(b.status));
     const pos = s.payouts.filter(p => p.supplierId === sup.id);
     const released = M.sum(pos.filter(p => p.status === 'released').map(p => p.amount));
-    const held = M.sum(pos.filter(p => ['held', 'eligible', 'withheld'].includes(p.status)).map(p => p.amount));
+    const held = M.sum(pos.filter(p => ['held', 'eligible', 'releasing', 'withheld'].includes(p.status)).map(p => p.amount));
     const v = sup.verification || {};
     return A.supplierSwitch() + A.head(A.L(sup.name), t('s.overview.sub'), '<a class="btn btn-dark" href="#s-listing">' + ic('plus') + '<span>' + t('s.addListing') + '</span></a>') +
       (v.status !== 'licence_reviewed' ? '<div class="notice warn">' + ic('shield') + '<div><b>' + t('s.verify3.' + (v.status || 'not_submitted')) + '</b> ' + t('s.verify.why3') + ' <a href="#s-profile">' + t('nav.s.profile') + '</a></div></div>' : '') +

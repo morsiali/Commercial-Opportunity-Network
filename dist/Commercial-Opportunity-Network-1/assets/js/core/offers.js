@@ -96,6 +96,7 @@
     const op = ctx.listing;
     if (!op || op.status !== 'active') errors.push({ code: 'LISTING_UNAVAILABLE', status: op ? op.status : 'missing' });
     else if ((op.version || 1) !== v.listingVersion) warnings.push({ code: 'LISTING_CHANGED_SINCE_OFFER', from: v.listingVersion, to: op.version });
+    if (line.window && !v.dates.some(d => d >= line.window.from && d <= line.window.to)) errors.push({ code: 'OFFER_NO_DATE_OVERLAP' });
     if (v.dates[0] < today) errors.push({ code: 'OFFER_DATES_PAST', first: v.dates[0] });
     else if (op && op.leadDays && Dt.diffDays(today, v.dates[0]) < op.leadDays && ctx.stage === 'checkout') warnings.push({ code: 'OFFER_NOTICE_SHORT', lead: op.leadDays });
     if (op && (v.dates[0] < op.availableFrom || v.dates[v.dates.length - 1] > op.availableTo)) errors.push({ code: 'OFFER_OUTSIDE_AVAILABILITY' });

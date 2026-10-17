@@ -1,0 +1,56 @@
+// Re-runs the before-reproduction cases (docs/evidence/repro-before.json) against the hardened code.
+// UI cases (H5, H6, H20) are covered in the browser by tests/e2e.mjs (A01–A03, A18); their results are referenced here.
+import { writeFileSync, readFileSync } from 'node:fs';
+import { CON } from '../unit/_load.mjs';
+const { Parse: P, Engine: E, DATA: D, Domain: Dm, Offers: Of, Money: M, Seed, Dates: Dt } = CON;
+const today = '2026-10-17';
+const X = s => P.extract(s, { today });
+const out = { ranAt: new Date().toISOString(), today, parser: {}, matching: {}, store: {}, ui: {} };
+out.parser['H1 "500 qualified leads, AED 20,000, men 35–55" budget (fils)'] = X('500 qualified leads, AED 20,000, men 35–55').fields.budgetMinor;
+for (const [k, s] of [['H2a', 'AED 100k'], ['H2b', '100k AED'], ['H2c', 'AED 1.5 million'], ['H2d', '١٠٠٬٠٠٠ درهم'], ['H2e', '١٬٥٠٠٫٥٠ درهم']]) out.parser[k + ' "' + s + '" (AED)'] = X(s).fields.budget;
+const t3a = X('500 qualified leads'); out.parser['H3a "500 qualified leads" target/objective'] = [t3a.fields.target, t3a.fields.objective];
+const t3b = X('5,000 new customers'); out.parser['H3b "5,000 new customers"'] = [t3b.fields.target, t3b.fields.objective];
+const t3c = X('New customers, not sampling'); out.parser['H3c "New customers, not sampling" objective / excluded'] = [t3c.fields.objective, t3c.excluded.objectives];
+out.parser['H4 "start on 1 December 2026" start'] = X('start on 1 December 2026').fields.start;
+const ctx = { today, suppliers: D.suppliers };
+const b = E.normalizeObjective({ objective: 'leads', gender: 'male', ageMin: 35, ageMax: 55, areas: ['marina'], budget: 100000, duration: 30, start: '2026-11-07', requirements: { audience: 'required', areas: 'required' } }, { today });
+const r = E.rank(D.opportunities, b, ctx);
+out.matching['H7 female-only venues among recommended / eligible / relaxed'] = [r.recommended, r.eligible, r.relaxed].map(list => list.filter(x => D.opportunities.find(o => o.id === x.oppId).audience.access === 'female_only').length);
+out.matching['H7 eligible outside Dubai Marina (city-wide excluded)'] = r.eligible.filter(x => !['marina', 'all'].includes(D.opportunities.find(o => o.id === x.oppId).area)).length + ' of ' + r.eligible.length;
+const syn = Object.assign({}, D.opportunities.find(o => o.id === 'o2'), { maxUnits: 60, availableTo: '2027-12-31' });
+const c = E.coverage(syn, E.normalizeObjective({ objective: 'trial', duration: 90, start: '2026-11-07', areas: ['barsha'] }, { today }));
+out.matching['H8 90-day request vs max 60 daily units'] = { status: c.status, purchasedUnits: c.purchasedUnits, uncoveredDays: c.uncoveredDates.length };
+const l = M.line(M.fromAED('1000.10'), M.fromAED('0.20'));
+out.matching['H9 1000.10 + 0.20 setup (fils, integer)'] = { net: l.net, fee: l.fee, vat: l.vat, total: l.total, display: M.format(l.total, 'en') };
+// Store-level cases through the domain rules
+const st = Seed.build({ today });
+const cu = { role: 'customer', actor: 'c', today, now: today + 'T09:00:00.000Z', mode: 'demo' };
+const su = sid => ({ role: 'supplier', actor: 's', supplierId: sid, today, now: today + 'T09:00:00.000Z', mode: 'demo' });
+const ob = Object.assign(E.normalizeObjective({ objective: 'trial', areas: ['marina'], budget: 200000, duration: 14, start: Dt.addDays(today, 20) }, { today }), { id: 'ob-r', name: 'R' });
+st.objectives.push(ob);
+const mk = (valid) => { const q = Dm.createRfq(st, { objectiveId: ob.id, oppIds: ['o4'] }, cu); const ln = q.lines[0]; const cv = ln.requested.coverage; Dm.respond(st, { rfqId: q.id, line: ln.id, input: { basePrice: ln.requested.price.base, setupFee: 0, units: cv.purchasedUnits, from: cv.coveredDates[0], to: cv.coveredDates.slice(-1)[0], dates: cv.coveredDates, deliverables: ['x'], validUntil: valid } }, su('s1')); return { q, ln }; };
+const tryDo = f => { try { f(); return 'allowed'; } catch (e) { return 'refused: ' + e.code + (e.details && e.details.errors ? ' (' + e.details.errors.map(x => x.code).join(', ') + ')' : ''); } };
+const e1 = mk(Dt.addDays(today, 2));
+out.store['H10 approve an expired offer'] = tryDo(() => Dm.approve(st, { rfqId: e1.q.id, line: e1.ln.id }, Object.assign({}, cu, { today: Dt.addDays(today, 3) })));
+const e2 = mk(Dt.addDays(today, 7)); Dm.approve(st, { rfqId: e2.q.id, line: e2.ln.id }, cu);
+Dm.respond(st, { rfqId: e2.q.id, line: e2.ln.id, input: Object.assign({}, Of.current(e2.ln), { basePrice: Of.current(e2.ln).basePrice + 100 }) }, su('s1'));
+out.store['H11 approval after a material revision'] = e2.ln.approval === null ? 'cleared (line status ' + e2.ln.status + ')' : 'kept';
+const e3 = mk(Dt.addDays(today, 7)); Dm.approve(st, { rfqId: e3.q.id, line: e3.ln.id }, cu);
+const p1 = Dm.checkout(st, { rfqId: e3.q.id, method: 'transfer', idempotencyKey: 'repro-key-001' }, cu);
+const p2 = tryDo(() => Dm.checkout(st, { rfqId: e3.q.id, method: 'transfer', idempotencyKey: 'repro-key-002' }, cu));
+out.store['H13 payments created by two checkout calls'] = st.payments.filter(p => p.rfqId === e3.q.id).length + ' (second call ' + p2 + ')';
+const po = st.payouts.find(x => st.bookings.find(bk => bk.id === x.bookingId && bk.paymentId === p1.payment.id));
+out.store['H12 release payout while payment is ' + p1.payment.status] = tryDo(() => Dm.releasePayout(st, { payoutId: po.id }, Object.assign({}, cu, { role: 'ops' })));
+const o4 = st.opportunities.find(o => o.id === 'o4');
+out.store['H14 capacity is per date'] = { capacityPerDate: o4.capacityPerDate, freeOnBookedDate: CON.Inventory.free(st, o4, Of.current(e3.ln).dates[0], Date.parse(today + 'T09:10:00Z')), globalSlotCounter: 'removed' };
+const bk = st.bookings.find(x => x.oppId === 'o2');
+const del = Dm.removeListing(st, 'o2', su('s2'));
+out.store['H15 delete a listing used by a booking'] = (del.archived ? 'archived' : 'deleted') + '; booking snapshot title: ' + bk.snapshot.title.en;
+const s6 = st.suppliers.find(s => s.id === 's6'); s6.verification.documents = [];
+Dm.submitVerification(st, { supplierId: 's6', licenceNumber: s6.licenceNumber, document: { fileName: 'licence.pdf', size: 1000, type: 'application/pdf', storage: 'local-only' } }, su('s6'));
+out.store['H16 approve with only a file name'] = tryDo(() => Dm.reviewVerification(st, { supplierId: 's6', decision: 'approve', checks: { nameMatches: true, numberMatches: true, documentLegible: true }, licenceExpiry: '2027-12-31' }, Object.assign({}, cu, { role: 'ops' })));
+out.store['H21 sample records are flagged and sample evidence is labelled'] = { sampleRfqs: st.rfqs.filter(q => q.sample).length, evidenceLevels: Array.from(new Set(D.opportunities.flatMap(o => o.evidence.map(e => e.verification)))) };
+try { const e2e = JSON.parse(readFileSync(new URL('../../docs/evidence/e2e-results.json', import.meta.url))); const pick = ids => e2e.results.filter(x => ids.includes(x.id)).map(x => x.id + ' ' + x.result + ': ' + x.name);
+  out.ui['H5/H6 drafts (browser e2e)'] = pick(['A01', 'A01b', 'A02', 'A03']); out.ui['H20 dialogs (browser e2e)'] = pick(['A18']); } catch { out.ui.note = 'Run npm run test:e2e first'; }
+writeFileSync(new URL('../../docs/evidence/repro-after.json', import.meta.url), JSON.stringify(out, null, 2));
+console.log(JSON.stringify(out, null, 2));

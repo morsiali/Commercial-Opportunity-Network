@@ -59,7 +59,7 @@ test('evidence is reported per dimension with source and freshness, and unlike m
   const op = D.opportunities.find(o => o.id === 'o12');
   const ev = E.evidenceProfile(op, D.suppliers.find(s => s.id === op.supplierId), { today });
   ['business', 'completeness', 'audience', 'delivery', 'outcome', 'availability'].forEach(k => assert.ok(k in ev, k));
-  assert.equal(ev.audience.level, 'verified');
+  assert.equal(ev.audience.level, 'sample');
   const r = E.rank(D.opportunities, brief({ objective: 'awareness', areas: ['marina'] }), ctx);
   const pk = E.buildPackages(r, D.opportunities, {});
   pk.forEach(p => { Object.values(p.evidenceByMetric || {}).forEach(v => assert.ok(!('total' in v) || typeof v.total === 'number')); assert.equal(p.totals.total, p.items.reduce((t, i) => t + i.price.total, 0)); });
@@ -86,4 +86,23 @@ test('a staffing need is checked against the listing staffing field', () => {
   assert.ok(o10.checks.some(x => x.key === 'facility' && x.status === 'pass'));
   const o1 = E.eligibility(D.opportunities.find(o => o.id === 'o1'), null, b, ctx); // staffingProvided: false
   assert.ok(o1.checks.some(x => x.code === 'e.facility.no'));
+});
+
+test('sample listings never present their figures as verified market evidence (acceptance 22)', () => {
+  D.opportunities.forEach(op => {
+    (op.evidence || []).forEach(e => { assert.equal(e.verification, 'sample', op.id); assert.equal(e.source, 'sample', op.id); });
+    const ev = E.evidenceProfile(op, D.suppliers.find(s => s.id === op.supplierId), { today });
+    ['audience', 'delivery', 'outcome'].forEach(k => assert.ok(['sample', 'insufficient'].includes(ev[k].level), op.id + ' ' + k));
+  });
+  D.suppliers.filter(s => s.verification.status === 'licence_reviewed').forEach(s => assert.equal(s.verification.simulated, true, s.id));
+});
+
+test('unit economics formulas: break-even, payback and refund losses', () => {
+  const r = CON.Econ.calc({ atv: 10000, take: 10, proc: 2, ai: 10, support: 100, refunds: 1, fixed: 10000, cac: 2000, freq: 4 });
+  // fee 1000; charged 11000 × 2% = 220; + 10 + 100 + 100 refunds = 430 variable; contribution 570
+  assert.equal(r.rev, 1000); assert.equal(r.varCost, 430); assert.equal(r.contrib, 570);
+  assert.equal(r.breakEven, Math.ceil(10000 / 570));
+  assert.ok(Math.abs(r.payMonths - (2000 / 570) / (4 / 12)) < 1e-9);
+  assert.equal(r.yearContrib, 570 * 4 - 2000);
+  assert.equal(CON.Econ.calc({ atv: 1000, take: 1, proc: 5, ai: 50, support: 50, refunds: 0, fixed: 1, cac: 1, freq: 1 }).breakEven, null);
 });

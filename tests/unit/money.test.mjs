@@ -42,3 +42,19 @@ test('display uses two decimals in both languages', () => {
   assert.equal(M.format(150050, 'ar'), '1,500.50 د.إ');
   assert.equal(M.format(null, 'en'), '—');
 });
+
+test('English and Arabic show identical amounts (acceptance 9)', () => {
+  for (const v of [0, 1, 99, 150050, 123456789, 100000000000]) {
+    const en = M.format(v, 'en').replace('AED ', ''); const ar = M.format(v, 'ar').replace(' د.إ', '');
+    assert.equal(en, ar);
+  }
+});
+
+test('a package line and a checkout line reconcile for the same commercial terms', async () => {
+  const { CON } = await import('./_load.mjs');
+  const op = CON.DATA.opportunities.find(o => o.id === 'o4');
+  const brief = CON.Engine.normalizeObjective({ objective: 'trial', budget: 100000, duration: 14, start: '2026-11-07', areas: ['marina'] }, { today: '2026-10-17' });
+  const cov = CON.Engine.coverage(op, brief); const pkgLine = CON.Engine.price(op, cov);
+  const offerLine = CON.Offers.money({ basePrice: op.price * cov.purchasedUnits, setupFee: op.setupFee, vatRegistered: true });
+  ['net', 'fee', 'vat', 'exVat', 'total'].forEach(k => assert.equal(pkgLine[k], offerLine[k], k));
+});

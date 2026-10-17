@@ -22,6 +22,8 @@
     const key = String(v.unit || v.metric || '').toLowerCase();
     const map = UNIT_MAP[key] || [defaults.kind, 'people', 'total', 'estimated'];
     const verified = (v.source || '') === 'verified';
+    // Figures on the illustrative sample listings are sample data, never verified market evidence.
+    if (defaults.sample) return { kind: map[0], metric: map[1], period: map[2], method: map[3], value: Number(v.value) || 0, label: v.unit || v.metric || '', source: 'sample', verification: 'sample', periodEnd: v.date || null, reviewedAt: null, expiresAt: null };
     return {
       kind: map[0], metric: map[1], period: map[2], method: map[3], value: Number(v.value) || 0, label: v.unit || v.metric || '',
       source: verified ? 'platform_review' : 'supplier_declared', verification: verified ? 'verified' : 'unverified',
@@ -44,8 +46,8 @@
     };
     const toMinor = v => (v == null || v === '' ? null : Math.round(Number(v) * 100));
     const evidence = [];
-    const r = toEvidence(op.reach, { kind: 'audience' }); if (r) evidence.push(r);
-    (op.performance || []).forEach(p => { const e = toEvidence({ value: p.value, unit: p.metric, source: p.source, date: p.date }, { kind: 'delivery' }); if (e) evidence.push(e); });
+    const r = toEvidence(op.reach, { kind: 'audience', sample: isDemo }); if (r) evidence.push(r);
+    (op.performance || []).forEach(p => { const e = toEvidence({ value: p.value, unit: p.metric, source: p.source, date: p.date }, { kind: 'delivery', sample: isDemo }); if (e) evidence.push(e); });
     const aud = Object.assign({ gender: 'mixed', access: 'open', ageMin: null, ageMax: null, interests: [] }, op.audience || {}, x.audience || {});
     const out = {
       v: 3, id: op.id, supplierId: op.supplierId, type: op.type, area: op.area,

@@ -1,6 +1,10 @@
 // Captures screenshots of key screens. Usage: PREFIX=before node tests/repro/screens.mjs [baseUrl]
 import { chromium } from 'playwright';
-const base = process.argv[2] || 'http://127.0.0.1:4176/';
+import { createServer } from '../../scripts/preview.mjs';
+// Without a base URL, serve the current dist/ on a local port for the duration of the run.
+const server = process.argv[2] ? null : createServer();
+if (server) await new Promise(r => server.listen(4183, '127.0.0.1', r));
+const base = process.argv[2] || 'http://127.0.0.1:4183/';
 const prefix = process.env.PREFIX || 'after';
 const dir = new URL('../../docs/screenshots/', import.meta.url).pathname;
 const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
@@ -16,8 +20,17 @@ await shot('booking', 'platform.html#c-booking-' + bk);
 await shot('listing-form', 'platform.html#s-listing');
 await shot('verification', 'platform.html#s-profile');
 await shot('ops-metrics', 'platform.html#o-metrics');
-await shot('home-early-access', 'index.html#contact');
+// Early access: fictional details (example.test), submitted locally. Nothing is sent; the page only prepares an email.
+await page.emulateMedia({ reducedMotion: 'reduce' });
+await shot('home-early-access', 'index.html', async () => {
+  await page.evaluate(() => document.querySelectorAll('.reveal').forEach(e => e.classList.add('in')));
+  await page.fill('#ct-name', 'Test Person'); await page.fill('#ct-company', 'Example Trading LLC'); await page.fill('#ct-email', 'person@example.test');
+  await page.click('#contact-form [type="submit"]'); await page.waitForTimeout(300);
+  await page.evaluate(() => { const el = document.getElementById('contact-done'); window.scrollTo(0, el.getBoundingClientRect().top + scrollY - 140); });
+  await page.waitForTimeout(300);
+});
 await page.setViewportSize({ width: 390, height: 844 });
 await shot('mobile-plan', 'platform.html#c-plan-obsample');
 await browser.close();
+if (server) server.close();
 console.log('saved', prefix);

@@ -21,6 +21,22 @@
     const pays = s.payments.filter(keep).filter(p => ['paid', 'partially_refunded', 'refunded'].includes(p.status));
     const gmv = M.sum(pays.map(p => p.amount.net));
     const fees = M.sum(pays.map(p => p.amount.fee));
+    const bks = s.bookings.filter(keep);
+    const live = bks.filter(b => !['cancelled', 'expired'].includes(b.status));
+    const paidIds = new Set(pays.map(p => p.id));
+    const refunds = s.refunds.filter(r => r.status === 'processed' && bks.some(b => b.id === r.bookingId));
+    const refundedBk = new Set(refunds.map(r => r.bookingId));
+    const pos = s.payouts.filter(p => bks.some(b => b.id === p.bookingId));
+    const finance = {
+      booked: M.sum(live.map(b => b.money.total)),                                             // all bookings not cancelled or expired, incl. VAT
+      paid: M.sum(pays.map(p => p.amount.total)),                                               // payments received, incl. VAT
+      refunds: M.sum(refunds.map(r => r.amount)),
+      feesEarned: M.sum(bks.filter(b => b.status === 'delivery_accepted' && !refundedBk.has(b.id)).map(b => b.money.fee)), // fee on accepted delivery
+      feesCollected: M.sum(bks.filter(b => paidIds.has(b.paymentId)).map(b => b.money.fee)),    // fee inside payments received
+      liabilities: M.sum(pos.filter(p => ['held', 'eligible', 'releasing', 'withheld'].includes(p.status) && bks.some(b => b.id === p.bookingId && paidIds.has(b.paymentId))).map(p => p.amount)),
+      released: M.sum(pos.filter(p => p.status === 'released').map(p => p.amount))
+    };
+    finance.net = finance.feesEarned - M.sum(refunds.map(r => { const b = bks.find(x => x.id === r.bookingId); return b ? b.money.fee : 0; }));
     const firsts = rfqs.map(r => { const ts = r.lines.map(l => (l.offers || [])[0]).filter(Boolean).map(v => Date.parse(v.at) - Date.parse(r.createdAt)); return ts.length ? Math.min.apply(null, ts) : null; }).filter(x => x != null && x >= 0);
     const invited = new Set(); const responding = new Set();
     rfqs.forEach(r => r.lines.forEach(l => { invited.add(l.supplierId); if (l.status !== 'requested') responding.add(l.supplierId); }));
@@ -30,7 +46,7 @@
       rfqs: rfqs.length, lines: lines.length, replied: replied.length, simulated: simulated.length, real: replied.length - simulated.length,
       responseRate: lines.length ? replied.length / lines.length : null,
       awarded, conversion: rfqs.length ? awarded / rfqs.length : null,
-      txs: pays.length, gmv, fees, atv: pays.length ? Math.round(M.sum(pays.map(p => p.amount.total)) / pays.length) : null,
+      txs: pays.length, gmv, fees, finance, atv: pays.length ? Math.round(gmv / pays.length) : null,
       takeRate: gmv ? fees / gmv : null,
       ttfo: firsts.length ? firsts.reduce((a, b) => a + b, 0) / firsts.length / 3600000 : null,
       retention: invited.size ? responding.size / invited.size : null, invited: invited.size, responding: responding.size
@@ -47,7 +63,9 @@
       A.kpi('chart', t('m.take'), pct(m.takeRate), t('m.takeN', { v: A.money(m.fees) })) +
       A.kpi('clock', t('m.ttfo'), m.ttfo == null ? '—' : t('m.hours', { n: m.ttfo.toFixed(1) }), m.simulated ? t('m.ttfoSim') : '') +
       A.kpi('users', t('m.retention'), pct(m.retention), t('m.retentionN', { a: m.responding, b: m.invited })) +
-      '</div></section>';
+      '</div><div class="table-wrap"><table class="t"><caption class="sr-only">' + t('fin.title') + '</caption><tbody>' +
+      ['booked', 'paid', 'refunds', 'feesEarned', 'feesCollected', 'liabilities', 'released', 'net'].map(k => '<tr><th scope="row">' + t('fin.' + k) + '<br><small class="muted">' + t('fin.' + k + '.d') + '</small></th><td class="num">' + A.money(m.finance[k]) + '</td></tr>').join('') +
+      '</tbody></table></div></section>';
   }
 
   V.o.metrics = function () {
@@ -120,7 +138,7 @@
   };
 
   /* ---------- Pilot validation checklist (business evidence still to collect) ---------- */
-  A.PILOT = ['demand', 'supply', 'response', 'pricing', 'fee', 'tax', 'legal', 'payments', 'verification', 'reporting', 'privacy', 'support'];
+  A.PILOT = ['wtp', 'repeat', 'response', 'availability', 'timesaved', 'support', 'margin', 'fee', 'tax', 'legal', 'payments', 'verification', 'privacy'];
   V.o.pilot = function () {
     const s = Store.state; s.pilot = s.pilot || {};
     const done = A.PILOT.filter(k => s.pilot[k] && s.pilot[k].status === 'validated').length;
@@ -129,29 +147,20 @@
       A.PILOT.map(k => { const cur = s.pilot[k] || {}; return '<form class="panel" data-form="pilot" data-k="' + k + '" novalidate><div class="panel-head"><div><h2>' + t('pv.' + k) + '</h2><p>' + t('pv.' + k + '.d') + '</p></div><div class="seg" role="radiogroup" aria-label="' + esc(t('th.status')) + '">' + ['open', 'in_progress', 'validated', 'failed'].map(st => '<label><input type="radio" name="status" value="' + st + '" data-live="pilot" data-k="' + k + '"' + ((cur.status || 'open') === st ? ' checked' : '') + '><span>' + t('pvs.' + st) + '</span></label>').join('') + '</div></div><div class="field"><label for="pv-' + k + '">' + t('kill.evidence') + '</label><textarea class="textarea" id="pv-' + k + '" name="note" maxlength="600" style="min-height:64px" data-live="pilotnote" data-k="' + k + '" placeholder="' + esc(t('pv.ph')) + '">' + esc(cur.note || '') + '</textarea></div></form>'; }).join('');
   };
 
-  A.SCENARIOS = {
-    stress: { atv: 8000, take: 5, proc: 2.5, ai: 15, support: 350, fixed: 60000, cac: 6000, freq: 2 },
-    conservative: { atv: 15000, take: 7, proc: 2.5, ai: 10, support: 250, fixed: 45000, cac: 4000, freq: 3 },
-    base: { atv: 25000, take: 8, proc: 2.2, ai: 8, support: 180, fixed: 45000, cac: 3000, freq: 4 }
-  };
-  A.econCalc = v => {
-    const rev = v.atv * v.take / 100;
-    const varCost = v.atv * v.proc / 100 + v.ai + v.support;
-    const contrib = rev - varCost;
-    return { rev, varCost, contrib, margin: rev ? contrib / rev : 0, breakEven: contrib > 0 ? Math.ceil(v.fixed / contrib) : null, payTx: contrib > 0 ? v.cac / contrib : null, payMonths: contrib > 0 && v.freq > 0 ? (v.cac / contrib) / (v.freq / 12) : null, yearContrib: contrib * v.freq - v.cac };
-  };
+  A.SCENARIOS = CON.Econ.SCENARIOS;
+  A.econCalc = CON.Econ.calc;
 
   V.o.economics = function () {
     const sc = A.ui.scenario;
     const s = Store.state;
     const saved = (s.econ && s.econ[sc]) || A.SCENARIOS[sc];
     const r = A.econCalc(saved);
-    const field = (k, label, step, suffix) => '<div class="field"><label for="ec-' + k + '">' + t(label) + (suffix ? ' <span class="muted">(' + suffix + ')</span>' : '') + '</label><input class="input" id="ec-' + k + '" name="' + k + '" type="number" min="0" step="' + step + '" value="' + saved[k] + '" data-live="econ"></div>';
+    const field = (k, label, step, suffix) => '<div class="field"><label for="ec-' + k + '">' + t(label) + (suffix ? ' <span class="muted">(' + suffix + ')</span>' : '') + '</label><input class="input" id="ec-' + k + '" name="' + k + '" type="number" min="0" step="' + step + '" value="' + (saved[k] != null ? saved[k] : A.SCENARIOS[sc][k]) + '" data-live="econ"></div>';
     return A.head(t('nav.o.economics'), t('o.econ.sub')) +
       '<div class="notice warn">' + ic('info') + '<div>' + t('ec.assumptions') + '</div></div>' +
       '<div class="scenario-tabs tabs" role="group" aria-label="' + esc(t('ec.scenario')) + '">' + ['stress', 'conservative', 'base'].map(k => '<button type="button" aria-pressed="' + (sc === k) + '" class="' + (sc === k ? 'active' : '') + '" data-act="scenario" data-s="' + k + '">' + t('sc.' + k) + '</button>').join('') + '</div>' +
       '<form class="panel" data-form="econ" novalidate><div class="panel-head"><div><h2>' + t('ec.inputs') + '</h2><p>' + t('ec.inputsSub') + '</p></div><div class="head-actions"><button class="btn btn-light btn-sm" type="button" data-act="econ-pilot">' + ic('database') + t('ec.usePilot') + '</button><button class="btn btn-ghost btn-sm" type="button" data-act="econ-reset">' + ic('refresh') + t('ec.reset') + '</button></div></div>' +
-      '<div class="form-grid-3">' + field('atv', 'ec.atv', 500, 'AED') + field('take', 'ec.take', .5, '%') + field('proc', 'ec.proc', .1, '%') + field('ai', 'ec.ai', 1, 'AED') + field('support', 'ec.support', 10, 'AED') + field('fixed', 'ec.fixed', 1000, 'AED') + field('cac', 'ec.cac', 100, 'AED') + field('freq', 'ec.freq', 1, '') + '</div></form>' +
+      '<div class="form-grid-3">' + field('atv', 'ec.atv', 500, 'AED') + field('take', 'ec.take', .5, '%') + field('proc', 'ec.proc', .1, '%') + field('ai', 'ec.ai', 1, 'AED') + field('support', 'ec.support', 10, 'AED') + field('refunds', 'ec.refunds', .5, '%') + field('fixed', 'ec.fixed', 1000, 'AED') + field('cac', 'ec.cac', 100, 'AED') + field('freq', 'ec.freq', 1, '') + '</div></form>' +
       '<div class="econ-out" data-econ-out aria-live="polite">' + A.econOut(r) + '</div>' +
       '<p class="muted small">' + t('ec.note') + '</p>';
   };

@@ -102,7 +102,7 @@
       const items = (op.evidence || []).filter(e => e.kind === kind);
       if (!items.length) return { level: 'insufficient', items: [] };
       const v = items.filter(e => e.verification === 'verified');
-      const level = v.length ? 'verified' : items.some(e => e.verification === 'reviewed') ? 'reviewed' : 'declared';
+      const level = items.every(e => e.verification === 'sample') ? 'sample' : v.length ? 'verified' : items.some(e => e.verification === 'reviewed') ? 'reviewed' : 'declared';
       return { level, stale: !items.some(fresh), items };
     };
     const ver = (sup && sup.verification) || {};
@@ -241,7 +241,7 @@
     return { oppId: op.id, eligible: el.eligible, checks: el.checks, fails: el.fails, confirms: el.confirms, coverage: el.coverage, price: el.price, cost: el.price, evidence, score: pref ? pref.score : null, factors: pref ? pref.factors : [], risks };
   }
 
-  const EVIDENCE_RANK = { verified: 3, reviewed: 2, declared: 1, insufficient: 0 };
+  const EVIDENCE_RANK = { verified: 3, reviewed: 2, declared: 1, sample: 1, insufficient: 0 };
   function rank(opps, briefIn, ctx) {
     const brief = briefIn.requirements && briefIn.budgetMinor != null && briefIn.end ? briefIn : normalizeObjective(briefIn, ctx);
     const live = opps.filter(o => o.status !== 'archived');
