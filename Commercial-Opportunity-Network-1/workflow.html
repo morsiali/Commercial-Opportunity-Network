@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Project Workflow · Commercial Opportunity Network</title>
+<meta name="description" content="Describe the commercial outcome you need. Commercial Opportunity Network matches it with activations, sampling, partnerships and media from independent UAE suppliers, then runs the RFQ, comparison and booking in one workflow.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/workflow.css">
+</head>
+<body>
+<a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+<header class="site-header" id="top">
+  <div class="container nav-row">
+    <a class="logo" href="index.html" aria-label="Commercial Opportunity Network home">
+      <span class="logo-mark" data-logo-mark></span>
+      <span class="logo-text"><span data-i18n="brand1">Opportunity Network</span><small data-i18n="brand2">Commercial · UAE</small></span>
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="index.html#how" data-i18n="nav.how">How it works</a><a href="workflow.html" data-i18n="nav.workflow" aria-current="page">Workflow</a>
+      <a href="index.html#opportunities" data-i18n="nav.opps">Opportunities</a>
+      <a href="index.html#engine" data-i18n="nav.engine">Matching</a>
+      <a href="index.html#suppliers" data-i18n="nav.suppliers">Suppliers</a>
+      <a href="index.html#pricing" data-i18n="nav.pricing">Pricing</a>
+      <a href="index.html#faq" data-i18n="nav.faq">FAQ</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="lang-toggle" type="button" data-lang-toggle><i data-icon="globe"></i><span data-i18n="lang">العربية</span></button>
+      <a class="nav-signin" href="platform.html" data-i18n="nav.signin">Open platform</a>
+      <a class="btn btn-dark btn-sm nav-cta" href="index.html#brief"><span data-i18n="nav.cta">Create a brief</span><i data-icon="arrow"></i></a>
+      <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" data-i18n-aria="nav.menu" aria-label="Open menu"><i data-icon="menu"></i></button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <a href="index.html#how" data-i18n="nav.how">How it works</a><a href="workflow.html" data-i18n="nav.workflow">Workflow</a>
+    <a href="index.html#opportunities" data-i18n="nav.opps">Opportunities</a>
+    <a href="index.html#engine" data-i18n="nav.engine">Matching</a>
+    <a href="index.html#suppliers" data-i18n="nav.suppliers">Suppliers</a>
+    <a href="index.html#pricing" data-i18n="nav.pricing">Pricing</a>
+    <a href="index.html#faq" data-i18n="nav.faq">FAQ</a>
+    <a href="platform.html" data-i18n="nav.signin">Open platform</a>
+    <a class="btn btn-dark" href="index.html#brief"><span data-i18n="nav.cta">Create a brief</span><i data-icon="arrow"></i></a>
+  </div>
+</header>
+
+<main id="main">
+<section class="wf-hero">
+  <div class="container">
+    <span class="pill"><span class="dot live"></span><span data-i18n="wf.pill">How a project runs</span></span>
+    <h1 class="h1"><span data-i18n="wf.h1">From objective to payout.</span><br><span class="accent" data-i18n="wf.h2">Step by step.</span></h1>
+    <p class="lead" data-i18n="wf.lead">Every project moves through 12 steps across four lanes. Click a step to see who acts, on which screen, and what it produces, or press play to walk through it.</p>
+    <ul class="wf-keys">
+      <li data-lane="brand"><span class="lane-dot"></span><span data-i18n="wf.k1">Brand: sets the goal and pays</span></li>
+      <li data-lane="platform"><span class="lane-dot"></span><span data-i18n="wf.k2">Platform: matches and compares</span></li>
+      <li data-lane="supplier"><span class="lane-dot"></span><span data-i18n="wf.k3">Supplier: offers and delivers</span></li>
+      <li data-lane="ops"><span class="lane-dot"></span><span data-i18n="wf.k4">Operations: verifies and releases payouts</span></li>
+    </ul>
+  </div>
+</section>
+
+<div class="wf-controls" id="workflow">
+  <div class="container">
+    <div class="role-chips" id="role-chips" role="group" aria-label="Filter by role" data-i18n-aria="wf.filter"></div>
+    <div class="player">
+      <button class="icon-btn" type="button" id="wf-prev" aria-label="Previous step" data-i18n-aria="wf.prev"><i data-icon="chevron-left" data-class="flip"></i></button>
+      <button class="icon-btn" type="button" id="wf-play" aria-pressed="false" aria-label="Play the workflow"></button>
+      <button class="icon-btn" type="button" id="wf-next" aria-label="Next step" data-i18n-aria="wf.next"><i data-icon="chevron-right" data-class="flip"></i></button>
+      <span class="counter" id="wf-counter" aria-live="polite"></span>
+    </div>
+    <div class="progress" aria-hidden="true"><i id="wf-progress"></i></div>
+  </div>
+</div>
+
+<section class="wf-board-wrap">
+  <div class="container wf-layout">
+    <div class="board" id="board" aria-label="Workflow steps by role" data-i18n-aria="wf.board"></div>
+    <aside class="detail" id="detail" aria-live="polite"></aside>
+  </div>
+</section>
+
+<section class="section section-tint" id="statuses">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow" data-i18n="wf.st.eye">Status explorer</span>
+      <h2 class="h1"><span data-i18n="wf.st.h1">Every record has one direction.</span><br><span class="accent" data-i18n="wf.st.h2">Click a status to see its step.</span></h2>
+    </div>
+    <div class="status-tabs" id="status-tabs" role="tablist"></div>
+    <div class="status-card" id="status-card"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow" data-i18n="wf.r.eye">Rules for everyone</span>
+      <h2 class="h1"><span data-i18n="wf.r.h1">Three rules</span> <span class="accent" data-i18n="wf.r.h2">the workflow never breaks.</span></h2>
+    </div>
+    <div class="rules">
+      <article class="rule"><i data-icon="shield"></i><h3 data-i18n="wf.r1t">Payout needs two conditions</h3><p data-i18n="wf.r1d">A supplier is paid only after the brand confirms delivery and the payment has been received.</p></article>
+      <article class="rule"><i data-icon="wallet"></i><h3 data-i18n="wf.r2t">The brand pays the fee</h3><p data-i18n="wf.r2d">The 7% platform fee is its own line at checkout, so the supplier receives its full offer price.</p></article>
+      <article class="rule"><i data-icon="chart"></i><h3 data-i18n="wf.r3t">Every number has a source</h3><p data-i18n="wf.r3d">Reach and results show how they were measured. Missing data lowers confidence; nothing is invented.</p></article>
+    </div>
+    <div class="hero-ctas" style="margin-top:28px">
+      <a class="btn btn-dark" href="platform.html#c-new"><span data-i18n="how.cta">Try it in the platform</span><i data-icon="arrow-up-right"></i></a>
+      <a class="btn btn-light" href="index.html#brief" data-i18n="hero.cta1">Create a free brief</a>
+    </div>
+  </div>
+</section>
+</main>
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="footer-dots dots-light" aria-hidden="true"></div>
+  <div class="container footer-inner">
+    <div class="footer-top">
+      <div>
+        <a class="logo on-dark" href="index.html"><span class="logo-mark" data-logo-mark></span><span class="logo-text"><span data-i18n="brand1">Opportunity Network</span><small data-i18n="brand2">Commercial · UAE</small></span></a>
+        <h2 class="footer-title"><span data-i18n="ft.h1">Good campaigns</span><br><span class="dim" data-i18n="ft.h2">start with an objective.</span></h2>
+        <p class="footer-lead" data-i18n="ft.lead">An AI-assisted procurement layer that connects business objectives with commercial opportunities from independent UAE suppliers.</p>
+        <div class="email-row on-dark"><span class="email-text" data-contact-email>visionseven@gmail.com</span><button class="icon-btn" type="button" data-copy-email data-i18n-aria="copyEmail" aria-label="Copy email address"><i data-icon="copy"></i></button></div>
+      </div>
+      <div class="footer-cards">
+        <a class="footer-card" href="index.html#brief"><span class="fc-ico blue"><i data-icon="target"></i></span><span><small data-i18n="ft.c1s">For brands</small><b data-i18n="nav.cta">Create a brief</b></span><i data-icon="arrow-up-right"></i></a>
+        <a class="footer-card" href="platform.html#s-listings"><span class="fc-ico green"><i data-icon="store"></i></span><span><small data-i18n="ft.c2s">For suppliers</small><b data-i18n="sp.cta1">List an opportunity</b></span><i data-icon="arrow-up-right"></i></a>
+      </div>
+    </div>
+    <div class="footer-cols">
+      <div><h4 data-i18n="ft.col1">Platform</h4><a href="platform.html#c-new" data-i18n="pl.l1">Create an objective</a><a href="platform.html#c-plans" data-i18n="pl.l2">Opportunity plans</a><a href="platform.html#c-catalog" data-i18n="op.cta">Browse the catalogue</a><a href="platform.html#c-rfqs" data-i18n="pl.l4">RFQs and offers</a></div>
+      <div><h4 data-i18n="ft.col2">Suppliers</h4><a href="platform.html#s-overview" data-i18n="ft.sw">Supplier workspace</a><a href="platform.html#s-listings" data-i18n="pl.l5">List opportunities</a><a href="platform.html#s-rfqs" data-i18n="pl.l6">Answer RFQs</a><a href="platform.html#s-profile" data-i18n="pl.l8">Get verified</a></div>
+      <div><h4 data-i18n="ft.col3">Company</h4><a href="index.html#how" data-i18n="nav.how">How it works</a><a href="workflow.html" data-i18n="nav.workflow">Workflow</a><a href="index.html#engine" data-i18n="nav.engine">Matching</a><a href="index.html#pricing" data-i18n="nav.pricing">Pricing</a><a href="index.html#faq" data-i18n="nav.faq">FAQ</a><a href="index.html#contact" data-i18n="ct.eye">Early access</a></div>
+      <div><h4 data-i18n="ft.col4">Legal</h4><a href="privacy.html" data-i18n="ft.privacy">Privacy</a><a href="terms.html" data-i18n="ft.terms">Terms of use</a></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Commercial Opportunity Network · <span data-i18n="ft.loc">Dubai, United Arab Emirates</span></span>
+      <span class="footer-bottom-links"><a href="privacy.html" data-i18n="ft.privacy">Privacy</a><a href="terms.html" data-i18n="ft.terms">Terms of use</a><button class="lang-toggle dark" type="button" data-lang-toggle><i data-icon="globe"></i><span data-i18n="lang">العربية</span></button></span>
+    </div>
+  </div>
+</footer>
+
+<div id="toast-root" class="toast-root" aria-live="polite"></div>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/i18n-site.js"></script>
+<script src="assets/js/legal.js"></script>
+<script src="assets/js/workflow-data.js"></script>
+<script src="assets/js/workflow.js"></script>
+</body>
+</html>
